@@ -29,6 +29,9 @@
 		55F1D94C2A48B01C00D58DF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F1D94A2A48B01C00D58DF3 /* LaunchScreen.storyboard */; };
 		55F261F22A5A1074008F8CD0 /* HealthUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F261F12A5A1074008F8CD0 /* HealthUnit.swift */; };
 		55F261F42A60AF49008F8CD0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F261F32A60AF49008F8CD0 /* DetailViewController.swift */; };
+		55F261F62A68A966008F8CD0 /* BottomSheetContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F261F52A68A966008F8CD0 /* BottomSheetContentViewController.swift */; };
+		55F261F82A68A9A4008F8CD0 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F261F72A68A9A4008F8CD0 /* ContainerViewController.swift */; };
+		55F261FA2A68A9B6008F8CD0 /* BottomSheetContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F261F92A68A9B5008F8CD0 /* BottomSheetContainerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +46,9 @@
 		55F1D94D2A48B01C00D58DF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55F261F12A5A1074008F8CD0 /* HealthUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthUnit.swift; sourceTree = "<group>"; };
 		55F261F32A60AF49008F8CD0 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		55F261F52A68A966008F8CD0 /* BottomSheetContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BottomSheetContentViewController.swift; path = ../../../Downloads/BottomSheetContentViewController.swift; sourceTree = "<group>"; };
+		55F261F72A68A9A4008F8CD0 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContainerViewController.swift; path = ../../../Downloads/ContainerViewController.swift; sourceTree = "<group>"; };
+		55F261F92A68A9B5008F8CD0 /* BottomSheetContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BottomSheetContainerViewController.swift; path = ../../../Downloads/BottomSheetContainerViewController.swift; sourceTree = "<group>"; };
 		A84732C6B011AB048BF9ECED /* Pods-MobileHealthApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileHealthApp.debug.xcconfig"; path = "Target Support Files/Pods-MobileHealthApp/Pods-MobileHealthApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D9753E728FFE4BE002459A45 /* Pods-MobileHealthApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileHealthApp.release.xcconfig"; path = "Target Support Files/Pods-MobileHealthApp/Pods-MobileHealthApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,13 +101,16 @@
 				55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */,
 				55F1D9412A48B01800D58DF3 /* SceneDelegate.swift */,
 				55F1D9432A48B01800D58DF3 /* ViewController.swift */,
+				55F261F12A5A1074008F8CD0 /* HealthUnit.swift */,
+				55F261F52A68A966008F8CD0 /* BottomSheetContentViewController.swift */,
+				55F261F92A68A9B5008F8CD0 /* BottomSheetContainerViewController.swift */,
+				55F261F72A68A9A4008F8CD0 /* ContainerViewController.swift */,
+				55F261F32A60AF49008F8CD0 /* DetailViewController.swift */,
 				55F1D9452A48B01900D58DF3 /* Main.storyboard */,
 				55C64DFA2A4DF90D004D3D61 /* GoogleService-Info.plist */,
 				55F1D9482A48B01C00D58DF3 /* Assets.xcassets */,
 				55F1D94A2A48B01C00D58DF3 /* LaunchScreen.storyboard */,
 				55F1D94D2A48B01C00D58DF3 /* Info.plist */,
-				55F261F12A5A1074008F8CD0 /* HealthUnit.swift */,
-				55F261F32A60AF49008F8CD0 /* DetailViewController.swift */,
 			);
 			path = MobileHealthApp;
 			sourceTree = "<group>";
@@ -240,7 +249,10 @@
 			files = (
 				55F1D9442A48B01800D58DF3 /* ViewController.swift in Sources */,
 				55F261F22A5A1074008F8CD0 /* HealthUnit.swift in Sources */,
+				55F261F82A68A9A4008F8CD0 /* ContainerViewController.swift in Sources */,
+				55F261FA2A68A9B6008F8CD0 /* BottomSheetContainerViewController.swift in Sources */,
 				55F261F42A60AF49008F8CD0 /* DetailViewController.swift in Sources */,
+				55F261F62A68A966008F8CD0 /* BottomSheetContentViewController.swift in Sources */,
 				55F1D9402A48B01800D58DF3 /* AppDelegate.swift in Sources */,
 				55F1D9422A48B01800D58DF3 /* SceneDelegate.swift in Sources */,
 			);
