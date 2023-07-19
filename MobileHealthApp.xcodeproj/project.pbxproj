@@ -8,22 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		55F1D9402A48B01800D58DF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */; };
-		55F1D9422A48B01800D58DF3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1D9412A48B01800D58DF3 /* SceneDelegate.swift */; };
 		55F1D9442A48B01800D58DF3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1D9432A48B01800D58DF3 /* ViewController.swift */; };
 		55F1D9472A48B01900D58DF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F1D9452A48B01900D58DF3 /* Main.storyboard */; };
 		55F1D9492A48B01C00D58DF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F1D9482A48B01C00D58DF3 /* Assets.xcassets */; };
 		55F1D94C2A48B01C00D58DF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F1D94A2A48B01C00D58DF3 /* LaunchScreen.storyboard */; };
+		64BEB7C72A626C9800191CD3 /* BottomSheetContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BEB7C62A626C9800191CD3 /* BottomSheetContainerViewController.swift */; };
+		64BEB7CB2A62840C00191CD3 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */; };
+		64BEB7CF2A628FAA00191CD3 /* BottomSheetContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */; };
+		64BEB7D12A62964E00191CD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BEB7D02A62964E00191CD3 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		55F1D93C2A48B01800D58DF3 /* MobileHealthApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileHealthApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		55F1D9412A48B01800D58DF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		55F1D9432A48B01800D58DF3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		55F1D9462A48B01900D58DF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		55F1D9482A48B01C00D58DF3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55F1D94B2A48B01C00D58DF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		55F1D94D2A48B01C00D58DF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		64BEB7C62A626C9800191CD3 /* BottomSheetContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetContainerViewController.swift; sourceTree = "<group>"; };
+		64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetContentViewController.swift; sourceTree = "<group>"; };
+		64BEB7D02A62964E00191CD3 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,9 +62,12 @@
 		55F1D93E2A48B01800D58DF3 /* MobileHealthApp */ = {
 			isa = PBXGroup;
 			children = (
+				64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */,
 				55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */,
-				55F1D9412A48B01800D58DF3 /* SceneDelegate.swift */,
+				64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */,
 				55F1D9432A48B01800D58DF3 /* ViewController.swift */,
+				64BEB7C62A626C9800191CD3 /* BottomSheetContainerViewController.swift */,
+				64BEB7D02A62964E00191CD3 /* SceneDelegate.swift */,
 				55F1D9452A48B01900D58DF3 /* Main.storyboard */,
 				55F1D9482A48B01C00D58DF3 /* Assets.xcassets */,
 				55F1D94A2A48B01C00D58DF3 /* LaunchScreen.storyboard */,
@@ -140,7 +149,10 @@
 			files = (
 				55F1D9442A48B01800D58DF3 /* ViewController.swift in Sources */,
 				55F1D9402A48B01800D58DF3 /* AppDelegate.swift in Sources */,
-				55F1D9422A48B01800D58DF3 /* SceneDelegate.swift in Sources */,
+				64BEB7CF2A628FAA00191CD3 /* BottomSheetContentViewController.swift in Sources */,
+				64BEB7C72A626C9800191CD3 /* BottomSheetContainerViewController.swift in Sources */,
+				64BEB7CB2A62840C00191CD3 /* ContainerViewController.swift in Sources */,
+				64BEB7D12A62964E00191CD3 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

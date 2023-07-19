@@ -5,15 +5,34 @@
 //  Created by Ben Ashkenazi on 6/25/23.
 //
 
+
 import UIKit
 
-@main
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+    
+    var window: UIWindow?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        let bottomSheetContentViewController = storyboard.instantiateViewController(withIdentifier: "BottomSheetContentViewController") as! BottomSheetContentViewController
+
+        // Set the delegate
+        bottomSheetContentViewController.delegate = viewController
+        
+        window = UIWindow()
+        window?.rootViewController = ContainerViewController(
+            contentViewController: viewController,
+            bottomSheetViewController: bottomSheetContentViewController,
+            bottomSheetConfiguration: .init(
+                height: UIScreen.main.bounds.height * 0.8,
+                initialOffset: 200 + window!.safeAreaInsets.bottom
+            )
+        )
+        window?.makeKeyAndVisible()
+        
         return true
     }
 
@@ -30,7 +49,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
 }
-
