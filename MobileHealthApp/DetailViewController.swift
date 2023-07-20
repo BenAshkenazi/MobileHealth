@@ -59,7 +59,18 @@ class DetailViewController: UIViewController {
             
             print("Arizona Time:", arizonaDateString)
         }*/
-       
+        
+        let backButton = UIButton(type: .custom)
+        backButton.setTitle("Back", for: .normal)
+        backButton.setImage(UIImage(systemName: "arrowshape.turn.up.backward.fill"), for: .normal)
+        backButton.tintColor = .white
+        backButton.frame = CGRect(x: screenWidth/12, y: screenHeight/12, width: screenHeight/10, height: screenHeight/14)
+        backButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
+        view.addSubview(backButton)
+
+
+           
+
         
         let hoursLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 400, height: 21))
         hoursLabel.font =  UIFont.boldSystemFont(ofSize: screenHeight/40)
@@ -149,6 +160,7 @@ class DetailViewController: UIViewController {
 
         self.view.addSubview(nameLabel)
         self.view.addSubview(hoursLabel)
+        self.view.addSubview(backButton)
         self.view.addSubview(avaLabel)
         self.view.addSubview(daysLabel)
         self.view.addSubview(addrLabel)
@@ -187,6 +199,11 @@ class DetailViewController: UIViewController {
         
         // Open the Apple Maps URL
         UIApplication.shared.open(surveyURL)
+    }
+    
+    // Method to dismiss the presented view when the button is tapped
+    @objc private func dismissButtonTapped() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func labelTapped(_ gesture: UITapGestureRecognizer) {
