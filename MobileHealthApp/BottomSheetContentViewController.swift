@@ -10,6 +10,8 @@ import UIKit
 
 class BottomSheetContentViewController: UIViewController {
 
+    @IBOutlet var avaTitle: UILabel!
+    @IBOutlet var rangeTitle: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var rangePicker: UIButton!
@@ -32,9 +34,10 @@ class BottomSheetContentViewController: UIViewController {
         self.view.layer.shadowRadius = 20
         self.view.layer.shadowOpacity = 0.5
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
-        setupSearchButton()
+        //setupSearchButton()
         setupDatePicker()
         setupRangePicker()
+        setupConstraints()
     }
 
     @IBAction func searchButtonTapped(_ sender: UIButton) {
@@ -97,6 +100,44 @@ class BottomSheetContentViewController: UIViewController {
 
     }
     
-    
+    func setupConstraints() {
+        let topViewHeightMultiplier: CGFloat = 0.3
+        
+        self.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Ava Title (Top Left)
+        avaTitle.translatesAutoresizingMaskIntoConstraints = false
+        avaTitle.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 16).isActive = true
+        avaTitle.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
+        
+        // Date Picker (Below Ava Title)
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.topAnchor.constraint(equalTo: avaTitle.bottomAnchor, constant: 8).isActive = true
+        datePicker.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
+        //datePicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
+        
+        // Range Title (Top Right)
+        rangeTitle.translatesAutoresizingMaskIntoConstraints = false
+        rangeTitle.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 32).isActive = true
+        rangeTitle.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
+        
+        // Range Picker (Below Range Title)
+        rangePicker.translatesAutoresizingMaskIntoConstraints = false
+        rangePicker.topAnchor.constraint(equalTo: rangeTitle.bottomAnchor, constant: 8).isActive = true
+        rangePicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
+        
+        // Search Button (Centered)
+        searchButton.translatesAutoresizingMaskIntoConstraints = false
+        searchButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        searchButton.topAnchor.constraint(equalTo: rangePicker.bottomAnchor, constant: 32).isActive = true
+
+
+        
+        // Height Constraint to make sure views fit in the top 30%
+        let topViewHeight = self.view.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: topViewHeightMultiplier)
+        topViewHeight.priority = .defaultHigh // Give priority to this constraint to prevent conflicts
+        topViewHeight.isActive = true
+    }
+
 }
 
