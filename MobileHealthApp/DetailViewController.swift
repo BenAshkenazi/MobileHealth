@@ -102,13 +102,13 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
         let daysCount = CGFloat((unit?.days)!.count)
 
         if daysTxt.count < 5 {
-            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (20.5 * daysCount))
+            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (22.5 * daysCount))
         } else if daysTxt.count < 15 {
-            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (17.5 * daysCount))
+            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (21.5 * daysCount))
         } else if daysTxt.count < 20 {
-            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (10.0 * daysCount))
+            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (19.0 * daysCount))
         } else if daysTxt.count < 25 {
-            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (8.0 * daysCount))
+            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (15.0 * daysCount))
         } else {
             daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (8.0 * daysCount))
         }
