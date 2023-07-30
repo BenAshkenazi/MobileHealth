@@ -70,7 +70,7 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
         hoursLabel .textColor = .black
         hoursLabel .center = CGPoint(x: screenWidth/2.0, y: screenHeight/4.5)
         hoursLabel .textAlignment = .center
-        hoursLabel .text = "Opening Hours: \(String(describing: (unit?.open)!)) - \(String(describing: (unit?.close)!))"
+        hoursLabel .text = "Opening Hours: \(String(describing: (unit?.open))) - \(String(describing: (unit?.close)))"
         
         // Days Available Label
         let avaLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth / 1.15, height: 50))
@@ -90,16 +90,21 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
 
         var daysTxt = ""
         var first = true
-        for day in (unit?.days)! {
-            if first {
-                daysTxt = daysTxt + "\((unit?.MonthYear)!.suffix(2))/\(day!) "
-                first = false
-            } else {
-                daysTxt = daysTxt + ", \((unit?.MonthYear)!.suffix(2))/\(day!) "
+        
+        guard let days = unit?.days else {return}
+        for day in days {
+            if let month = unit?.MonthYear {
+                if first {
+                    daysTxt = daysTxt + "\(month.suffix(2))/\(String(describing: day)) "
+                    first = false
+                } else {
+                    daysTxt = daysTxt + ", \(month.suffix(2))/\(String(describing: day)) "
+                }
             }
         }
 
-        let daysCount = CGFloat((unit?.days)!.count)
+       
+        let daysCount = CGFloat(days.count)
 
         if daysTxt.count < 5 {
             daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (22.5 * daysCount))
@@ -129,7 +134,11 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
         addrLabel.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped(_:)))
         addrLabel.addGestureRecognizer(tapGesture)
-        addrLabel.text = "Address:\n" + (unit?.address)!.replacingOccurrences(of: ",", with: ",\n")
+        if let text = unit?.address {
+            addrLabel.text = "Address:\n" + text.replacingOccurrences(of: ",", with: ",\n")
+        } else {
+            addrLabel.text = "error in address"
+        }
         view.addSubview(addrLabel)
 
         // Apple Maps Button
@@ -208,8 +217,10 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
     }
     
     @objc func openMaps() {
-        let address = unit?.address!
-        let encodedAddress = address!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let address = unit?.address
+        guard let encodedAddress = address?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            return
+        }
         let mapURLString = "http://maps.apple.com/?address=\(encodedAddress)"
         guard let mapURL = URL(string: mapURLString) else { return }
         
@@ -226,12 +237,13 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
     
     @objc func showFAQPage() {
         print("FAQ button tapped")
-        let fAQsViewController = storyboard!.instantiateViewController(withIdentifier: "FAQsViewController") as? FAQsViewController
-        fAQsViewController!.modalPresentationStyle = .custom
-        fAQsViewController!.transitioningDelegate = self
-        present(fAQsViewController!, animated: true, completion: nil)
-            
-        
+        guard let fAQsViewController = storyboard?.instantiateViewController(withIdentifier: "FAQsViewController") as? FAQsViewController else {
+            return
+        }
+        fAQsViewController.modalPresentationStyle = .custom
+        fAQsViewController.transitioningDelegate = self
+        present(fAQsViewController, animated: true, completion: nil)
+
     }
     
     @objc func sendEmail() {

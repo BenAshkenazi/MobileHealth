@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "63309A57-37D2-48F9-8276-E6DCFBE3BBE5"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BB5B0914-F744-4E36-97DC-6C138012D0C8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MobileHealthApp/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "searchForOpenMobileUnits(on:range:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BB5B0914-F744-4E36-97DC-6C138012D0C8 - 697811f1b2cab65e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MobileHealthApp.ViewController.searchForOpenMobileUnits(on: Foundation.Date, range: Swift.Double) -&gt; ()"
+                  moduleName = "MobileHealthApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zvika/personal/Git/MobileHealth/MobileHealthApp/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "1108">
+               </Location>
+               <Location
+                  uuid = "BB5B0914-F744-4E36-97DC-6C138012D0C8 - 697811f1b2cab65e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MobileHealthApp.ViewController.searchForOpenMobileUnits(on: Foundation.Date, range: Swift.Double) -&gt; ()"
+                  moduleName = "MobileHealthApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zvika/personal/Git/MobileHealth/MobileHealthApp/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "1480">
+               </Location>
+               <Location
+                  uuid = "BB5B0914-F744-4E36-97DC-6C138012D0C8 - 697811f1b2cab65e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MobileHealthApp.ViewController.searchForOpenMobileUnits(on: Foundation.Date, range: Swift.Double) -&gt; ()"
+                  moduleName = "MobileHealthApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zvika/personal/Git/MobileHealth/MobileHealthApp/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "1048">
+               </Location>
+               <Location
+                  uuid = "BB5B0914-F744-4E36-97DC-6C138012D0C8 - 697811f1b2cab65e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MobileHealthApp.ViewController.searchForOpenMobileUnits(on: Foundation.Date, range: Swift.Double) -&gt; ()"
+                  moduleName = "MobileHealthApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zvika/personal/Git/MobileHealth/MobileHealthApp/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "1420">
+               </Location>
+               <Location
+                  uuid = "BB5B0914-F744-4E36-97DC-6C138012D0C8 - 697811f1b2cab61c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MobileHealthApp.ViewController.searchForOpenMobileUnits(on: Foundation.Date, range: Swift.Double) -&gt; ()"
+                  moduleName = "MobileHealthApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zvika/personal/Git/MobileHealth/MobileHealthApp/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "164"
+                  endingLineNumber = "164"
+                  offsetFromSymbolStart = "880">
+               </Location>
+               <Location
+                  uuid = "BB5B0914-F744-4E36-97DC-6C138012D0C8 - ffcb93c3fb2354e6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool) -&gt; () in MobileHealthApp.ViewController.searchForOpenMobileUnits(on: Foundation.Date, range: Swift.Double) -&gt; ()"
+                  moduleName = "MobileHealthApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zvika/personal/Git/MobileHealth/MobileHealthApp/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "164"
+                  endingLineNumber = "164"
+                  offsetFromSymbolStart = "88">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

@@ -27,7 +27,14 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     @IBOutlet var locationButton: UIButton!
     var locationManager: CLLocationManager!
     
-    var mobileUnits = [HealthUnit]()
+    var mobileUnits = [HealthUnit]() {
+        didSet {
+            print("mobileUnits = \(mobileUnits)")
+        }
+        willSet(newValue) {
+            print("will set =  \(newValue)" )
+        }
+    }
     
     var bottomSheetViewController: BottomSheetContentViewController?
 
@@ -82,7 +89,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         if let location = locations.first {
             let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            mapView.setRegion(region, animated: true)
+         //   mapView.setRegion(region, animated: true)
             DispatchQueue.main.async {
                     self.updateLocationButtonIcon()
                 }
@@ -149,7 +156,11 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     
 
     func searchForOpenMobileUnits(on date: Date, range: Double) {
+        
+        
         var openUnits = mobileUnits.filter { $0.isOpen(on: date) }
+        print("open =\(openUnits)")
+        
         var openAndRanged = [HealthUnit]()
 
         
@@ -188,6 +199,10 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
             }
         }
         
+        
+//        DispatchQueue.main.async {
+//
+//        }
         dispatchGroup.notify(queue: .main) {
             // Remove all previous annotations
             self.mapView.removeAnnotations(self.mapView.annotations)
@@ -242,7 +257,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     
     func didTapSearchButton(date: Date, range: Double) {
         print("Search button pressed for date: \(date)")
-        if(mobileUnits.count < 1){
+        if mobileUnits.isEmpty {
             getDatabase()
         }
         searchForOpenMobileUnits(on: date, range: range)
@@ -278,7 +293,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                                     rawnumber: dict["Phone Number"] as? String ?? "",
                                     rawopen: dict["Opening"] as? String ?? "",
                                     rawclose: dict["Closing"] as? String ?? "",
-                                    rawdays: dict["Days Open"] as? String ?? "",
+                                    rawdays: dict["Days of the Month Open"] as? String ?? "",
                                     rawaddr: dict["Address"] as? String ?? "",
                                     comments: dict["Comments"] as? String ?? ""
                                 )
