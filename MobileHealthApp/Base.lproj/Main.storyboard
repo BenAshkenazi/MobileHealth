@@ -114,8 +114,10 @@
                         <color key="backgroundColor" red="0.62745100259999997" green="0.88235294819999999" blue="0.89411771299999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <connections>
+                        <outlet property="avaTitle" destination="IPk-oB-O2u" id="or9-HK-uqP"/>
                         <outlet property="datePicker" destination="whl-kg-CLE" id="YPO-r0-NtS"/>
                         <outlet property="rangePicker" destination="BVR-te-fH4" id="5Ll-xI-8G2"/>
+                        <outlet property="rangeTitle" destination="lm1-Vj-KS6" id="8fI-7p-d3H"/>
                         <outlet property="searchButton" destination="ga8-IO-u3F" id="Z2k-wc-wVb"/>
                     </connections>
                 </viewController>
