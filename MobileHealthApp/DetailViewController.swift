@@ -14,13 +14,6 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
     
     override func viewDidLoad(){
         super.viewDidLoad()
-         
-
-        /*if let dayOfWeek = calculateDayOfWeek(year: year, month: month, day: day) {
-            print("The day of the week is:", dayOfWeek)
-        } else {
-            print("Invalid date.")
-        }*/
         
         
         let screenSize: CGRect = UIScreen.main.bounds
@@ -30,8 +23,7 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
         self.view.backgroundColor = UIColor(red:241.0/255.0, green:242.0/255.0, blue:242.0/255.0, alpha: 1.0)
 
 
-        let nameLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 400, height: 40))
-        //nameLabel.font = UIFont(name: "FrontPageNeue", size: 16.0)
+        let nameLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth/1.1, height: 50))
         nameLabel.font = UIFont.boldSystemFont(ofSize: screenHeight/25)
         nameLabel.numberOfLines = 0
         nameLabel .textColor = .black
@@ -46,14 +38,20 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
         nameLabel.attributedText = attributedString
         
         let image = UIImage(named: "mobileunit")
-        let imageView = UIImageView(image: image!)
+        let imageView = UIImageView(image: image)
+
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 3.5
         imageView.layer.borderColor = UIColor.black.cgColor
         imageView.layer.cornerRadius = 15
-        imageView.frame = CGRect(x: screenWidth/6, y: screenHeight/4, width: (screenWidth/2)*(4/3), height: (screenWidth/2))
-        //imageView.contentMode = .scaleAspectFit // or .scaleAspectFill
-        //imageView.translatesAutoresizingMaskIntoConstraints = false
+
+        // Calculate the position and size to center the imageView
+        let imageViewWidth: CGFloat = view.bounds.width / 2.0
+        let imageViewHeight: CGFloat = (imageViewWidth * 3.0) / 4.0
+        let imageViewX = (view.bounds.width - imageViewWidth) / 2.0
+        let imageViewY = (view.bounds.height - imageViewHeight) / 3.0
+
+        imageView.frame = CGRect(x: imageViewX, y: imageViewY, width: imageViewWidth, height: imageViewHeight)
         view.addSubview(imageView)
 
         
@@ -66,7 +64,7 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
         backButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
         view.addSubview(backButton)
         
-        let hoursLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth/1.25, height: 30))
+        let hoursLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth/1.25, height: 40))
         hoursLabel.font =  UIFont.boldSystemFont(ofSize: screenHeight/40)
         hoursLabel.numberOfLines = 0
         hoursLabel .textColor = .black
@@ -74,97 +72,126 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
         hoursLabel .textAlignment = .center
         hoursLabel .text = "Opening Hours: \(String(describing: (unit?.open)!)) - \(String(describing: (unit?.close)!))"
         
-        //Days Open Label
-        let avaLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth/1.15, height: 50))
-        avaLabel.font = UIFont.boldSystemFont(ofSize: screenHeight/40)
+        // Days Available Label
+        let avaLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth / 1.15, height: 50))
+        avaLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / 40)
         avaLabel.numberOfLines = 0
-        avaLabel .textColor = .black
-        avaLabel .center = CGPoint(x: screenWidth/2.0, y: screenHeight/1.8)
-        avaLabel .textAlignment = .center
-        avaLabel .text = "Days Available This Month:"
-        
-        //Days Open Label
-        let daysLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenHeight/4, height: screenHeight/4))
-        
+        avaLabel.textColor = .black
+        avaLabel.center = CGPoint(x: screenWidth / 2.0, y: screenHeight / 1.85)
+        avaLabel.textAlignment = .center
+        avaLabel.text = "Days Available This Month:"
+        view.addSubview(avaLabel)
+
+        // Days Open Label
+        let daysLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenHeight / 4, height: screenHeight / 4))
         daysLabel.numberOfLines = 0
-        daysLabel .textColor = .black
-        daysLabel .center = CGPoint(x: screenWidth/2.0, y: screenHeight/1.65)
-        daysLabel .textAlignment = .center
+        daysLabel.textColor = .black
+        daysLabel.center = CGPoint(x: screenWidth / 2.0, y: screenHeight / 1.7)
+
         var daysTxt = ""
         var first = true
-        for day in (unit?.days)!{
-            if(first){
-                daysTxt = daysTxt+"\((unit?.MonthYear)!.suffix(2))/\(day!) "
+        for day in (unit?.days)! {
+            if first {
+                daysTxt = daysTxt + "\((unit?.MonthYear)!.suffix(2))/\(day!) "
                 first = false
-            }else{
-                daysTxt = daysTxt+", \((unit?.MonthYear)!.suffix(2))/\(day!) "
+            } else {
+                daysTxt = daysTxt + ", \((unit?.MonthYear)!.suffix(2))/\(day!) "
             }
-            
-        }
-        let daysCount = CGFloat((unit?.days)!.count)
-        
-        if(daysTxt.count < 5){
-            daysLabel.font = UIFont.boldSystemFont(ofSize: CGFloat(screenHeight / (20.5*(daysCount))))
-        }else if(daysTxt.count < 15){
-            daysLabel.font = UIFont.boldSystemFont(ofSize: CGFloat(screenHeight / (17.5*(daysCount))))
-        }else if(daysTxt.count < 20){
-            daysLabel.font = UIFont.boldSystemFont(ofSize: CGFloat(screenHeight / (10.0*(daysCount))))
-        }else if(daysTxt.count < 25){
-            daysLabel.font = UIFont.boldSystemFont(ofSize: CGFloat(screenHeight / (8.0*(daysCount))))
-        }else{
-            daysLabel.font = UIFont.boldSystemFont(ofSize: CGFloat(screenHeight / (8.0*(daysCount))))
         }
 
-        daysLabel .text = daysTxt
+        let daysCount = CGFloat((unit?.days)!.count)
+
+        if daysTxt.count < 5 {
+            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (20.5 * daysCount))
+        } else if daysTxt.count < 15 {
+            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (17.5 * daysCount))
+        } else if daysTxt.count < 20 {
+            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (10.0 * daysCount))
+        } else if daysTxt.count < 25 {
+            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (8.0 * daysCount))
+        } else {
+            daysLabel.font = UIFont.boldSystemFont(ofSize: screenHeight / (8.0 * daysCount))
+        }
+
+        daysLabel.text = daysTxt
+        view.addSubview(daysLabel)
         
-        //Address
+        //Get coordinates of edges of image along the x axis
+        let leftImageX = imageViewX*1.35
+
+        // Address Label
         let addrLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
         addrLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
         addrLabel.numberOfLines = 0
-        addrLabel .textColor = .black
-        addrLabel .center = CGPoint(x: screenWidth/2.5, y: screenHeight/1.45)
-        addrLabel .textAlignment = .left
+        addrLabel.textColor = .black
+        addrLabel.center = CGPoint(x: leftImageX, y: screenHeight / 1.45)
+        addrLabel.textAlignment = .left
         addrLabel.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped(_:)))
         addrLabel.addGestureRecognizer(tapGesture)
-        addrLabel .text = "Address:\n"+(unit?.address)!.replacingOccurrences(of: ",", with: ",\n")
+        addrLabel.text = "Address:\n" + (unit?.address)!.replacingOccurrences(of: ",", with: ",\n")
+        view.addSubview(addrLabel)
 
-        //apple maps button
+        // Apple Maps Button
         let openMapsButton = UIButton(type: .custom)
         openMapsButton.setImage(UIImage(named: "appmaps"), for: .normal)
-        
         openMapsButton.setTitle("Open in Maps", for: .normal)
         openMapsButton.addTarget(self, action: #selector(openMaps), for: .touchUpInside)
-        openMapsButton.frame = CGRect(x: screenWidth/1.5, y: screenHeight/1.55, width: screenHeight/10, height: screenHeight/10)
+
+        // Adjust the frame for the button
+        let buttonWidth: CGFloat = screenHeight / 10
+        openMapsButton.frame = CGRect(x: imageViewX*2.5, y: screenHeight / 1.55, width: buttonWidth, height: buttonWidth)
         view.addSubview(openMapsButton)
-        
-        
+
         //phone call button
         let callButton = UIButton(type: .custom)
         callButton.setImage(UIImage(named: "call"), for: .normal)
         callButton.setTitle("Call", for: .normal)
         callButton.addTarget(self, action: #selector(makeCall), for: .touchUpInside)
-        callButton.frame = CGRect(x: screenWidth/6, y: screenHeight/1.25, width: screenHeight/14, height: screenHeight/14)
-       
-        //survey button
+
+        // Calculate the x position to center the button around the first 25% of the screen width
+        let callButtonWidth: CGFloat = screenHeight / 14
+        let callButtonX = (view.bounds.width / 4.5) - (callButtonWidth / 2)
+        let callButtonY: CGFloat = screenHeight / 1.25
+
+        callButton.frame = CGRect(x: callButtonX, y: callButtonY, width: callButtonWidth, height: callButtonWidth)
+
+        view.addSubview(callButton)
+
+        // sButton
         let sButton = UIButton(type: .custom)
         sButton.setImage(UIImage(named: "survey"), for: .normal)
-       sButton.setTitle("Survey Form", for: .normal)
-       sButton.addTarget(self, action: #selector(openSurveyForm), for: .touchUpInside)
-        sButton.frame = CGRect(x: screenWidth/1.35, y: screenHeight/1.25, width: screenHeight/17, height: screenHeight/14)
+        sButton.setTitle("Survey Form", for: .normal)
+        sButton.addTarget(self, action: #selector(openSurveyForm), for: .touchUpInside)
+
+        // Calculate the x position to center the button around the last 75% of the screen width
+        let sButtonWidth: CGFloat = screenHeight / 17
+        let sButtonX = (3.15 * view.bounds.width / 4) - (sButtonWidth / 2)
+        let sButtonY: CGFloat = screenHeight / 1.25
+
+        sButton.frame = CGRect(x: sButtonX, y: sButtonY, width: sButtonWidth, height: sButtonWidth*1.15)
+
+        view.addSubview(sButton)
 
         //faq button
         let faqButton = UIButton(type: .custom)
         faqButton.addTarget(self, action: #selector(showFAQPage), for: .touchUpInside)
         faqButton.setTitle("Learn More", for: .normal)
         faqButton.setTitleColor(.white, for: .normal)
-        //127/86/108
         let faqColor = UIColor(red: 127.0/255.0, green: 86.0/255.0, blue: 108.0/255.0, alpha: 1.0)
         faqButton.backgroundColor = faqColor
         faqButton.layer.borderWidth = 2.0
         faqButton.layer.borderColor = UIColor.white.cgColor
         faqButton.layer.cornerRadius = 10.0
-        faqButton.frame = CGRect(x: screenWidth/2.75, y: screenHeight/1.25, width: screenHeight/7, height: screenHeight/14)
+        // Calculate the position to center the button width-wise
+        let faqbuttonWidth: CGFloat = view.bounds.width / 3.5
+        let buttonX = (view.bounds.width - faqbuttonWidth) / 2.0
+        let buttonY: CGFloat = view.bounds.height / 1.25
+
+        faqButton.frame = CGRect(x: buttonX, y: buttonY, width: faqbuttonWidth, height: faqbuttonWidth / 2.0) // Set the height based on your requirement
+
+        view.addSubview(faqButton)
+
 
         
         
