@@ -49,14 +49,6 @@ class FAQsViewController: UIViewController {
         
         questionLabel.font = UIFont.boldSystemFont(ofSize: screenHeight/30)
         
-        let backButton = UIButton(type: .custom)
-        backButton.setTitle("Back", for: .normal)
-        backButton.setImage(UIImage(systemName: "arrowshape.turn.up.backward.fill"), for: .normal)
-        backButton.tintColor = .black
-        backButton.setTitleColor(.black, for: .normal)
-        backButton.frame = CGRect(x: screenWidth/22, y: screenHeight/22, width: screenHeight/12.5, height: screenHeight/16)
-        backButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
-        view.addSubview(backButton)
         
         // Do any additional setup after loading the view.
         labelArray = [label1, label2, label3, label4, label5,label6, label7,label8,label9,label10,label11,label12,label13,label14,label15,label16,label17]
@@ -106,7 +98,7 @@ class FAQsViewController: UIViewController {
                 
                 if subview is UILabel {
                     // Set the width of the subview to the UIScreen width
-                    subview.frame.size.width = screenWidth*(6/7)
+                    subview.frame.size.width = screenWidth*(5/6)
                 }
                
                 // If the subview has any subviews, recursively call the function to adjust their width

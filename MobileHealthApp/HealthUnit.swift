@@ -14,7 +14,7 @@ class HealthUnit {
     //iso 8601
     var MonthYear: String?
     var name: String?
-    var partner: String?
+
     var number: URL?
     
     //iso 8601
@@ -33,7 +33,7 @@ class HealthUnit {
     
     var comments: String?
     
-    init(rawId: String, rawMY: String, name: String, rawpartner: String,rawnumber: String, rawopen: String, rawclose: String, rawdays: String, rawaddr: String, comments: String?) {
+    init(rawId: String, rawMY: String, name: String, rawnumber: String, rawopen: String, rawclose: String, rawdays: String, rawaddr: String, comments: String?) {
         
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime]
@@ -48,7 +48,7 @@ class HealthUnit {
         //sets name
         self.name = name
         
-        self.partner = rawpartner
+
         //sets phone number
         //var num = rawnumber.replacingOccurrences(of: ")(- ", with: "", options: NSString.CompareOptions.literal, range: nil)
         self.number = URL(string: "tel://" + String(rawnumber)) ?? URL(string: "tel://" + "0000000000")

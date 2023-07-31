@@ -6,10 +6,6 @@
 	<array>
 		<string>FrontPageNeue.ttf</string>
 	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>MobileHealth needs to access your location to provide you with accurate information about the mobile health units nearby. We only access your location when you&apos;re using the app.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>MobileHealth needs to access your location even when you&apos;re not using the app, so we can notify you about mobile health units in your vicinity. Your location data is only used for this purpose.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -19,7 +19,7 @@ protocol BottomSheetDelegate: AnyObject {
 class ViewController: UIViewController, UIViewControllerTransitioningDelegate, CLLocationManagerDelegate, MKMapViewDelegate, BottomSheetDelegate, NetworkCheckObserver {
     
     func statusDidChange(status: NWPath.Status) {
-        print("___")
+        print("_Internet Status Change_")
     }
     
     
@@ -34,6 +34,8 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     let monitor = NWPathMonitor()
 
     var range = 0.0
+    var firstPress = true
+    
     let screenSize: CGRect = UIScreen.main.bounds
     
     
@@ -60,6 +62,8 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         
         bottomSheetViewController = BottomSheetContentViewController()
         bottomSheetViewController?.delegate = self
+        
+        //searchForOpenMobileUnits(on: <#T##Date#>, range: <#T##Double#>)
         //self.addChild(bottomSheetViewController)
         //bottomSheetViewController.didMove(toParent: self)
 
@@ -82,7 +86,11 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         if let location = locations.first {
             let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            mapView.setRegion(region, animated: true)
+            if(firstPress){
+                mapView.setRegion(region, animated: true)
+                firstPress = false
+            }
+            
             DispatchQueue.main.async {
                     self.updateLocationButtonIcon()
                 }
@@ -209,7 +217,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
 
                 var userErrorMsg = "No mobile units are available at the selected time."
                 
-                var networkCheck = NetworkCheck.sharedInstance()
+                let networkCheck = NetworkCheck.sharedInstance()
                 
                 if(self.mobileUnits.count < 1){
                     if networkCheck.currentStatus != .satisfied{
@@ -274,11 +282,10 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                                     rawId: dict["id"] as? String ?? "",
                                     rawMY: dict["Month and Year"] as? String ?? "",
                                     name: dict["MHU Name"] as? String ?? "",
-                                    rawpartner: dict["Partner"] as? String ?? "",
                                     rawnumber: dict["Phone Number"] as? String ?? "",
                                     rawopen: dict["Opening"] as? String ?? "",
                                     rawclose: dict["Closing"] as? String ?? "",
-                                    rawdays: dict["Days Open"] as? String ?? "",
+                                    rawdays: dict["Days of the Month Open"] as? String ?? "",
                                     rawaddr: dict["Address"] as? String ?? "",
                                     comments: dict["Comments"] as? String ?? ""
                                 )

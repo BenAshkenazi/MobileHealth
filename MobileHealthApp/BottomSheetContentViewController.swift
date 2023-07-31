@@ -62,7 +62,10 @@ class BottomSheetContentViewController: UIViewController {
     func setupDatePicker() {
         datePicker.alpha = 0.8
         datePicker.layer.cornerRadius = 10
+        datePicker.setValue(UIColor.black, forKeyPath: "textColor")
+        datePicker.setValue(false, forKeyPath: "highlightsToday")
         datePicker.clipsToBounds = true
+
         
     }
     
