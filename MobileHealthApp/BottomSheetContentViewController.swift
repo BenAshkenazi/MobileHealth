@@ -136,11 +136,12 @@ class BottomSheetContentViewController: UIViewController {
         searchButton.topAnchor.constraint(equalTo: rangePicker.bottomAnchor, constant: 32).isActive = true
 
         faqButton.translatesAutoresizingMaskIntoConstraints = false
-        faqButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
+        //faqButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
         faqButton.topAnchor.constraint(equalTo: rangePicker.bottomAnchor, constant: 32).isActive = true
         
-        let buttonSpacing: CGFloat = 1.0
-        faqButton.trailingAnchor.constraint(equalTo: avaTitle.leadingAnchor, constant: -buttonSpacing).isActive = true
+        faqButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
+        //faqButton.trailingAnchor.constraint(equalTo: rangePicker.leadingAnchor, constant: 20.0).isActive = true
+        //rangePicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
         
         // Height Constraint to make sure views fit in the top 30%
         let topViewHeight = self.view.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: topViewHeightMultiplier)
