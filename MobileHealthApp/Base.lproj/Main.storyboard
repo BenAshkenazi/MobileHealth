@@ -38,19 +38,38 @@
                                     <action selector="centerMapOnUserButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Un7-mJ-XVR"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zR8-6D-goO">
+                                <rect key="frame" x="337" y="166" width="40" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="5dz-GF-ACP"/>
+                                    <constraint firstAttribute="width" constant="40" id="pbj-7i-f2P"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="questionmark" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                    <color key="baseForegroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="dET-I7-kc1" kind="show" id="zda-d8-btA"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="XTx-aU-9Yw" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="5sA-xe-WYw"/>
+                            <constraint firstItem="zR8-6D-goO" firstAttribute="top" secondItem="XTx-aU-9Yw" secondAttribute="bottom" constant="26" id="6Fz-yV-Zmi"/>
                             <constraint firstItem="XTx-aU-9Yw" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="41" id="BtF-Yf-Mnn"/>
                             <constraint firstItem="Xn9-6h-HbL" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Doc-N7-j7i"/>
                             <constraint firstItem="Xn9-6h-HbL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-59" id="IpD-jl-efO"/>
+                            <constraint firstItem="zR8-6D-goO" firstAttribute="leading" secondItem="XTx-aU-9Yw" secondAttribute="leading" id="Tuf-ba-7rQ"/>
                             <constraint firstItem="Xn9-6h-HbL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ztn-BH-sKT"/>
                             <constraint firstItem="Xn9-6h-HbL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jcs-iy-spo"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="faqButton" destination="zR8-6D-goO" id="qeK-xq-rsk"/>
                         <outlet property="locationButton" destination="XTx-aU-9Yw" id="FcI-XT-580"/>
                         <outlet property="mapView" destination="Xn9-6h-HbL" id="Dbd-2H-pGi"/>
                     </connections>
@@ -115,19 +134,6 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </datePicker>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gW5-Rl-ZOF">
-                                <rect key="frame" x="16" y="151" width="117" height="61"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Learn More About CTC">
-                                    <fontDescription key="titleFontDescription" type="italicSystem" pointSize="17"/>
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="baseBackgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <segue destination="dET-I7-kc1" kind="show" id="vYY-lj-0Nn"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gbx-1D-j8N"/>
                         <color key="backgroundColor" red="0.64313725489999995" green="0.46274509800000002" blue="0.63529411759999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -135,7 +141,6 @@
                     <connections>
                         <outlet property="avaTitle" destination="IPk-oB-O2u" id="or9-HK-uqP"/>
                         <outlet property="datePicker" destination="whl-kg-CLE" id="YPO-r0-NtS"/>
-                        <outlet property="faqButton" destination="gW5-Rl-ZOF" id="4bs-2x-aho"/>
                         <outlet property="rangePicker" destination="BVR-te-fH4" id="5Ll-xI-8G2"/>
                         <outlet property="rangeTitle" destination="lm1-Vj-KS6" id="8fI-7p-d3H"/>
                         <outlet property="searchButton" destination="ga8-IO-u3F" id="Z2k-wc-wVb"/>
@@ -910,8 +915,8 @@ After hours 480.434.2690</string>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Us" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NIA-m9-bhn">
-                                                <rect key="frame" x="117" y="0.0" width="149" height="36"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NIA-m9-bhn">
+                                                <rect key="frame" x="192" y="0.0" width="0.0" height="36"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="36" id="tU8-pE-00b"/>
                                                 </constraints>
@@ -1036,6 +1041,7 @@ After hours 480.434.2690</string>
         <image name="map" catalog="system" width="128" height="112"/>
         <image name="mobileunit" width="4032" height="3024"/>
         <image name="phone" catalog="system" width="128" height="115"/>
+        <image name="questionmark" catalog="system" width="94" height="128"/>
         <image name="questionmark.app" catalog="system" width="128" height="114"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
         <namedColor name="AccentColor">

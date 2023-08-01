@@ -3,7 +3,7 @@ import Network
 protocol NetworkCheckObserver: AnyObject {
     func statusDidChange(status: NWPath.Status)
 }
-
+//This class is entirely used to check the wifi
 class NetworkCheck {
 
     struct NetworkChangeObservation {

@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+
+//MARK: THIS CODE IS DEPRECATED, it is kept in for ease of potential code re-use
 class DetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
     var unit: HealthUnit?
     
@@ -49,11 +51,11 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
             print("This is the first letter of the month \(monthYear.suffix(1))")
             var monthString = monthYear.suffix(2)
             let monthNum = Int(monthString) ?? -1
-            
+            //Cleans up day of the month so that it displays as 8 instead of 08
             if monthNum == -1 || monthNum < 10 {
                 monthString = monthYear.suffix(1)
             }
-            
+            //Prints each day and the month it is open
             let dayCount = days.count-1
             for (index, day) in days.enumerated() {
                 if index == dayCount {

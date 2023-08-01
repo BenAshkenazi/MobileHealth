@@ -17,7 +17,7 @@ protocol BottomSheetDelegate: AnyObject {
 }
 
 class ViewController: UIViewController, UIViewControllerTransitioningDelegate, CLLocationManagerDelegate, MKMapViewDelegate, BottomSheetDelegate, NetworkCheckObserver {
-    
+    //Debugger Function
     func statusDidChange(status: NWPath.Status) {
         print("_Internet Status Change_")
     }
@@ -25,6 +25,8 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet var locationButton: UIButton!
+    @IBOutlet var faqButton: UIButton!
+    
     var locationManager: CLLocationManager!
     
     var mobileUnits = [HealthUnit]()
@@ -32,8 +34,6 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     //declares search button area controller
     var bottomSheetViewController: BottomSheetContentViewController?
     
-    //declares mobile health units details area controller
-    //let presentationManager = BottomDetailPresentationManager()
     
     //internet monitor
     let monitor = NWPathMonitor()
@@ -63,6 +63,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         locationManager.startUpdatingLocation()
         locationButton.setImage(UIImage(systemName: "location"), for: .normal)
         setupLocationButtonAppearance()
+        setupFAQButtonAppearance()
         getDatabase()
         
         
@@ -110,9 +111,11 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 for unit in mobileUnits{
+                    //matches annotation clicked to the corresponding unit in the array, and passes it
                     if(unit.name == title){
                         if let detailViewController = storyboard.instantiateViewController(withIdentifier: "BottomDetailViewController") as? BottomDetailViewController {
                             detailViewController.unit = unit
+                            //presents Bottom Detail View Controller
                             let nav = UINavigationController(rootViewController: detailViewController)
                             nav.modalPresentationStyle = .pageSheet
                             if let sheet = nav.sheetPresentationController {
@@ -126,33 +129,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                     }
                 }
                 
-               
-                // Present the SwiftUI sheet when the annotation is clicked
-                /*
-                 if let detailViewController = {
-                     // Customize the detailViewController with data from the selected annotation if needed
-                     detailViewController.unit = unit
-                     detailViewController.modalPresentationStyle = .custom
-                     detailViewController.transitioningDelegate = self
-                     present(detailViewController, animated: true, completion: nil)
-                     
-                 }
-                if let detailViewController = storyboard.instantiateViewController(withIdentifier: "BottomDetailViewController") as? BottomDetailViewController {
-                    // Customize the detailViewController with data from the selected annotation if needed
-                     let bottomDetailVC = BottomDetailViewController()
-                     bottomDetailVC.modalPresentationStyle = .custom
-                     bottomDetailVC.transitioningDelegate = presentationManager
-
-                     // Set the healthUnit property before presenting the BottomDetailViewController
-                     //print(bottomDetailVC.unit?.name ?? "Unfound")
-
-                     present(bottomDetailVC, animated: true, completion: nil)
-                    
-                    detailViewController.modalPresentationStyle = .custom
-                    detailViewController.transitioningDelegate = self
-                    present(detailViewController, animated: true, completion: nil)
-                    
-                }*/
+              
             }
             
         }
@@ -165,7 +142,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
 
         if let userCoordinate = userCoordinate {
             let distance = abs(centerCoordinate.latitude - userCoordinate.latitude) + abs(centerCoordinate.longitude - userCoordinate.longitude)
-            
+            //If user is already centered, switches location button image
             if distance < 0.000000001 {
                 locationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
             } else {
@@ -182,7 +159,6 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     func setupLocationButtonAppearance() {
         locationButton.layer.cornerRadius = locationButton.bounds.height / 4
         locationButton.layer.masksToBounds = true
-        
         locationButton.layer.shadowColor = UIColor.black.cgColor
         locationButton.layer.shadowOffset = CGSize(width: 0, height: 1)
         locationButton.layer.shadowRadius = 7
@@ -193,18 +169,33 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
 
     }
     
+    func setupFAQButtonAppearance() {
+        faqButton.layer.cornerRadius = faqButton.bounds.height / 4
+        faqButton.layer.masksToBounds = true
+        faqButton.layer.shadowColor = UIColor.black.cgColor
+        faqButton.layer.shadowOffset = CGSize(width: 0, height: 1)
+        faqButton.layer.shadowRadius = 7
+        faqButton.layer.shadowOpacity = 0.3
+        faqButton.layer.masksToBounds = false
+        faqButton.layer.bounds.size.width = 40
+        faqButton.layer.bounds.size.height = 40
+
+    }
+    
 
     func searchForOpenMobileUnits(on date: Date, range: Double) {
+        //removes units not open on the right day
         var openUnits = mobileUnits.filter { $0.isOpen(on: date) }
         
+        //creates empty health unit array for appending
         var openAndRanged = [HealthUnit]()
         
         if let userLocation = locationManager.location?.coordinate{
             for unit in openUnits{
                 unit.isWithin(range: range, userLoc: userLocation, address: unit.address ?? "Failed"){ isWithinRange in
-
+                    //checks if the unit is within user-set range
                     if(isWithinRange){
-
+                        //verifies that the month and year are correct
                         if let monthYear = unit.MonthYear{
                             let calendar = Calendar.current
                             let searchedMonth = calendar.component(.month, from: date)
@@ -267,14 +258,15 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                 self.mapView.setVisibleMapRect(rect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
             } else {
                 print("No open units found for the selected time.")
-                // You can also provide a user-friendly alert or message here
+
 
                 var userErrorMsg = "No mobile units are available at the selected time."
-                
+                //checks network status if no mobile health units were found
                 let networkCheck = NetworkCheck.sharedInstance()
                 
                 if(self.mobileUnits.isEmpty){
                     if networkCheck.currentStatus != .satisfied{
+                        //Changes pop-up alert text
                         userErrorMsg = "Internet Connection Error. Please check your connection and try again."
                     }
                     networkCheck.addObserver(observer: self)
@@ -290,7 +282,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
             for unit in openUnits {
                 unit.location { (coordinate) in
                     if let coordinate = coordinate {
-                        //print(distanceInMiles(from: coordinate, to: coordinate))
+                        //Adds annotations to map
                         let annotation = MKPointAnnotation()
                         annotation.coordinate = coordinate
                         annotation.title = unit.name
@@ -304,7 +296,8 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     
     func didTapSearchButton(date: Date, range: Double) {
         print("Search button pressed for date: \(date)")
-        if(mobileUnits.count < 1){
+        if(mobileUnits.isEmpty){
+            //Refreshes the database if the database is empty
             getDatabase()
         }
         searchForOpenMobileUnits(on: date, range: range)
@@ -328,7 +321,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                     }
                     
                     var units: [HealthUnit] = []
-                    
+                    //Gets data from Firebase and inits a mobile health unit class
                     for child in snapshot.children {
                         if let childSnapshot = child as? DataSnapshot,
                            let dict = childSnapshot.value as? [String: Any] {
@@ -353,3 +346,30 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         }
     
 }
+
+//Old BottomDetailViewController presentation logic
+ /*
+  if let detailViewController = {
+      // Customize the detailViewController with data from the selected annotation if needed
+      detailViewController.unit = unit
+      detailViewController.modalPresentationStyle = .custom
+      detailViewController.transitioningDelegate = self
+      present(detailViewController, animated: true, completion: nil)
+      
+  }
+ if let detailViewController = storyboard.instantiateViewController(withIdentifier: "BottomDetailViewController") as? BottomDetailViewController {
+     // Customize the detailViewController with data from the selected annotation if needed
+      let bottomDetailVC = BottomDetailViewController()
+      bottomDetailVC.modalPresentationStyle = .custom
+      bottomDetailVC.transitioningDelegate = presentationManager
+
+      // Set the healthUnit property before presenting the BottomDetailViewController
+      //print(bottomDetailVC.unit?.name ?? "Unfound")
+
+      present(bottomDetailVC, animated: true, completion: nil)
+     
+     detailViewController.modalPresentationStyle = .custom
+     detailViewController.transitioningDelegate = self
+     present(detailViewController, animated: true, completion: nil)
+     
+ }*/

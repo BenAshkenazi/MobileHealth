@@ -88,10 +88,10 @@
 		55F1D93E2A48B01800D58DF3 /* MobileHealthApp */ = {
 			isa = PBXGroup;
 			children = (
-				64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */,
 				55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */,
-				64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */,
 				55F1D9432A48B01800D58DF3 /* ViewController.swift */,
+				64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */,
+				64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */,
 				559847432A75E37500256C2A /* Network.swift */,
 				55F2620A2A68C701008F8CD0 /* HealthUnit.swift */,
 				64BEB7C62A626C9800191CD3 /* BottomSheetContainerViewController.swift */,

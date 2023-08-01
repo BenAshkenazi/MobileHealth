@@ -43,13 +43,14 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
         
     
     }
-    
+    //unwraps name safely
     func setUpTitle(){
         if let name = unit?.name{
                 nameLabel.text = name
         }
     }
     
+    //If user location not available/wifi is bad, sets value to user location, otherwise, sets distance text
     func setUpProximity(){
         var proxText = "User Location not found"
         proxTitle.text = ""
@@ -63,7 +64,7 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
         }
         proxLabel.text = proxText
     }
-    
+    //converts hours from army time to regular AM/PM
     func setUpHours(){
         if let open = unit?.open{
             if var close = unit?.close{
@@ -81,7 +82,7 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
     
     func setUpDays(){
         var daysTxt = ""
-        
+        //Changes month from 08/  to 8/ for formatting reasons
         if let days = unit?.days, let monthYear = unit?.MonthYear {
             print("This is the first letter of the month \(monthYear.suffix(1))")
             var monthString = monthYear.suffix(2)
@@ -90,7 +91,7 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
             if monthNum == -1 || monthNum < 10 {
                 monthString = monthYear.suffix(1)
             }
-            
+            //iterates through days, adding each one to the top
             let dayCount = days.count-1
             for (index, day) in days.enumerated() {
                 if index == dayCount {

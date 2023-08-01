@@ -15,7 +15,7 @@ class BottomSheetContentViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var rangePicker: UIButton!
-    @IBOutlet var faqButton: UIButton!
+   // @IBOutlet var faqButton: UIButton!
     
     var chosenRange = 0.0
     
@@ -42,7 +42,7 @@ class BottomSheetContentViewController: UIViewController {
     }
 
     @IBAction func searchButtonTapped(_ sender: UIButton) {
-        // Search functionality will be implemented here.
+        // Check for values set within range picker and date picker
         let selectedDate = datePicker.date
         
         print("This range was chosen \(chosenRange)")
@@ -71,7 +71,7 @@ class BottomSheetContentViewController: UIViewController {
     }
     
     func setupRangePicker(){
-        //rangePicker.titleLabel?.font = .systemFont(ofSize: 30)
+        //Sets chosen range equal to value within range picker
         let optionClosure = {(action: UIAction) in
             print(action.title)
             if(action.title == "Anywhere"){
@@ -130,18 +130,20 @@ class BottomSheetContentViewController: UIViewController {
         rangePicker.topAnchor.constraint(equalTo: rangeTitle.bottomAnchor, constant: 8).isActive = true
         rangePicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
         
+        let screenWidth = UIScreen.main.bounds.width
+        
         // Search Button (Centered)
         searchButton.translatesAutoresizingMaskIntoConstraints = false
         searchButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         searchButton.topAnchor.constraint(equalTo: rangePicker.bottomAnchor, constant: 32).isActive = true
-
-        faqButton.translatesAutoresizingMaskIntoConstraints = false
-        //faqButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
-        faqButton.topAnchor.constraint(equalTo: rangePicker.bottomAnchor, constant: 32).isActive = true
+        //searchButton.widthAnchor.constraint(lessThanOrEqualToConstant: screenWidth*0.30).isActive = true
         
-        faqButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
-        //faqButton.trailingAnchor.constraint(equalTo: rangePicker.leadingAnchor, constant: 20.0).isActive = true
-        //rangePicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
+        /*faqButton.translatesAutoresizingMaskIntoConstraints = false
+        faqButton.topAnchor.constraint(equalTo: rangePicker.bottomAnchor, constant: 32).isActive = true
+        faqButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
+        faqButton.trailingAnchor.constraint(equalTo: searchButton.leadingAnchor, constant: -10).isActive = true
+        let maxWidth = screenWidth * 0.25
+        faqButton.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true*/
         
         // Height Constraint to make sure views fit in the top 30%
         let topViewHeight = self.view.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: topViewHeightMultiplier)

@@ -32,7 +32,7 @@ class HealthUnit {
     var address: String?
     
     var comments: String?
-    
+    //Default proximity, updated the first time it is checked for range
     var prox = -1.0
     
     init(rawId: String, rawMY: String, name: String, rawnumber: String, rawopen: String, rawclose: String, rawdays: String, rawaddr: String, comments: String?) {
@@ -60,6 +60,7 @@ class HealthUnit {
         self.rawopen = convertToArizonaTime(from: rawopen)
         self.rawclose = convertToArizonaTime(from: rawclose)
         
+        //Strips just the hours from the entire iso8601 date string
         if(self.rawopen != nil && self.rawclose != nil){
             self.open = String(String(String(self.rawopen!).prefix(16)).suffix(5))
             self.close = String(String(String(self.rawclose!).prefix(16)).suffix(5))
@@ -74,7 +75,7 @@ class HealthUnit {
 
         if(rawdays.count<3){
             let dayArray = [Int(rawdays)]
-            print("Was too short, here is the new val: \(rawdays)")
+            //If rawdays is 2 or fewer chars, it goes through this code
             self.rawdays = rawdays
             self.days = dayArray
         }else{
@@ -84,7 +85,6 @@ class HealthUnit {
             self.days = convertStringsToInts(array: dayArray)
         }
         
-        //print(self.days)
         
         //gets address
         self.address = rawaddr
@@ -97,6 +97,7 @@ class HealthUnit {
         return "\(name ?? "lol"): \(MonthYear ?? "4/23")\n Days Open: \(rawdays!)\n\(address!)\n\(number!)"
     }
     
+    //This function is currently unused, may be needed for more thorough data checking, but i think thats unlikely
     func isComplete()->Bool{
         if(id==0){
             return false
@@ -118,7 +119,7 @@ class HealthUnit {
         }
         return true
     }
-    
+    //returns location as a coordinate from a string
     func location(completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address!) { (placemarks, error) in
@@ -132,6 +133,7 @@ class HealthUnit {
         }
     }
     
+    //checks days and hours, maybe this could handle month year too? might consider adding
     func isOpen(on date: Date) -> Bool {
         let calendar = Calendar.current
         let day = calendar.component(.day, from: date)
@@ -146,6 +148,7 @@ class HealthUnit {
         return true
     }
     
+    //updates proximity value after checking if the address is valid, then returns whether or not it satisfies the range requiement
     func isWithin(range: Double, userLoc: CLLocationCoordinate2D, address: String, completion: @escaping (Bool) -> Void) {
         let geocoder = CLGeocoder()
 
@@ -173,7 +176,6 @@ class HealthUnit {
     func timeToInt(timeString: String)-> Int{
         let components = timeString.split(separator: ":")
         if components.count == 2, let hour = Int(components[0]) {
-            //print("The number is: \(hour)")
             return hour
         } else {
             print("Invalid time format")
@@ -186,6 +188,7 @@ func convertStringsToInts(array: [String.SubSequence]) -> [Int?] {
     let convertedArray = array.compactMap { Int($0) }
     return convertedArray
 }
+
 
 func convertToArizonaTime(from iso8601String: String) -> String? {
     let dateFormatter = DateFormatter()
