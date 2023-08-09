@@ -8,9 +8,15 @@
 import Foundation
 import UIKit
 
+protocol BottomDetailViewControllerDelegate: AnyObject {
+   func didDismissDetailViewController()
+}
+
 class BottomDetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
     var unit: HealthUnit?
+    
+    weak var delegate: BottomDetailViewControllerDelegate?
     
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var dismissButton: UIButton!
@@ -29,8 +35,6 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
     @IBOutlet var Line1: UIImageView!
     @IBOutlet var Line2: UIImageView!
     @IBOutlet var Line3: UIImageView!
-    
-    weak var delegate: BottomSheetDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,6 +109,15 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
         }
         daysTitle.text = "Days available this month:"
         daysLabel.text = daysTxt
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // If the view controller is being dismissed, notify the delegate
+        if isBeingDismissed {
+            delegate?.didDismissDetailViewController()
+        }
     }
     
     func setUpConstraints(){
@@ -226,10 +239,10 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
     }
     
     // Method to dismiss the presented view when the button is tapped
-    @IBAction func dismissButtonTapped(_ sender: Any){
-        self.dismiss(animated: true, completion: nil)
+    @IBAction func dismissButtonTapped(_ sender: Any) {
+       delegate?.didDismissDetailViewController()
+       self.dismiss(animated: true, completion: nil)
     }
-    
 }
 
 

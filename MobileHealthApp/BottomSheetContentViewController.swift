@@ -1,5 +1,5 @@
 //
-//  MyCustomViewController.swift
+//  BottomSheetContentViewController.swift
 //  MobileHealthApp
 //
 //  Created by Fawwaz Firdaus on 7/15/23.
@@ -7,8 +7,11 @@
 
 import Foundation
 import UIKit
+import Firebase
+import FirebaseCore
+import CoreLocation
 
-class BottomSheetContentViewController: UIViewController {
+class BottomSheetContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var avaTitle: UILabel!
     @IBOutlet var rangeTitle: UILabel!
@@ -16,6 +19,10 @@ class BottomSheetContentViewController: UIViewController {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var rangePicker: UIButton!
    // @IBOutlet var faqButton: UIButton!
+    
+    @IBOutlet weak var unitsListView: UITableView!
+    
+    var mobileUnits: [HealthUnit] = []
     
     var chosenRange = 0.0
     
@@ -27,7 +34,7 @@ class BottomSheetContentViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
         self.view.layer.cornerRadius = 25
         self.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         self.view.layer.shadowColor = UIColor.black.cgColor
@@ -39,6 +46,107 @@ class BottomSheetContentViewController: UIViewController {
         setupDatePicker()
         setupRangePicker()
         setupConstraints()
+        
+        unitsListView.dataSource = self
+        unitsListView.delegate = self
+        unitsListView.backgroundColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
+        
+        unitsListView.register(UnitTableViewCell.self, forCellReuseIdentifier: "UnitCell")
+        getDatabase()
+        
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return mobileUnits.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UnitCell", for: indexPath)
+        let unit = mobileUnits[indexPath.row]
+        cell.textLabel?.text = unit.name
+        cell.backgroundColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
+
+        // Set the selection style to none
+        cell.selectionStyle = .none
+
+        // You can customize the cell further as needed
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            
+            // Highlight with the custom color
+            cell.contentView.backgroundColor = UIColor(red: 255 / 255.0, green: 212 / 255.0, blue: 238 / 255.0, alpha: 1.0) // FFD4EE
+
+            // Perform the segue and other necessary actions
+            performSegue(withIdentifier: "showDetail", sender: self)
+
+            // Delay the deselection and color revert by 1 second
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                tableView.deselectRow(at: indexPath, animated: true)
+                cell.contentView.backgroundColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0) // Original color
+            }
+        }
+    }
+    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 80
+//    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail",
+           let destinationVC = segue.destination as? BottomDetailViewController,
+           let selectedIndexPath = unitsListView.indexPathForSelectedRow {
+            let selectedUnit = mobileUnits[selectedIndexPath.row] // Use mobileUnits instead of units
+            destinationVC.unit = selectedUnit
+        }
+    }
+    
+    func getDatabase() {
+        let rootRef = Database.database().reference().child("1tccGgPzxsOegrepl329GJkQOYnGcWu2XhLYcgiB_iNE").child("Sheet1")
+        rootRef.observeSingleEvent(of: .value) { [weak self] snapshot, error in
+            guard let self = self else {
+                return
+            }
+
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+
+            if !snapshot.exists() {
+                print("No data found.")
+                return
+            }
+
+            var units: [HealthUnit] = []
+            // Gets data from Firebase and inits a mobile health unit class
+            for child in snapshot.children {
+                if let childSnapshot = child as? DataSnapshot,
+                   let dict = childSnapshot.value as? [String: Any] {
+                    let newUnit = HealthUnit(
+                        rawId: dict["id"] as? String ?? "",
+                        rawMY: dict["Month and Year"] as? String ?? "",
+                        name: dict["MHU Name"] as? String ?? "",
+                        rawnumber: dict["Phone Number"] as? String ?? "",
+                        rawopen: dict["Opening"] as? String ?? "",
+                        rawclose: dict["Closing"] as? String ?? "",
+                        rawdays: dict["Days of the Month Open"] as? String ?? "",
+                        rawaddr: dict["Address"] as? String ?? "",
+                        comments: dict["Comments"] as? String ?? ""
+                    )
+                    print("Unit: \(String(describing: newUnit.name)), Complete: \(newUnit.isComplete())") // Print each unit and whether it's complete
+                    units.append(newUnit)
+                }
+            }
+            
+            let completeUnits = units.filter { $0.isComplete() }
+            print("Complete units count: \(completeUnits.count)") // Print the count of complete units
+            // Update mobile units and reload table view
+            self.mobileUnits = completeUnits
+            self.unitsListView.reloadData()
+        }
     }
 
     @IBAction func searchButtonTapped(_ sender: UIButton) {
@@ -152,4 +260,6 @@ class BottomSheetContentViewController: UIViewController {
     }
 
 }
+
+
 

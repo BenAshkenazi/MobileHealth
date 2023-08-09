@@ -98,27 +98,50 @@ class HealthUnit {
     }
     
     //This function is currently unused, may be needed for more thorough data checking, but i think thats unlikely
-    func isComplete()->Bool{
-        if(id==0){
+//    func isComplete()->Bool{
+//        if(id==0){
+//            return false
+//        }
+//        if(name == ""){
+//            return false
+//        }
+//        if(rawdays == ""){
+//            return false
+//        }
+//        if (rawopen == ""){
+//            return false
+//        }
+//        if(number == nil){
+//            return false
+//        }
+//        if(address == nil || address == ""){
+//            return false
+//        }
+//        return true
+//    }
+    
+    func isComplete() -> Bool {
+//        if id == nil || id == 0 {
+//            return false
+//        }
+        if name?.isEmpty ?? true { // If name is nil or empty, return false
             return false
         }
-        if(name == ""){
+        if rawdays?.isEmpty ?? true {
             return false
         }
-        if(rawdays == ""){
+        if rawopen?.isEmpty ?? true {
             return false
         }
-        if (rawopen == ""){
+        if number == nil {
             return false
         }
-        if(number == nil){
-            return false
-        }
-        if(address == nil || address == ""){
+        if address == nil || address!.isEmpty {
             return false
         }
         return true
     }
+    
     //returns location as a coordinate from a string
     func location(completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         let geocoder = CLGeocoder()

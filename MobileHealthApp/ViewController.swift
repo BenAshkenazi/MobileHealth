@@ -45,8 +45,8 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     
     //gets screen bounds
     let screenSize: CGRect = UIScreen.main.bounds
-    
-    
+
+    var selectedAnnotationView: MKAnnotationView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +69,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         
         bottomSheetViewController = BottomSheetContentViewController()
         bottomSheetViewController?.delegate = self
-        
+
         //potential code for initial search upon start up, move to loading bar view
         //searchForOpenMobileUnits(on: <#T##Date#>, range: <#T##Double#>)
         //self.addChild(bottomSheetViewController)
@@ -79,7 +79,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         
     @IBAction func centerMapOnUserButtonTapped(_ sender: Any) {
         if let userLocation = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion(center: userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+            let region = MKCoordinateRegion(center: userLocation, latitudinalMeters: 5000, longitudinalMeters: 5000)
             mapView.setRegion(region, animated: true)
         }
     }
@@ -92,49 +92,53 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
             if(firstPress){
                 mapView.setRegion(region, animated: true)
                 firstPress = false
             }
-            
+
             DispatchQueue.main.async {
                     self.updateLocationButtonIcon()
                 }
         }
     }
-    
+
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let annotation = view.annotation as? MKPointAnnotation {
-            if let title = annotation.title {
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                for unit in mobileUnits{
-                    //matches annotation clicked to the corresponding unit in the array, and passes it
-                    if(unit.name == title){
-                        if let detailViewController = storyboard.instantiateViewController(withIdentifier: "BottomDetailViewController") as? BottomDetailViewController {
-                            detailViewController.unit = unit
-                            //presents Bottom Detail View Controller
-                            let nav = UINavigationController(rootViewController: detailViewController)
-                            nav.modalPresentationStyle = .pageSheet
-                            if let sheet = nav.sheetPresentationController {
-                                sheet.detents = [.medium(), .large()]
-                            }
-                            present(nav, animated: true, completion: nil)
-                            
-                        }
-                       
-                        
-                    }
-                }
-                
-              
-            }
-            
+        // Store the selected annotation view
+        selectedAnnotationView = view
+
+        // Animate to the bigger size
+        UIView.animate(withDuration: 0.2) {
+            self.selectedAnnotationView?.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        } completion: { _ in
+            self.showDetailViewController() // Call the method to present the detail view controller
         }
     }
-    
+
+    func showDetailViewController() {
+        if let annotation = selectedAnnotationView?.annotation as? MKPointAnnotation {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            for unit in mobileUnits {
+                if unit.name == annotation.title {
+                    if let detailViewController = storyboard.instantiateViewController(withIdentifier: "BottomDetailViewController") as? BottomDetailViewController {
+                        detailViewController.delegate = self // Set delegate here
+                        detailViewController.unit = unit
+                        let nav = UINavigationController(rootViewController: detailViewController)
+                        nav.modalPresentationStyle = .pageSheet
+                        if let sheet = nav.sheetPresentationController {
+                            sheet.detents = [.medium(), .large()]
+                        }
+                        // Set the delegate to handle dismissal
+                        nav.presentationController?.delegate = self
+                        present(nav, animated: true)
+                    }
+                }
+            }
+        }
+    }
+
     func updateLocationButtonIcon() {
         let centerCoordinate = mapView.centerCoordinate
         let userCoordinate = locationManager.location?.coordinate
@@ -251,11 +255,17 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                     points.append(userPoint)
                 }
                 
-                let rect = points.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
-                    return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
+                let bottomSheetHeight = UIScreen.main.bounds.height * 0.8
+                if let windowSafeAreaBottomInset = self.view.window?.safeAreaInsets.bottom {
+                    let initialOffset = 200 + windowSafeAreaBottomInset
+                    let visibleBottomSheetHeight = bottomSheetHeight - initialOffset
+                    
+                    let rect = points.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
+                        return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
+                    }
+                    
+                    self.mapView.setVisibleMapRect(rect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: visibleBottomSheetHeight, right: 50), animated: true)
                 }
-                
-                self.mapView.setVisibleMapRect(rect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
             } else {
                 print("No open units found for the selected time.")
 
@@ -345,6 +355,23 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                 }
         }
     
+}
+
+extension ViewController: BottomDetailViewControllerDelegate {
+   func didDismissDetailViewController() {
+       if let selectedAnnotation = mapView.selectedAnnotations.first {
+           mapView.deselectAnnotation(selectedAnnotation, animated: true)
+       }
+       UIView.animate(withDuration: 0.1) {
+           self.selectedAnnotationView?.transform = CGAffineTransform.identity
+       }
+   }
+}
+
+extension ViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        didDismissDetailViewController()
+    }
 }
 
 //Old BottomDetailViewController presentation logic
