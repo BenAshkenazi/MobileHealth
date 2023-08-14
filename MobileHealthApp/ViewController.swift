@@ -105,39 +105,6 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         }
     }
     
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("Annotation was tapped")
-        if let annotation = view.annotation as? MKPointAnnotation {
-            print("Annotation was an annotation")
-            if let title = annotation.title {
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                for unit in mobileUnits{
-                    //matches annotation clicked to the corresponding unit in the array, and passes it
-                    if(unit.name == title){
-                        if let detailViewController = storyboard.instantiateViewController(withIdentifier: "BottomDetailViewController") as? BottomDetailViewController {
-                            detailViewController.unit = unit
-                            //presents Bottom Detail View Controller
-                            let nav = UINavigationController(rootViewController: detailViewController)
-                            nav.modalPresentationStyle = .pageSheet
-                            if let sheet = nav.sheetPresentationController {
-                                sheet.prefersGrabberVisible = true
-                                sheet.detents = [ .large()]
-                            }
-                            present(nav, animated: true, completion: nil)
-                            
-                        }
-                       
-                        
-                    }
-                }
-                
-              
-            }
-            return
-        }
-    }
-    
     func updateLocationButtonIcon() {
         let centerCoordinate = mapView.centerCoordinate
         let userCoordinate = locationManager.location?.coordinate
@@ -187,14 +154,11 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     
 
     func searchForOpenMobileUnits(on date: Date, range: Double) {
-        //removes units not open on the right day
-        var openUnits = mobileUnits//.filter { $0.isOpen(on: date) }
         
-        //creates empty health unit array for appending
-        var openAndRanged = [HealthUnit]()
+        var openUnits = [HealthUnit]()
         
         if let userLocation = locationManager.location?.coordinate{
-            for unit in openUnits{
+            for unit in mobileUnits{
                 unit.isWithin(range: range, userLoc: userLocation, address: unit.address ?? "Failed"){ isWithinRange in
                     //checks if the unit is within user-set range
                     if(isWithinRange){
@@ -206,8 +170,8 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                             let unitMonth = Int(monthYear.suffix(2)) ?? -1
                             let unitYear = Int(monthYear.prefix(4)) ?? -1
                             if(searchedMonth == unitMonth && searchedYear == unitYear){
-                                openAndRanged.append(unit)
-                                print("Count of Mobile units during: \(openAndRanged.count)")
+                                openUnits.append(unit)
+                                //print("Count of Mobile units during: \(openAndRanged.count)")
                             }else{
                                 print("Right Day, wrong month and/or Year")
                             }
@@ -221,165 +185,158 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                         print("\(unit) out of range \(range)")
 
                     }
-                    openUnits = openAndRanged
+
+                    self.displayFoundUnits(openUnits: openUnits, date: date)
+
                 }
-                //openUnits = openAndRanged
-            }
-            
-        }
-                
-        print("Count of Mobile units after: \(openUnits.count)")
-        var closedButRanged = [HealthUnit]()
-        var currentlyOpenUnits = [HealthUnit]()
-        
-        mobileUnits = openUnits
-        
-        for unit in openUnits {
-            if (unit.isOpen(on: date)){
-                currentlyOpenUnits.append(unit)
-            }else{
-                closedButRanged.append(unit)
             }
         }
-        
-        var openPoints: [MKMapPoint] = []
-        var closedPoints: [MKMapPoint] = []
-       
-        
-        
-        let dispatchGroup = DispatchGroup()
-        
-        for unit in currentlyOpenUnits {
-            dispatchGroup.enter()
-            
-            unit.location { (coordinate) in
-                if let coordinate = coordinate {
-                    let point = MKMapPoint(coordinate)
-                    openPoints.append(point)
-                }
                 
-                dispatchGroup.leave()
-            }
+            
         }
-        
-        for unit in closedButRanged {
-            dispatchGroup.enter()
+    func displayFoundUnits(openUnits: [HealthUnit], date: Date){
             
-            unit.location { (coordinate) in
-                if let coordinate = coordinate {
-                    let point = MKMapPoint(coordinate)
-                    closedPoints.append(point)
+            
+            var closedButRanged = [HealthUnit]()
+            var currentlyOpenUnits = [HealthUnit]()
+            
+            mobileUnits = openUnits
+            
+            for unit in openUnits {
+                if (unit.isOpen(on: date)){
+                    currentlyOpenUnits.append(unit)
+                }else{
+                    closedButRanged.append(unit)
                 }
-                
-                dispatchGroup.leave()
             }
-        }
         
-        dispatchGroup.notify(queue: .main) {
-            // Remove all previous annotations
-            self.mapView.removeAnnotations(self.mapView.annotations)
+           
             
-            if !currentlyOpenUnits.isEmpty || !closedButRanged.isEmpty{
-                if let userLocation = self.locationManager.location?.coordinate {
-                    let userPoint = MKMapPoint(userLocation)
-                    openPoints.append(userPoint)
-                }
+            var openPoints: [MKMapPoint] = []
+            var closedPoints: [MKMapPoint] = []
+           
+            
+            
+            let dispatchGroup = DispatchGroup()
+            
+            for unit in currentlyOpenUnits {
+                dispatchGroup.enter()
                 
-                let rect: MKMapRect
-                if currentlyOpenUnits.isEmpty {
-                    let alert = UIAlertController(title: "No Units Available", message: "No open mobile units are available at the selected time or range.", preferredStyle: .alert)
+                unit.location { (coordinate) in
+                    if let coordinate = coordinate {
+                        let point = MKMapPoint(coordinate)
+                        openPoints.append(point)
+                    }
+                    
+                    dispatchGroup.leave()
+                }
+            }
+            
+            for unit in closedButRanged {
+               dispatchGroup.enter()
+                
+                unit.location { (coordinate) in
+                    if let coordinate = coordinate {
+                        let point = MKMapPoint(coordinate)
+                        closedPoints.append(point)
+                    }
+                    
+                    dispatchGroup.leave()
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                // Remove all previous annotations
+                self.mapView.removeAnnotations(self.mapView.annotations)
+                
+                if !currentlyOpenUnits.isEmpty || !closedButRanged.isEmpty{
+                    if let userLocation = self.locationManager.location?.coordinate {
+                        let userPoint = MKMapPoint(userLocation)
+                        openPoints.append(userPoint)
+                    }
+                    
+                    let rect: MKMapRect
+                    
+                    print("Currently Open units is this array (3): \(currentlyOpenUnits)")
+                    if (currentlyOpenUnits.isEmpty) {
+                        
+                        rect = closedPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
+                            return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
+                        }
+                        
+                    }else{
+                        rect = openPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
+                            return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
+                        }
+                    }
+                    
+                    
+                    self.mapView.setVisibleMapRect(rect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
+                    
+                } else {
+                    print("No open units found for the selected time.")
+
+
+                    var userErrorMsg = "No open mobile units are available at the selected time or range."
+                    //checks network status if no mobile health units were found
+                    let networkCheck = NetworkCheck.sharedInstance()
+                    
+                    if(self.mobileUnits.isEmpty){
+                        if networkCheck.currentStatus != .satisfied{
+                            //Changes pop-up alert text
+                            userErrorMsg = "Internet Connection Error. Please check your connection and try again."
+                        }
+                        networkCheck.addObserver(observer: self)
+                    }
+                    
+                    let alert = UIAlertController(title: "No Units Available", message: userErrorMsg, preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                     alert.addAction(okAction)
                     self.present(alert, animated: true, completion: nil)
-                    
-                    rect = closedPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
-                        return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
-                    }
-                    
-                }else{
-                    rect = openPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
-                        return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
-                    }
                 }
                 
-                
-                self.mapView.setVisibleMapRect(rect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
-                
-            } else {
-                print("No open units found for the selected time.")
-
-
-                var userErrorMsg = "No open mobile units are available at the selected time or range."
-                //checks network status if no mobile health units were found
-                let networkCheck = NetworkCheck.sharedInstance()
-                
-                if(self.mobileUnits.isEmpty){
-                    if networkCheck.currentStatus != .satisfied{
-                        //Changes pop-up alert text
-                        userErrorMsg = "Internet Connection Error. Please check your connection and try again."
-                    }
-                    networkCheck.addObserver(observer: self)
-                }
-                
-                let alert = UIAlertController(title: "No Units Available", message: userErrorMsg, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                alert.addAction(okAction)
-                self.present(alert, animated: true, completion: nil)
-            }
-            
-            /*// Add annotations for each open mobile unit
-            for unit in currentlyOpenUnits {
-                unit.location { (coordinate) in
-                    if let coordinate = coordinate {
-                        //Adds annotations to map
-                        let annotation = MKPointAnnotation()
-                        annotation.coordinate = coordinate
-                        annotation.title = unit.name
-                        
-                        
-                        self.mapView.addAnnotation(annotation)
-                    }
-                }
-            }*/
-            
-            // Add annotations for each closed but ranged unit
-            for closedUnit in closedButRanged {
-                closedUnit.location { (coordinate) in
-                    if let coordinate = coordinate {
-                        
-                        let marker = MyAnnotation(title: closedUnit.name ?? "title" , subtitle: "Circle the City" , coordinate: coordinate)
-                        
-                        
-                        if let image = UIImage(named: "closedPin") {
-                            let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
-                            marker.image = resizedImage
-                            self.mapView.addAnnotation(marker)
+                // Add annotations for each closed but ranged unit
+                for closedUnit in closedButRanged {
+                    closedUnit.location { (coordinate) in
+                        if let coordinate = coordinate {
+                            
+                            let marker = MyAnnotation(title: closedUnit.name ?? "title" , subtitle: "Circle the City" , coordinate: coordinate, prio: false)
+                            
+                            
+                            if let image = UIImage(named: "closedPin") {
+                                let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                                marker.image = resizedImage
+                                self.mapView.addAnnotation(marker)
+                            }
+                           
                         }
-                       
                     }
                 }
-            }
-            
-            // Add annotations for each closed but ranged unit
-            for openUnit in currentlyOpenUnits {
-                openUnit.location { (coordinate) in
-                    if let coordinate = coordinate {
-                        
-                        let marker = MyAnnotation(title: openUnit.name ?? "title" , subtitle: "Circle the City" , coordinate: coordinate)
-                        
-                        
-                        if let image = UIImage(named: "openPin") {
-                            let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
-                            marker.image = resizedImage
-                            self.mapView.addAnnotation(marker)
+                
+                // Add annotations for each closed but ranged unit
+                for openUnit in currentlyOpenUnits {
+                    openUnit.location { (coordinate) in
+                        if let coordinate = coordinate {
+                            
+                            let marker = MyAnnotation(title: openUnit.name ?? "title" , subtitle: "Circle the City" , coordinate: coordinate, prio: true)
+                            
+                            
+                            if let image = UIImage(named: "openPin") {
+                                let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                                marker.image = resizedImage
+                                
+                                self.mapView.addAnnotation(marker)
+                            }
+                           
                         }
-                       
                     }
                 }
-            }
         }
+    
 
     }
+    
+
     
     func didTapSearchButton(date: Date, range: Double) {
         print("Search button pressed for date: \(date)")
@@ -447,8 +404,12 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
             let identifier = "identifier"
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.image = annotation.image //add this
+            
             annotationView?.canShowCallout = true
             annotationView?.calloutOffset = CGPoint(x: -5, y: 5)
+            /*if(annotation.openPrio){
+                annotationView?.layer.zPosition = CGFloat.greatestFiniteMagnitude
+            }*/
             annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
             return annotationView
         }
@@ -511,30 +472,3 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     }
     
 }
-
-//Old BottomDetailViewController presentation logic
- /*
-  if let detailViewController = {
-      // Customize the detailViewController with data from the selected annotation if needed
-      detailViewController.unit = unit
-      detailViewController.modalPresentationStyle = .custom
-      detailViewController.transitioningDelegate = self
-      present(detailViewController, animated: true, completion: nil)
-      
-  }
- if let detailViewController = storyboard.instantiateViewController(withIdentifier: "BottomDetailViewController") as? BottomDetailViewController {
-     // Customize the detailViewController with data from the selected annotation if needed
-      let bottomDetailVC = BottomDetailViewController()
-      bottomDetailVC.modalPresentationStyle = .custom
-      bottomDetailVC.transitioningDelegate = presentationManager
-
-      // Set the healthUnit property before presenting the BottomDetailViewController
-      //print(bottomDetailVC.unit?.name ?? "Unfound")
-
-      present(bottomDetailVC, animated: true, completion: nil)
-     
-     detailViewController.modalPresentationStyle = .custom
-     detailViewController.transitioningDelegate = self
-     present(detailViewController, animated: true, completion: nil)
-     
- }*/
