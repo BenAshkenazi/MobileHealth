@@ -14,6 +14,8 @@
 		559847402A6F4AD200256C2A /* FAQsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598473F2A6F4AD200256C2A /* FAQsViewController.swift */; };
 		559847422A6F717600256C2A /* font in Resources */ = {isa = PBXBuildFile; fileRef = 559847412A6F717600256C2A /* font */; };
 		559847442A75E37500256C2A /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559847432A75E37500256C2A /* Network.swift */; };
+		559D9EDB2A89966700433942 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559D9EDA2A89966700433942 /* TutorialViewController.swift */; };
+		559D9EDD2A89B86C00433942 /* NewAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559D9EDC2A89B86C00433942 /* NewAnnotation.swift */; };
 		55F1D9402A48B01800D58DF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */; };
 		55F1D9442A48B01800D58DF3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1D9432A48B01800D58DF3 /* ViewController.swift */; };
 		55F1D9472A48B01900D58DF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F1D9452A48B01900D58DF3 /* Main.storyboard */; };
@@ -39,6 +41,8 @@
 		5598473F2A6F4AD200256C2A /* FAQsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQsViewController.swift; sourceTree = "<group>"; };
 		559847412A6F717600256C2A /* font */ = {isa = PBXFileReference; lastKnownFileType = folder; path = font; sourceTree = "<group>"; };
 		559847432A75E37500256C2A /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		559D9EDA2A89966700433942 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		559D9EDC2A89B86C00433942 /* NewAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAnnotation.swift; sourceTree = "<group>"; };
 		55F1D93C2A48B01800D58DF3 /* MobileHealthApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileHealthApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55F1D9432A48B01800D58DF3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +94,7 @@
 			children = (
 				55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */,
 				55F1D9432A48B01800D58DF3 /* ViewController.swift */,
+				559D9EDC2A89B86C00433942 /* NewAnnotation.swift */,
 				64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */,
 				64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */,
 				559847432A75E37500256C2A /* Network.swift */,
@@ -108,6 +113,7 @@
 				5563B70B2A78682800943018 /* BottomDetailViewController.swift */,
 				5563B70D2A78917100943018 /* DetailPresentationController.swift */,
 				5563B70F2A78919700943018 /* BottomDetailPresentationManager.swift */,
+				559D9EDA2A89966700433942 /* TutorialViewController.swift */,
 			);
 			path = MobileHealthApp;
 			sourceTree = "<group>";
@@ -196,10 +202,12 @@
 				559847442A75E37500256C2A /* Network.swift in Sources */,
 				55F2620D2A68C716008F8CD0 /* DetailViewController.swift in Sources */,
 				55F1D9442A48B01800D58DF3 /* ViewController.swift in Sources */,
+				559D9EDD2A89B86C00433942 /* NewAnnotation.swift in Sources */,
 				5563B6E82A7834E300943018 /* ProgressViewController.swift in Sources */,
 				5563B70C2A78682800943018 /* BottomDetailViewController.swift in Sources */,
 				5563B70E2A78917100943018 /* DetailPresentationController.swift in Sources */,
 				55F1D9402A48B01800D58DF3 /* AppDelegate.swift in Sources */,
+				559D9EDB2A89966700433942 /* TutorialViewController.swift in Sources */,
 				64BEB7CF2A628FAA00191CD3 /* BottomSheetContentViewController.swift in Sources */,
 				559847402A6F4AD200256C2A /* FAQsViewController.swift in Sources */,
 				5563B7102A78919700943018 /* BottomDetailPresentationManager.swift in Sources */,
