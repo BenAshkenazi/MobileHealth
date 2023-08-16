@@ -74,7 +74,7 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
                         close = "\(firstHour):\(close.suffix(2))"
                     }
                 }
-                hoursTitle.text = "Hours:"
+                hoursTitle.text = "Walk-In Hours:"
                 hoursLabel.text = "\(open) AM - \(close) PM"
             }
         }
@@ -185,7 +185,7 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
             //daysLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             
             
-            surveyButton.topAnchor.constraint(equalTo: daysLabel.bottomAnchor, constant: 10),
+            surveyButton.topAnchor.constraint(equalTo: daysLabel.bottomAnchor, constant: 18),
             surveyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),  //middle of screen
             surveyButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             surveyButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),

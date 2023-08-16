@@ -157,186 +157,211 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         
         var openUnits = [HealthUnit]()
         
-        if let userLocation = locationManager.location?.coordinate{
-            for unit in mobileUnits{
-                unit.isWithin(range: range, userLoc: userLocation, address: unit.address ?? "Failed"){ isWithinRange in
-                    //checks if the unit is within user-set range
-                    if(isWithinRange){
-                        //verifies that the month and year are correct
-                        if let monthYear = unit.MonthYear{
+        if let userLocation = locationManager.location?.coordinate {
+            var openUnits: [HealthUnit] = []
+            let dispatchGroup = DispatchGroup()
+
+            for unit in mobileUnits {
+                dispatchGroup.enter()
+
+                unit.isWithin(range: range, userLoc: userLocation, address: unit.address ?? "Failed") { isWithinRange in
+                    // checks if the unit is within user-set range
+                    if isWithinRange {
+                        // verifies that the month and year are correct
+                        if let monthYear = unit.MonthYear {
                             let calendar = Calendar.current
                             let searchedMonth = calendar.component(.month, from: date)
                             let searchedYear = calendar.component(.year, from: date)
                             let unitMonth = Int(monthYear.suffix(2)) ?? -1
                             let unitYear = Int(monthYear.prefix(4)) ?? -1
-                            if(searchedMonth == unitMonth && searchedYear == unitYear){
+                            if searchedMonth == unitMonth && searchedYear == unitYear {
                                 openUnits.append(unit)
-                                //print("Count of Mobile units during: \(openAndRanged.count)")
-                            }else{
+                                // print("Count of Mobile units during: \(openAndRanged.count)")
+                            } else {
                                 print("Right Day, wrong month and/or Year")
                             }
-                            
-                        }else{
+                        } else {
                             print("Invalid Month/Year")
                         }
-                        
-
-                    }else{
+                    } else {
                         print("\(unit) out of range \(range)")
-
                     }
 
-                    self.displayFoundUnits(openUnits: openUnits, date: date)
-
-                }
-            }
-        }
-                
-            
-        }
-    func displayFoundUnits(openUnits: [HealthUnit], date: Date){
-            
-            
-            var closedButRanged = [HealthUnit]()
-            var currentlyOpenUnits = [HealthUnit]()
-            
-            mobileUnits = openUnits
-            
-            for unit in openUnits {
-                if (unit.isOpen(on: date)){
-                    currentlyOpenUnits.append(unit)
-                }else{
-                    closedButRanged.append(unit)
-                }
-            }
-        
-           
-            
-            var openPoints: [MKMapPoint] = []
-            var closedPoints: [MKMapPoint] = []
-           
-            
-            
-            let dispatchGroup = DispatchGroup()
-            
-            for unit in currentlyOpenUnits {
-                dispatchGroup.enter()
-                
-                unit.location { (coordinate) in
-                    if let coordinate = coordinate {
-                        let point = MKMapPoint(coordinate)
-                        openPoints.append(point)
-                    }
-                    
                     dispatchGroup.leave()
                 }
             }
-            
-            for unit in closedButRanged {
-               dispatchGroup.enter()
-                
-                unit.location { (coordinate) in
-                    if let coordinate = coordinate {
-                        let point = MKMapPoint(coordinate)
-                        closedPoints.append(point)
-                    }
-                    
-                    dispatchGroup.leave()
-                }
-            }
-            
+
             dispatchGroup.notify(queue: .main) {
-                // Remove all previous annotations
-                self.mapView.removeAnnotations(self.mapView.annotations)
-                
-                if !currentlyOpenUnits.isEmpty || !closedButRanged.isEmpty{
-                    if let userLocation = self.locationManager.location?.coordinate {
-                        let userPoint = MKMapPoint(userLocation)
-                        openPoints.append(userPoint)
-                    }
-                    
-                    let rect: MKMapRect
-                    
-                    print("Currently Open units is this array (3): \(currentlyOpenUnits)")
-                    if (currentlyOpenUnits.isEmpty) {
-                        
-                        rect = closedPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
-                            return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
-                        }
-                        
-                    }else{
-                        rect = openPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
-                            return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
-                        }
-                    }
-                    
-                    
-                    self.mapView.setVisibleMapRect(rect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
-                    
-                } else {
-                    print("No open units found for the selected time.")
-
-
-                    var userErrorMsg = "No open mobile units are available at the selected time or range."
-                    //checks network status if no mobile health units were found
-                    let networkCheck = NetworkCheck.sharedInstance()
-                    
-                    if(self.mobileUnits.isEmpty){
-                        if networkCheck.currentStatus != .satisfied{
-                            //Changes pop-up alert text
-                            userErrorMsg = "Internet Connection Error. Please check your connection and try again."
-                        }
-                        networkCheck.addObserver(observer: self)
-                    }
-                    
-                    let alert = UIAlertController(title: "No Units Available", message: userErrorMsg, preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    alert.addAction(okAction)
-                    self.present(alert, animated: true, completion: nil)
-                }
-                
-                // Add annotations for each closed but ranged unit
-                for closedUnit in closedButRanged {
-                    closedUnit.location { (coordinate) in
-                        if let coordinate = coordinate {
-                            
-                            let marker = MyAnnotation(title: closedUnit.name ?? "title" , subtitle: "Circle the City" , coordinate: coordinate, prio: false)
-                            
-                            
-                            if let image = UIImage(named: "closedPin") {
-                                let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
-                                marker.image = resizedImage
-                                self.mapView.addAnnotation(marker)
-                            }
-                           
-                        }
-                    }
-                }
-                
-                // Add annotations for each closed but ranged unit
-                for openUnit in currentlyOpenUnits {
-                    openUnit.location { (coordinate) in
-                        if let coordinate = coordinate {
-                            
-                            let marker = MyAnnotation(title: openUnit.name ?? "title" , subtitle: "Circle the City" , coordinate: coordinate, prio: true)
-                            
-                            
-                            if let image = UIImage(named: "openPin") {
-                                let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
-                                marker.image = resizedImage
-                                
-                                self.mapView.addAnnotation(marker)
-                            }
-                           
-                        }
-                    }
-                }
+                self.processFoundUnits(openUnits: openUnits, date: date)
+            }
+        }
+            
         }
     
-
+    func processFoundUnits(openUnits: [HealthUnit], date: Date) {
+        var closedButRanged = [HealthUnit]()
+        var currentlyOpenUnits = [HealthUnit]()
+        mobileUnits = openUnits
+        print("This is the array 4: \(openUnits)")
+        
+        for unit in openUnits {
+            if unit.isOpen(on: date) {
+                currentlyOpenUnits.append(unit)
+            } else {
+                closedButRanged.append(unit)
+            }
+        }
+        
+        var openPoints: [MKMapPoint] = []
+        var closedPoints: [MKMapPoint] = []
+        
+        let dispatchGroup = DispatchGroup()
+        
+        for unit in currentlyOpenUnits {
+            dispatchGroup.enter()
+            
+            unit.location { (coordinate) in
+                if let coordinate = coordinate {
+                    let point = MKMapPoint(coordinate)
+                    openPoints.append(point)
+                }
+                
+                dispatchGroup.leave()
+            }
+        }
+        
+        for unit in closedButRanged {
+            dispatchGroup.enter()
+            
+            unit.location { (coordinate) in
+                if let coordinate = coordinate {
+                    let point = MKMapPoint(coordinate)
+                    closedPoints.append(point)
+                }
+                
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.displayFoundUnits(currentlyOpenUnits: currentlyOpenUnits, oldOpenPoints: openPoints, closedButRanged: closedButRanged, closedPoints: closedPoints)
+        }
     }
     
+    func displayFoundUnits(currentlyOpenUnits: [HealthUnit], oldOpenPoints: [MKMapPoint], closedButRanged: [HealthUnit], closedPoints: [MKMapPoint]){
+        
+        var openPoints = oldOpenPoints
+        
+        
+        // Remove all previous annotations
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        //!currentlyOpenUnits.isEmpty  ||
+        if !currentlyOpenUnits.isEmpty {
+            if let userLocation = self.locationManager.location?.coordinate {
+                let userPoint = MKMapPoint(userLocation)
+                openPoints.append(userPoint)
+            }
+        } else {
+            print("No open units found for the selected time.")
+            var userErrorMsg = "No open mobile units are available at the selected time or range."
+            //checks network status if no mobile health units were found
+            let networkCheck = NetworkCheck.sharedInstance()
+            
+            //if(self.mobileUnits.isEmpty){
+            if networkCheck.currentStatus != .satisfied{
+                //Changes pop-up alert text
+                userErrorMsg = "Internet Connection Error. Please check your connection and try again."
+            }else{
+                print("Adding user location...")
+                if let userLocation = self.locationManager.location?.coordinate {
+                    let userPoint = MKMapPoint(userLocation)
+                    openPoints.append(userPoint)
+                }
+            }
+            networkCheck.addObserver(observer: self)
+            //}
+            let alert = UIAlertController(title: "No Units Available", message: userErrorMsg, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        // Add annotations for each open unit
+        for openUnit in currentlyOpenUnits {
+            openUnit.location { (coordinate) in
+                if let coordinate = coordinate {
+                    let marker = MyAnnotation(title: openUnit.name ?? "title", subtitle: "Circle the City", coordinate: coordinate, prio: true)
+                    
+                    print("OPEN PLACED")
+                    if let image = UIImage(named: "openPin") {
+                        let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                        marker.image = resizedImage
+                        self.mapView.addAnnotation(marker)
+                    }
+                }
+            }
+        }
+        
+        var yOffset: CLLocationDegrees = 0.0 // Offset for spacing out closed units
 
+        // Add annotations for each closed but ranged unit
+        for closedUnit in closedButRanged {
+            closedUnit.location { (coordinate) in
+                if let coordinate = coordinate {
+                    if self.isAnnotationAtCoordinate(coordinate) {
+                        print("Overlap detected")
+                        yOffset += 0.00005 // Adjust the yOffset to create spacing
+                    }
+                    
+                    let adjustedCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude + yOffset, longitude: coordinate.longitude)
+                    
+                    let marker = MyAnnotation(title: closedUnit.name ?? "title", subtitle: "Circle the City", coordinate: adjustedCoordinate, prio: false)
+                    
+                    print("CLOSED PLACED")
+                    if let image = UIImage(named: "closedPin") {
+                        let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                        marker.image = resizedImage
+                        self.mapView.addAnnotation(marker)
+                    }
+                }
+            }
+        }
+
+       
+        
+        
+       
+        
+        let rect: MKMapRect
+        if (currentlyOpenUnits.isEmpty) {
+            
+            if(closedPoints.isEmpty){
+                rect = openPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
+                    return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
+                }
+            }else{
+                rect = closedPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
+                    return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
+                }
+            }
+           
+            
+        }else{
+            rect = openPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
+                return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
+            }
+        }
+        self.mapView.setVisibleMapRect(rect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
+    }
+    
+    func isAnnotationAtCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
+        for annotation in mapView.annotations {
+            if annotation.coordinate.latitude == coordinate.latitude && annotation.coordinate.longitude == coordinate.longitude {
+                return true
+            }
+        }
+        return false
+    }
     
     func didTapSearchButton(date: Date, range: Double) {
         print("Search button pressed for date: \(date)")
@@ -380,17 +405,13 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                                     rawaddr: dict["Address"] as? String ?? "",
                                     comments: dict["Comments"] as? String ?? ""
                                 )
-
                                 units.append(newUnit)
                         }
-
                     }
                     mobileUnits = units
                 }
-        
         }
     
-   
     
     //This half complete function will be used for changing pin style
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -436,16 +457,10 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                                 sheet.detents = [ .large()]
                             }
                             present(nav, animated: true, completion: nil)
-                            
                         }
-                       
-                        
                     }
                 }
-                
-              
             }
-            
         }
     }
     
