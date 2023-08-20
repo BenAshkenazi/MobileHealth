@@ -53,6 +53,11 @@ class BottomSheetContentViewController: UIViewController {
         } else {
             print("Delegate is nil")
         }
+        
+        searchButton.isEnabled = false
+        let timer = Timer.scheduledTimer(withTimeInterval: 1.25, repeats: false) { timer in
+            self.searchButton.isEnabled = true
+        }
     }
     
     func setupSearchButton() {

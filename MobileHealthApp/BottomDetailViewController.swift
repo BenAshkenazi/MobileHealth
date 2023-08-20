@@ -16,7 +16,6 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
     @IBOutlet var dismissButton: UIButton!
     @IBOutlet var mapsButton: UIButton!
     @IBOutlet var callButton: UIButton!
-    @IBOutlet var faqButton: UIButton!
     @IBOutlet var proxTitle: UILabel!
     @IBOutlet var proxLabel: UILabel!
     @IBOutlet var surveyButton: UIButton!
@@ -74,7 +73,7 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
                         close = "\(firstHour):\(close.suffix(2))"
                     }
                 }
-                hoursTitle.text = "Hours:"
+                hoursTitle.text = "Walk-In Hours:"
                 hoursLabel.text = "\(open) AM - \(close) PM"
             }
         }
@@ -113,7 +112,6 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         mapsButton.translatesAutoresizingMaskIntoConstraints = false
         callButton.translatesAutoresizingMaskIntoConstraints = false
-        faqButton.translatesAutoresizingMaskIntoConstraints = false
         proxLabel.translatesAutoresizingMaskIntoConstraints = false
         surveyButton.translatesAutoresizingMaskIntoConstraints = false
         hoursLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -133,20 +131,20 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
             // Constraints for dismissButton
             dismissButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             dismissButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+            
+            // callButton constraints (in the middle)
+           
 
-            // Constraints for mapsButton, callButton, faqButton, and surveyButton
-           mapsButton.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16),
-           mapsButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+           
+           // mapsButton constraints
+            mapsButton.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16),
+           mapsButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -8),
+           
+           // faqButton constraints
+            callButton.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16),
+           callButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 8),
+            callButton.widthAnchor.constraint(equalTo: mapsButton.widthAnchor),
 
-           callButton.topAnchor.constraint(equalTo: mapsButton.topAnchor),
-           callButton.leadingAnchor.constraint(equalTo: mapsButton.trailingAnchor, constant: 8),
-
-           faqButton.topAnchor.constraint(equalTo: mapsButton.topAnchor),
-           faqButton.leadingAnchor.constraint(equalTo: callButton.trailingAnchor, constant: 8),
-
-           surveyButton.topAnchor.constraint(equalTo: mapsButton.topAnchor),
-           surveyButton.leadingAnchor.constraint(equalTo: faqButton.trailingAnchor, constant: 8),
-           surveyButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
             
             Line1.topAnchor.constraint(equalTo: mapsButton.bottomAnchor, constant: 1),
             Line1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -182,16 +180,14 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
             daysLabel.topAnchor.constraint(equalTo: daysTitle.bottomAnchor, constant: 10),
             daysLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),  //middle of screen
             //daysLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            
+            
+            surveyButton.topAnchor.constraint(equalTo: daysLabel.bottomAnchor, constant: 18),
+            surveyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),  //middle of screen
+            surveyButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            surveyButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
         ])
         
-        let buttons = [mapsButton, callButton, faqButton, surveyButton]
-        for i in 1..<buttons.count {
-            if let button1 = buttons[i]{
-                if let button2 = buttons[i-1]{
-                    button1.widthAnchor.constraint(equalTo: button2.widthAnchor).isActive = true
-                }
-            }
-        }
     }
     
     @IBAction func openMaps(_ sender: Any) {
