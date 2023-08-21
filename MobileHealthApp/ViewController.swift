@@ -529,3 +529,25 @@ extension ViewController : TutorialDelegate {
     }
     
 }
+
+extension ViewController :  UIViewControllerTransitioningDelegate {
+    
+}
+
+extension ViewController : CLLocationManagerDelegate {
+    
+}
+
+extension ViewController : MKMapViewDelegate {
+    
+}
+
+extension ViewController : BottomSheetDelegate {
+    
+}
+
+extension ViewController : NetworkCheckObserver {
+    func statusDidChange(status: NWPath.Status) {
+        print("_Internet Status Change_")
+    }
+}
