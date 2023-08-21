@@ -18,12 +18,7 @@ protocol BottomSheetDelegate: AnyObject {
 
 let defaultKey = "TestFirst"
 
-class ViewController: UIViewController, UIViewControllerTransitioningDelegate, CLLocationManagerDelegate, MKMapViewDelegate, BottomSheetDelegate, NetworkCheckObserver {
-    //Debugger Function
-    func statusDidChange(status: NWPath.Status) {
-        print("_Internet Status Change_")
-    }
-    
+class MainViewController: UIViewController {
     
     @IBOutlet var faqButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
@@ -36,64 +31,40 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
     
     //declares search button area controller
     var bottomSheetViewController: BottomSheetContentViewController?
-    
-    
     //internet monitor
     let monitor = NWPathMonitor()
-
     //default range
     var range = 0.0
     //zooms only on entrance to the app
     var firstPress = true
-    
-
-    
     //gets screen bounds
     let screenSize: CGRect = UIScreen.main.bounds
     
-    
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         getDatabase()
-        
         setupButtonAppearances()
-       
         bottomSheetViewController = BottomSheetContentViewController()
         bottomSheetViewController?.delegate = self
-
-
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let tutorialWasViewed = UserDefaults.standard.bool(forKey: defaultKey)
         print("Value in tutorial was viewed: \(tutorialWasViewed)")
-        if tutorialWasViewed {
-            
-            locationManager = CLLocationManager()
-            locationManager?.delegate = self
-            locationManager?.requestWhenInUseAuthorization()
-            mapView.showsUserLocation = true
-            
-            mapView.delegate = self
-            locationManager?.startUpdatingLocation()
-            locationButton.setImage(UIImage(systemName: "location"), for: .normal)
-            
-        } else {
-            print("Present the Segue")
-            performSegue(withIdentifier: "showTutorialSegue", sender: self)
-           
-        }
+//        if tutorialWasViewed {
+//           askUserForLocation()
+//        } else {
+//            print("Present the Segue")
+//            performSegue(withIdentifier: "showTutorialSegue", sender: self)
+//        }
+        tutorialWasViewed ? askUserForLocation() : performSegue(withIdentifier: "showTutorialSegue", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showTutorialSegue" {
-            if let destinationVC = segue.destination as? TutorialViewController {
+        if segue.identifier == "showTutorialSegue",
+            let destinationVC = segue.destination as? TutorialViewController {
                 destinationVC.delegate = self
-            }
         }
     }
     
@@ -104,25 +75,9 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         }
     }
     
-    
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         DispatchQueue.main.async {
             self.updateLocationButtonIcon()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            if(firstPress){
-                mapView.setRegion(region, animated: true)
-                firstPress = false
-            }
-            
-            DispatchQueue.main.async {
-                    self.updateLocationButtonIcon()
-                }
         }
     }
     
@@ -130,22 +85,20 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         let centerCoordinate = mapView.centerCoordinate
         let userCoordinate = locationManager?.location?.coordinate
 
-
         if let userCoordinate = userCoordinate {
-            let distance = abs(centerCoordinate.latitude - userCoordinate.latitude) + abs(centerCoordinate.longitude - userCoordinate.longitude)
+            let distance = abs(centerCoordinate.latitude - userCoordinate.latitude)
+            + abs(centerCoordinate.longitude - userCoordinate.longitude)
             //If user is already centered, switches location button image
-            if distance < 0.000000001 {
-                locationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
-            } else {
-                locationButton.setImage(UIImage(systemName: "location"), for: .normal)
-            }
+            let iconName = distance < 0.000000001 ? "location.fill" : "location"
+            locationButton.setImage(UIImage(systemName: iconName), for: .normal)
+//            if distance < 0.000000001 {
+//                locationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
+//            } else {
+//                locationButton.setImage(UIImage(systemName: "location"), for: .normal)
+//            }
         }
     }
     
-    func resizeImage(named name: String, to size: CGSize) -> UIImage? {
-        let config = UIImage.SymbolConfiguration(pointSize: min(size.width, size.height))
-        return UIImage(systemName: name, withConfiguration: config)
-    }
     
     func setupButtonAppearances() {
         locationButton.layer.cornerRadius = locationButton.bounds.height / 4
@@ -322,7 +275,8 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                     
                     print("OPEN PLACED")
                     if let image = UIImage(named: "openPin") {
-                        let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                        //let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                        let resizedImage = image.resizeImage(targetSize: CGSize(width: 35, height: 35))
                         marker.image = resizedImage
                         self.mapView.addAnnotation(marker)
                     }
@@ -347,7 +301,8 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
                     
                     print("CLOSED PLACED")
                     if let image = UIImage(named: "closedPin") {
-                        let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                        //let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                        let resizedImage = image.resizeImage(targetSize: CGSize(width: 35, height: 35))
                         marker.image = resizedImage
                         self.mapView.addAnnotation(marker)
                     }
@@ -439,6 +394,73 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
         }
     
     
+   
+    
+//    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+//        let size = image.size
+//
+//        let widthRatio  = targetSize.width  / size.width
+//        let heightRatio = targetSize.height / size.height
+//
+//        let newSize: CGSize
+//        if widthRatio > heightRatio {
+//            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+//        } else {
+//            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+//        }
+//
+//        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+//        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+//        image.draw(in: rect)
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//
+//        return newImage ?? UIImage()
+//    }
+    
+}
+
+extension MainViewController : TutorialDelegate {
+    func didFinishUnwindSegue() {
+       askUserForLocation()
+    }
+    
+    func askUserForLocation(){
+        print("Unwinding value was called")
+         locationManager = CLLocationManager()
+         locationManager?.delegate = self
+         locationManager?.requestWhenInUseAuthorization()
+         mapView.showsUserLocation = true
+         
+         mapView.delegate = self
+         locationManager?.startUpdatingLocation()
+         locationButton.setImage(UIImage(systemName: "location"), for: .normal)
+    }
+    
+}
+
+
+extension MainViewController : CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            if(firstPress){
+                mapView.setRegion(region, animated: true)
+                firstPress = false
+            }
+            
+            DispatchQueue.main.async {
+                    self.updateLocationButtonIcon()
+                }
+        }
+    }
+    
+    
+}
+
+extension MainViewController : MKMapViewDelegate {
     //This half complete function will be used for changing pin style
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
@@ -489,64 +511,13 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate, C
             }
         }
     }
-    
-    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
-        let size = image.size
-        
-        let widthRatio  = targetSize.width  / size.width
-        let heightRatio = targetSize.height / size.height
-        
-        let newSize: CGSize
-        if widthRatio > heightRatio {
-            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-        } else {
-            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
-        }
-        
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage!
-    }
+}
+
+extension MainViewController : BottomSheetDelegate {
     
 }
 
-extension ViewController : TutorialDelegate {
-    func didFinishUnwindSegue() {
-        print("Unwinding value was called")
-         locationManager = CLLocationManager()
-         locationManager?.delegate = self
-         locationManager?.requestWhenInUseAuthorization()
-         mapView.showsUserLocation = true
-         
-         mapView.delegate = self
-         locationManager?.startUpdatingLocation()
-         locationButton.setImage(UIImage(systemName: "location"), for: .normal)
-         
-    }
-    
-}
-
-extension ViewController :  UIViewControllerTransitioningDelegate {
-    
-}
-
-extension ViewController : CLLocationManagerDelegate {
-    
-}
-
-extension ViewController : MKMapViewDelegate {
-    
-}
-
-extension ViewController : BottomSheetDelegate {
-    
-}
-
-extension ViewController : NetworkCheckObserver {
+extension MainViewController : NetworkCheckObserver {
     func statusDidChange(status: NWPath.Status) {
         print("_Internet Status Change_")
     }

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class ContainerViewController: BottomSheetContainerViewController
-<ViewController, BottomSheetContentViewController> {
+<MainViewController, BottomSheetContentViewController> {
     
     override func viewDidLoad() {
         super.viewDidLoad()

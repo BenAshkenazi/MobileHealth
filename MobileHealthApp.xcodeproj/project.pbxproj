@@ -15,8 +15,9 @@
 		559D9EDB2A89966700433942 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559D9EDA2A89966700433942 /* TutorialViewController.swift */; };
 		559D9EDD2A89B86C00433942 /* NewAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559D9EDC2A89B86C00433942 /* NewAnnotation.swift */; };
 		559D9EE12A92C50400433942 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559D9EE02A92C50400433942 /* WelcomeViewController.swift */; };
+		559D9EE32A93D6C200433942 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559D9EE22A93D6C200433942 /* UIImage+Extension.swift */; };
 		55F1D9402A48B01800D58DF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */; };
-		55F1D9442A48B01800D58DF3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1D9432A48B01800D58DF3 /* ViewController.swift */; };
+		55F1D9442A48B01800D58DF3 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1D9432A48B01800D58DF3 /* MainViewController.swift */; };
 		55F1D9472A48B01900D58DF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F1D9452A48B01900D58DF3 /* Main.storyboard */; };
 		55F1D9492A48B01C00D58DF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F1D9482A48B01C00D58DF3 /* Assets.xcassets */; };
 		55F1D94C2A48B01C00D58DF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F1D94A2A48B01C00D58DF3 /* LaunchScreen.storyboard */; };
@@ -41,9 +42,10 @@
 		559D9EDA2A89966700433942 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		559D9EDC2A89B86C00433942 /* NewAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAnnotation.swift; sourceTree = "<group>"; };
 		559D9EE02A92C50400433942 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		559D9EE22A93D6C200433942 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		55F1D93C2A48B01800D58DF3 /* MobileHealthApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileHealthApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		55F1D9432A48B01800D58DF3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		55F1D9432A48B01800D58DF3 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		55F1D9462A48B01900D58DF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		55F1D9482A48B01C00D58DF3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55F1D94B2A48B01C00D58DF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -71,6 +73,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		559D9EE52A93D72400433942 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				559D9EE22A93D6C200433942 /* UIImage+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		559D9EE62A93D76000433942 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				55F1D9432A48B01800D58DF3 /* MainViewController.swift */,
+				64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */,
+				64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */,
+				64BEB7C62A626C9800191CD3 /* BottomSheetContainerViewController.swift */,
+				55F2620C2A68C716008F8CD0 /* DetailViewController.swift */,
+				5598473F2A6F4AD200256C2A /* FAQsViewController.swift */,
+				559D9EE02A92C50400433942 /* WelcomeViewController.swift */,
+				5563B6E72A7834E300943018 /* ProgressViewController.swift */,
+				5563B70B2A78682800943018 /* BottomDetailViewController.swift */,
+				559D9EDA2A89966700433942 /* TutorialViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		55F1D9332A48B01800D58DF3 = {
 			isa = PBXGroup;
 			children = (
@@ -91,26 +118,18 @@
 			isa = PBXGroup;
 			children = (
 				55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */,
-				55F1D9432A48B01800D58DF3 /* ViewController.swift */,
+				559D9EE62A93D76000433942 /* ViewControllers */,
 				559D9EDC2A89B86C00433942 /* NewAnnotation.swift */,
-				64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */,
-				64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */,
 				559847432A75E37500256C2A /* Network.swift */,
 				55F2620A2A68C701008F8CD0 /* HealthUnit.swift */,
-				64BEB7C62A626C9800191CD3 /* BottomSheetContainerViewController.swift */,
 				64BEB7D02A62964E00191CD3 /* SceneDelegate.swift */,
-				55F2620C2A68C716008F8CD0 /* DetailViewController.swift */,
-				5598473F2A6F4AD200256C2A /* FAQsViewController.swift */,
 				55F1D9452A48B01900D58DF3 /* Main.storyboard */,
-				559D9EE02A92C50400433942 /* WelcomeViewController.swift */,
-				5563B6E72A7834E300943018 /* ProgressViewController.swift */,
 				55F1D9482A48B01C00D58DF3 /* Assets.xcassets */,
 				55F1D94A2A48B01C00D58DF3 /* LaunchScreen.storyboard */,
 				559847412A6F717600256C2A /* font */,
 				55F2620E2A68CA80008F8CD0 /* GoogleService-Info.plist */,
 				55F1D94D2A48B01C00D58DF3 /* Info.plist */,
-				5563B70B2A78682800943018 /* BottomDetailViewController.swift */,
-				559D9EDA2A89966700433942 /* TutorialViewController.swift */,
+				559D9EE52A93D72400433942 /* Extensions */,
 			);
 			path = MobileHealthApp;
 			sourceTree = "<group>";
@@ -198,7 +217,7 @@
 			files = (
 				559847442A75E37500256C2A /* Network.swift in Sources */,
 				55F2620D2A68C716008F8CD0 /* DetailViewController.swift in Sources */,
-				55F1D9442A48B01800D58DF3 /* ViewController.swift in Sources */,
+				55F1D9442A48B01800D58DF3 /* MainViewController.swift in Sources */,
 				559D9EDD2A89B86C00433942 /* NewAnnotation.swift in Sources */,
 				5563B6E82A7834E300943018 /* ProgressViewController.swift in Sources */,
 				5563B70C2A78682800943018 /* BottomDetailViewController.swift in Sources */,
@@ -207,6 +226,7 @@
 				559D9EDB2A89966700433942 /* TutorialViewController.swift in Sources */,
 				64BEB7CF2A628FAA00191CD3 /* BottomSheetContentViewController.swift in Sources */,
 				559847402A6F4AD200256C2A /* FAQsViewController.swift in Sources */,
+				559D9EE32A93D6C200433942 /* UIImage+Extension.swift in Sources */,
 				64BEB7C72A626C9800191CD3 /* BottomSheetContainerViewController.swift in Sources */,
 				64BEB7CB2A62840C00191CD3 /* ContainerViewController.swift in Sources */,
 				64BEB7D12A62964E00191CD3 /* SceneDelegate.swift in Sources */,
