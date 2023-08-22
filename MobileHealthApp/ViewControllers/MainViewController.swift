@@ -122,6 +122,7 @@ class MainViewController: UIViewController {
         tutorialButton.layer.bounds.size.height = 40
         
         faqButton.layer.cornerRadius = faqButton.bounds.height / 4
+        faqButton.layer.opacity = 0.7
         faqButton.layer.masksToBounds = true
         faqButton.layer.shadowColor = UIColor.black.cgColor
         faqButton.layer.shadowOffset = CGSize(width: 0, height: 1)
@@ -135,46 +136,46 @@ class MainViewController: UIViewController {
 
     func searchForOpenMobileUnits(on date: Date, range: Double) {
         
-        var openUnits = [HealthUnit]()
+        //var openUnits = [HealthUnit]()
         
-        if let userLocation = locationManager?.location?.coordinate {
-            var openUnits: [HealthUnit] = []
-            let dispatchGroup = DispatchGroup()
+        let userLocation = locationManager?.location?.coordinate ??  CLLocationCoordinate2D(latitude: 33.4255, longitude: -111.9400)
+        var openUnits: [HealthUnit] = []
+        let dispatchGroup = DispatchGroup()
 
-            for unit in mobileUnits {
-                dispatchGroup.enter()
+        for unit in mobileUnits {
+            dispatchGroup.enter()
 
-                unit.isWithin(range: range, userLoc: userLocation, address: unit.address ?? "Failed") { isWithinRange in
-                    // checks if the unit is within user-set range
-                    if isWithinRange {
-                        // verifies that the month and year are correct
-                        if let monthYear = unit.MonthYear {
-                            let calendar = Calendar.current
-                            let searchedMonth = calendar.component(.month, from: date)
-                            let searchedYear = calendar.component(.year, from: date)
-                            let unitMonth = Int(monthYear.suffix(2)) ?? -1
-                            let unitYear = Int(monthYear.prefix(4)) ?? -1
-                            if searchedMonth == unitMonth && searchedYear == unitYear {
-                                openUnits.append(unit)
-                                // print("Count of Mobile units during: \(openAndRanged.count)")
-                            } else {
-                                print("Right Day, wrong month and/or Year")
-                            }
+            unit.isWithin(range: range, userLoc: userLocation, address: unit.address ?? "Failed") { isWithinRange in
+                // checks if the unit is within user-set range
+                if isWithinRange {
+                    // verifies that the month and year are correct
+                    if let monthYear = unit.MonthYear {
+                        let calendar = Calendar.current
+                        let searchedMonth = calendar.component(.month, from: date)
+                        let searchedYear = calendar.component(.year, from: date)
+                        let unitMonth = Int(monthYear.suffix(2)) ?? -1
+                        let unitYear = Int(monthYear.prefix(4)) ?? -1
+                        if searchedMonth == unitMonth && searchedYear == unitYear {
+                            openUnits.append(unit)
+                            // print("Count of Mobile units during: \(openAndRanged.count)")
                         } else {
-                            print("Invalid Month/Year")
+                            print("Right Day, wrong month and/or Year")
                         }
                     } else {
-                        print("\(unit) out of range \(range)")
+                        print("Invalid Month/Year")
                     }
-
-                    dispatchGroup.leave()
+                } else {
+                    print("\(unit) out of range \(range)")
                 }
-            }
 
-            dispatchGroup.notify(queue: .main) {
-                self.processFoundUnits(openUnits: openUnits, date: date)
+                dispatchGroup.leave()
             }
         }
+
+        dispatchGroup.notify(queue: .main) {
+            self.processFoundUnits(openUnits: openUnits, date: date)
+        }
+        
             
         }
     
@@ -315,6 +316,13 @@ class MainViewController: UIViewController {
             
             if(closedPoints.isEmpty){
                 print("Rect 1")
+                if let userLocation = self.locationManager?.location?.coordinate {
+                    let userPoint = MKMapPoint(userLocation)
+                    openPoints.append(userPoint)
+                }else if(openPoints.isEmpty){
+                    let tempeCenter = MKMapPoint(CLLocationCoordinate2D(latitude: 33.4255, longitude: -111.9400))
+                    openPoints.append(tempeCenter)
+                }
                 rect = openPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
                     return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
                 }
