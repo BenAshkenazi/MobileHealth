@@ -42,24 +42,20 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getDatabase()
         setupButtonAppearances()
         bottomSheetViewController = BottomSheetContentViewController()
         bottomSheetViewController?.delegate = self
+        getDatabase(firstRun: firstPress)
+        //searchForOpenMobileUnits(on: Date(), range: 0.0)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let tutorialWasViewed = UserDefaults.standard.bool(forKey: defaultKey)
         print("Value in tutorial was viewed: \(tutorialWasViewed)")
-//        if tutorialWasViewed {
-//           askUserForLocation()
-//        } else {
-//            print("Present the Segue")
-//            performSegue(withIdentifier: "showTutorialSegue", sender: self)
-//        }
         tutorialWasViewed ? askUserForLocation() : performSegue(withIdentifier: "showTutorialSegue", sender: self)
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showTutorialSegue",
@@ -67,6 +63,7 @@ class MainViewController: UIViewController {
                 destinationVC.delegate = self
         }
     }
+    
     
     @IBAction func centerMapOnUserButtonTapped(_ sender: Any) {
         if let userLocation = locationManager?.location?.coordinate {
@@ -91,11 +88,6 @@ class MainViewController: UIViewController {
             //If user is already centered, switches location button image
             let iconName = distance < 0.000000001 ? "location.fill" : "location"
             locationButton.setImage(UIImage(systemName: iconName), for: .normal)
-//            if distance < 0.000000001 {
-//                locationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
-//            } else {
-//                locationButton.setImage(UIImage(systemName: "location"), for: .normal)
-//            }
         }
     }
     
@@ -211,6 +203,8 @@ class MainViewController: UIViewController {
             }
         }
         
+        
+        //if Date().description != date.description {
         for unit in closedButRanged {
             dispatchGroup.enter()
             
@@ -223,14 +217,16 @@ class MainViewController: UIViewController {
                 dispatchGroup.leave()
             }
         }
+        //}
+       
         
         dispatchGroup.notify(queue: .main) {
-            self.displayFoundUnits(currentlyOpenUnits: currentlyOpenUnits, oldOpenPoints: openPoints, closedButRanged: closedButRanged, closedPoints: closedPoints)
+            self.displayFoundUnits(currentlyOpenUnits: currentlyOpenUnits, oldOpenPoints: openPoints, closedButRanged: closedButRanged, closedPoints: closedPoints, date: date)
         }
     }
     
     
-    func displayFoundUnits(currentlyOpenUnits: [HealthUnit], oldOpenPoints: [MKMapPoint], closedButRanged: [HealthUnit], closedPoints: [MKMapPoint]){
+    func displayFoundUnits(currentlyOpenUnits: [HealthUnit], oldOpenPoints: [MKMapPoint], closedButRanged: [HealthUnit], closedPoints: [MKMapPoint], date: Date){
         
         var openPoints = oldOpenPoints
         
@@ -262,10 +258,14 @@ class MainViewController: UIViewController {
             }
             networkCheck.addObserver(observer: self)
             //}
-            let alert = UIAlertController(title: "No Units Available", message: userErrorMsg, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alert.addAction(okAction)
-            self.present(alert, animated: true, completion: nil)
+            if !firstPress {
+                let alert = UIAlertController(title: "No Units Available", message: userErrorMsg, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alert.addAction(okAction)
+                self.present(alert, animated: true, completion: nil)
+            }else{
+                firstPress = false
+            }
         }
         
         // Add annotations for each open unit
@@ -275,9 +275,9 @@ class MainViewController: UIViewController {
                     let marker = MyAnnotation(title: openUnit.name ?? "title", subtitle: "Open", coordinate: coordinate, prio: true)
                     
                     print("OPEN PLACED")
-                    if let image = UIImage(named: "openPin") {
+                    if let image = UIImage(named: "greenLocationPin") {
                         //let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
-                        let resizedImage = image.resizeImage(targetSize: CGSize(width: 35, height: 35))
+                        let resizedImage = image.resizeImage(targetSize: CGSize(width: 40, height: 40))
                         marker.image = resizedImage
                         self.mapView.addAnnotation(marker)
                     }
@@ -287,29 +287,33 @@ class MainViewController: UIViewController {
         
         var yOffset: CLLocationDegrees = 0.0 // Offset for spacing out closed units
 
-        // Add annotations for each closed but ranged unit
-        for closedUnit in closedButRanged {
-            closedUnit.location { (coordinate) in
-                if let coordinate = coordinate {
-                    if self.isAnnotationAtCoordinate(coordinate) {
-                        print("Overlap detected")
-                        yOffset += 0.00005 // Adjust the yOffset to create spacing
-                    }
-                    
-                    let adjustedCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude + yOffset, longitude: coordinate.longitude)
-                    
-                    let marker = MyAnnotation(title: closedUnit.name ?? "title", subtitle: "Closed", coordinate: adjustedCoordinate, prio: false)
-                    
-                    print("CLOSED PLACED")
-                    if let image = UIImage(named: "closedPin") {
-                        //let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
-                        let resizedImage = image.resizeImage(targetSize: CGSize(width: 35, height: 35))
-                        marker.image = resizedImage
-                        self.mapView.addAnnotation(marker)
+        //Displays closed pins only if the dates are the same as the current date
+        if Date().description.prefix(14) == date.description.prefix(14) {
+            // Add annotations for each closed but ranged unit
+            for closedUnit in closedButRanged {
+                closedUnit.location { (coordinate) in
+                    if let coordinate = coordinate {
+                        if self.isAnnotationAtCoordinate(coordinate) {
+                            print("Overlap detected")
+                            yOffset += 0.00005 // Adjust the yOffset to create spacing
+                        }
+                        
+                        let adjustedCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude + yOffset, longitude: coordinate.longitude)
+                        
+                        let marker = MyAnnotation(title: closedUnit.name ?? "title", subtitle: "Closed", coordinate: adjustedCoordinate, prio: false)
+                        
+                        print("CLOSED PLACED")
+                        if let image = UIImage(named: "closedPin") {
+                            //let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                            let resizedImage = image.resizeImage(targetSize: CGSize(width: 35, height: 35))
+                            marker.image = resizedImage
+                            self.mapView.addAnnotation(marker)
+                        }
                     }
                 }
             }
-        } 
+        }
+        
         
         let rect: MKMapRect     
         if (currentlyOpenUnits.isEmpty) {
@@ -356,12 +360,12 @@ class MainViewController: UIViewController {
         print("Search button pressed for date: \(date)")
         if(mobileUnits.isEmpty){
             //Refreshes the database if the database is empty
-            getDatabase()
+            getDatabase(firstRun: false)
         }
         searchForOpenMobileUnits(on: date, range: range)
     }
     
-    func getDatabase(){
+    func getDatabase(firstRun: Bool){
         let rootRef = Database.database().reference().child("1tccGgPzxsOegrepl329GJkQOYnGcWu2XhLYcgiB_iNE").child("Sheet1")
                 rootRef.observeSingleEvent(of: .value) { [weak self] snapshot, error in
                     guard let self = self else {
@@ -398,6 +402,10 @@ class MainViewController: UIViewController {
                         }
                     }
                     mobileUnits = units
+                    
+                    if firstRun {
+                        searchForOpenMobileUnits(on: Date(), range: 0.0)
+                    }
                 }
         }
     
@@ -456,7 +464,7 @@ extension MainViewController : CLLocationManagerDelegate {
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
             if(firstPress){
                 mapView.setRegion(region, animated: true)
-                firstPress = false
+                //firstPress = false
             }
             
             DispatchQueue.main.async {
