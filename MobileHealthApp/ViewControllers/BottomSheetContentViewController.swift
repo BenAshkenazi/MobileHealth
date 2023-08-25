@@ -80,7 +80,7 @@ class BottomSheetContentViewController: UIViewController {
         //Sets chosen range equal to value within range picker
         let optionClosure = {(action: UIAction) in
             print(action.title)
-            if(action.title == "Anywhere"){
+            if(action.title == "Anywhere".localized){
                 self.chosenRange = 0.0
             }else if(action.title == "1 Mile"){
                 self.chosenRange = 1.0
@@ -97,7 +97,7 @@ class BottomSheetContentViewController: UIViewController {
         
         
         rangePicker.menu = UIMenu(children: [
-            UIAction(title: "Anywhere", state: .on, handler: optionClosure),
+            UIAction(title: "Anywhere".localized, state: .on, handler: optionClosure),
             UIAction(title: "1 Mile", state: .on, handler: optionClosure),
             UIAction(title: "5 Miles", handler: optionClosure),
             UIAction(title: "10 Miles", handler: optionClosure),
