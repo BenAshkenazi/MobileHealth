@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = ContainerViewController()
         window?.makeKeyAndVisible()
         
+        print("tutorial1".localized)
         return true
     }
 

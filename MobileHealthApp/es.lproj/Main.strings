@@ -1,0 +1,222 @@
+
+/* Class = "UILabel"; text = "Individuals of all ages facing homelessness."; ObjectID = "0tq-qw-LQW"; */
+"0tq-qw-LQW.text" = "Individuals of all ages facing homelessness.";
+
+/* Class = "UIButton"; configuration.title = "Leave us Feedback"; ObjectID = "3Rh-bY-7QL"; */
+"3Rh-bY-7QL.configuration.title" = "Leave us Feedback";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "3Rh-bY-7QL"; */
+"3Rh-bY-7QL.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Downtown Family Health Center"; ObjectID = "3Y1-Rk-J2L"; */
+"3Y1-Rk-J2L.text" = "Downtown Family Health Center";
+
+/* Class = "UILabel"; text = "For access to mobile medical outreach services in your neighborhood, reach out at (602)516-6825."; ObjectID = "55M-bU-AXH"; */
+"55M-bU-AXH.text" = "For access to mobile medical outreach services in your neighborhood, reach out at (602)516-6825.";
+
+/* Class = "UILabel"; text = "What is a Mobile Health Unit?"; ObjectID = "5DW-ju-84E"; */
+"5DW-ju-84E.text" = "What is a Mobile Health Unit?";
+
+/* Class = "UIButton"; configuration.title = "Take the Survey"; ObjectID = "6H2-e5-Dy0"; */
+"6H2-e5-Dy0.configuration.title" = "Take the Survey";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "6H2-e5-Dy0"; */
+"6H2-e5-Dy0.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "What if I don’t speak English?"; ObjectID = "7e5-yE-NCP"; */
+"7e5-yE-NCP.text" = "What if I don’t speak English?";
+
+/* Class = "UILabel"; text = "300 W. Clarendon Avenue\nSuite 200\nPhoenix, AZ 85013\n\nMain 602.776.0776\nFax 602.705.0567"; ObjectID = "8Pf-bL-ba1"; */
+"8Pf-bL-ba1.text" = "300 W. Clarendon Avenue\nSuite 200\nPhoenix, AZ 85013\n\nMain 602.776.0776\nFax 602.705.0567";
+
+/* Class = "UILabel"; text = "If you were recently discharge from a hospital please bring in your records or notify the clinic you were recently discharge and provide the hospital information. By providing this information to us, we can begin to obtain hospital records and have them available prior to your visit."; ObjectID = "9gr-dC-z7w"; */
+"9gr-dC-z7w.text" = "If you were recently discharge from a hospital please bring in your records or notify the clinic you were recently discharge and provide the hospital information. By providing this information to us, we can begin to obtain hospital records and have them available prior to your visit.";
+
+/* Class = "UIButton"; configuration.title = "Learn More"; ObjectID = "A93-Ky-Ukc"; */
+"A93-Ky-Ukc.configuration.title" = "Learn More";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "A93-Ky-Ukc"; */
+"A93-Ky-Ukc.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "AOg-1F-Ev6"; */
+"AOg-1F-Ev6.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Most individuals facing homelessness that are not insured qualify for the CTC sliding fee discount scale. Those patients may receive their care at no cost or for a small fee depending on income."; ObjectID = "BXy-Ui-atc"; */
+"BXy-Ui-atc.text" = "Most individuals facing homelessness that are not insured qualify for the CTC sliding fee discount scale. Those patients may receive their care at no cost or for a small fee depending on income.";
+
+/* Class = "UILabel"; text = "Miles Away"; ObjectID = "CGn-aY-ySf"; */
+"CGn-aY-ySf.text" = "Miles Away";
+
+/* Class = "UILabel"; text = "333 W. Indian School Road\nPhoenix, AZ 85013\n\nMain 602.776.9000\nAfter hours 480.434.2690"; ObjectID = "Clw-qC-hhu"; */
+"Clw-qC-hhu.text" = "333 W. Indian School Road\nPhoenix, AZ 85013\n\nMain 602.776.9000\nAfter hours 480.434.2690";
+
+/* Class = "UILabel"; text = "220 S. 12th Avenue\nPhoenix, AZ 85007\n\n602.258.8282"; ObjectID = "CwZ-PK-c2H"; */
+"CwZ-PK-c2H.text" = "220 S. 12th Avenue\nPhoenix, AZ 85007\n\n602.258.8282";
+
+/* Class = "UILabel"; text = "Medical Respite Care"; ObjectID = "F6a-Nb-ghL"; */
+"F6a-Nb-ghL.text" = "Medical Respite Care";
+
+/* Class = "UILabel"; text = "Distance:"; ObjectID = "GCp-F8-3pb"; */
+"GCp-F8-3pb.text" = "Distance:";
+
+/* Class = "UILabel"; text = "Mobile Outreach"; ObjectID = "HJd-5h-V8F"; */
+"HJd-5h-V8F.text" = "Mobile Outreach";
+
+/* Class = "UILabel"; text = "210 S. 12th Avenue Avenue\nPhoenix, AZ 85007\n\nMain 602.254.4282\nAfter hours 602.884.4240"; ObjectID = "JI8-uI-byE"; */
+"JI8-uI-byE.text" = "210 S. 12th Avenue Avenue\nPhoenix, AZ 85007\n\nMain 602.254.4282\nAfter hours 602.884.4240";
+
+/* Class = "UILabel"; text = "Midtown Medical Respite Center"; ObjectID = "KMq-uJ-PRy"; */
+"KMq-uJ-PRy.text" = "Midtown Medical Respite Center";
+
+/* Class = "UILabel"; text = "If the patient is seeking acute care, the medical need will be addressed and the patient will be assisted in establishing care at another health center. If the patient intends to establish care or is seeking preventative care, the patient will be assisted in making a future appointment with another health center."; ObjectID = "LBd-mn-b3O"; */
+"LBd-mn-b3O.text" = "If the patient is seeking acute care, the medical need will be addressed and the patient will be assisted in establishing care at another health center. If the patient intends to establish care or is seeking preventative care, the patient will be assisted in making a future appointment with another health center.";
+
+/* Class = "UIButton"; normalTitle = "Maps button"; ObjectID = "Mxw-Y4-hwG"; */
+"Mxw-Y4-hwG.normalTitle" = "Maps button";
+
+/* Class = "UILabel"; text = "Good news, transportation services are covered through AHCCCS. Contact your health plan 72 hours in advance to arrange a ride. If you do not qualify for transportation, please contact us and will make every attempt to make accommodations if possible."; ObjectID = "Ngq-Xa-pCg"; */
+"Ngq-Xa-pCg.text" = "Good news, transportation services are covered through AHCCCS. Contact your health plan 72 hours in advance to arrange a ride. If you do not qualify for transportation, please contact us and will make every attempt to make accommodations if possible.";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "OBa-Yd-Sgd"; */
+"OBa-Yd-Sgd.text" = "Label";
+
+/* Class = "UILabel"; text = "No. CTC is a federally qualified community health center (FQHC) and will bill patients’\ninsurances for services provided. Many individuals facing homelessness are insured by AHCCCS, the state’s Medicaid system."; ObjectID = "OO6-Z1-cvE"; */
+"OO6-Z1-cvE.text" = "No. CTC is a federally qualified community health center (FQHC) and will bill patients’\ninsurances for services provided. Many individuals facing homelessness are insured by AHCCCS, the state’s Medicaid system.";
+
+/* Class = "UIButton"; configuration.title = "Search"; ObjectID = "Q3O-zv-5Dc"; */
+"Q3O-zv-5Dc.configuration.title" = "Search";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Q3O-zv-5Dc"; */
+"Q3O-zv-5Dc.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Name Label"; ObjectID = "R5U-nb-MAF"; */
+"R5U-nb-MAF.text" = "Name Label";
+
+/* Class = "UIButton"; configuration.title = "Conact"; ObjectID = "RIc-Sf-aHP"; */
+"RIc-Sf-aHP.configuration.title" = "Conact";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "RIc-Sf-aHP"; */
+"RIc-Sf-aHP.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "No Days Open"; ObjectID = "SaU-QB-0Ea"; */
+"SaU-QB-0Ea.text" = "No Days Open";
+
+/* Class = "UILabel"; text = "Are you concerned about transportation?"; ObjectID = "Sc0-66-AkC"; */
+"Sc0-66-AkC.text" = "Are you concerned about transportation?";
+
+/* Class = "UIButton"; configuration.title = "Directions"; ObjectID = "Sxy-M3-wSn"; */
+"Sxy-M3-wSn.configuration.title" = "Directions";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Sxy-M3-wSn"; */
+"Sxy-M3-wSn.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "Call this Clinic"; ObjectID = "TEi-av-wW9"; */
+"TEi-av-wW9.configuration.title" = "Call this Clinic";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "TEi-av-wW9"; */
+"TEi-av-wW9.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "What other services can I receive at CTC?"; ObjectID = "Tw5-og-IM7"; */
+"Tw5-og-IM7.text" = "What other services can I receive at CTC?";
+
+/* Class = "UILabel"; text = "Do I need to schedule an appointment to receive care in one of CTC’s Mobile Medical Care Units?"; ObjectID = "WKP-Iv-xO2"; */
+"WKP-Iv-xO2.text" = "Do I need to schedule an appointment to receive care in one of CTC’s Mobile Medical Care Units?";
+
+/* Class = "UILabel"; text = "Closed"; ObjectID = "WUc-kh-N3H"; */
+"WUc-kh-N3H.text" = "Closed";
+
+/* Class = "UILabel"; text = "Outpatient Care"; ObjectID = "Wnk-eF-oRU"; */
+"Wnk-eF-oRU.text" = "Outpatient Care";
+
+/* Class = "UILabel"; text = "Downtown Medical Respite Center"; ObjectID = "Woo-dE-yQ1"; */
+"Woo-dE-yQ1.text" = "Downtown Medical Respite Center";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "XTx-aU-9Yw"; */
+"XTx-aU-9Yw.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Find Available Services"; ObjectID = "bJm-E2-Aua"; */
+"bJm-E2-Aua.text" = "Find Available Services";
+
+/* Class = "UILabel"; text = "Address Not Found"; ObjectID = "bUG-QU-dla"; */
+"bUG-QU-dla.text" = "Address Not Found";
+
+/* Class = "UILabel"; text = "English"; ObjectID = "baQ-JY-qCw"; */
+"baQ-JY-qCw.text" = "English";
+
+/* Class = "UIButton"; configuration.title = "Anywhere"; ObjectID = "bnX-ud-5NB"; */
+"bnX-ud-5NB.configuration.title" = "Anywhere";
+
+/* Class = "UIButton"; normalTitle = "Anywhere"; ObjectID = "bnX-ud-5NB"; */
+"bnX-ud-5NB.normalTitle" = "Anywhere";
+
+/* Class = "UILabel"; text = "No Days Open"; ObjectID = "cpD-tQ-Nk2"; */
+"cpD-tQ-Nk2.text" = "No Days Open";
+
+/* Class = "UILabel"; text = "The Parsons Family Health Center"; ObjectID = "dAR-eF-9L8"; */
+"dAR-eF-9L8.text" = "The Parsons Family Health Center";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "eJX-q6-O2k"; */
+"eJX-q6-O2k.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Walk-In Hours:"; ObjectID = "fi3-3w-wrE"; */
+"fi3-3w-wrE.text" = "Walk-In Hours:";
+
+/* Class = "UILabel"; text = "Who does CTC provide care for?"; ObjectID = "gfT-12-xf9"; */
+"gfT-12-xf9.text" = "Who does CTC provide care for?";
+
+/* Class = "UILabel"; text = "What happens if a person who is not homeless seeks care from CTC?"; ObjectID = "gp2-aj-UfX"; */
+"gp2-aj-UfX.text" = "What happens if a person who is not homeless seeks care from CTC?";
+
+/* Class = "UILabel"; text = "Administration"; ObjectID = "h4g-SR-B2T"; */
+"h4g-SR-B2T.text" = "Administration";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "hn4-yO-ts7"; */
+"hn4-yO-ts7.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Date:"; ObjectID = "jbI-BA-mx1"; */
+"jbI-BA-mx1.text" = "Date:";
+
+/* Class = "UIButton"; normalTitle = "< Back"; ObjectID = "kbz-ml-HF2"; */
+"kbz-ml-HF2.normalTitle" = "< Back";
+
+/* Class = "UILabel"; text = "What if a person is uninsured?"; ObjectID = "l7I-mZ-wf0"; */
+"l7I-mZ-wf0.text" = "What if a person is uninsured?";
+
+/* Class = "UILabel"; text = "Spanish"; ObjectID = "mJB-WL-eF3"; */
+"mJB-WL-eF3.text" = "Spanish";
+
+/* Class = "UILabel"; text = "Days of the Month Available:"; ObjectID = "nmf-bU-MxN"; */
+"nmf-bU-MxN.text" = "Days of the Month Available:";
+
+/* Class = "UILabel"; text = "Many of our staff members are bilingual in Spanish and if you speak another language, we have interpretation services available through a third party."; ObjectID = "onj-rL-ymb"; */
+"onj-rL-ymb.text" = "Many of our staff members are bilingual in Spanish and if you speak another language, we have interpretation services available through a third party.";
+
+/* Class = "UILabel"; text = "Name Label"; ObjectID = "pnc-Rb-5ox"; */
+"pnc-Rb-5ox.text" = "Name Label";
+
+/* Class = "UILabel"; text = "Circle the City offers integrated health care services that include behavioral health, additionally our clinics also have patient navigation services to assist patients in coordinating their care, connection to resources, and much more."; ObjectID = "r0X-16-a4n"; */
+"r0X-16-a4n.text" = "Circle the City offers integrated health care services that include behavioral health, additionally our clinics also have patient navigation services to assist patients in coordinating their care, connection to resources, and much more.";
+
+/* Class = "UILabel"; text = "Circle the City Administration"; ObjectID = "v7Y-4V-njf"; */
+"v7Y-4V-njf.text" = "Circle the City Administration";
+
+/* Class = "UILabel"; text = "No. Our Mobile Medical Care Units operate on a walk-in basis, an appointment is never required."; ObjectID = "vPl-g0-UXF"; */
+"vPl-g0-UXF.text" = "No. Our Mobile Medical Care Units operate on a walk-in basis, an appointment is never required.";
+
+/* Class = "UILabel"; text = "Do You Have Questions?"; ObjectID = "vse-x3-oL2"; */
+"vse-x3-oL2.text" = "Do You Have Questions?";
+
+/* Class = "UILabel"; text = "Have you been to the hospital recently?"; ObjectID = "xBF-4J-zgB"; */
+"xBF-4J-zgB.text" = "Have you been to the hospital recently?";
+
+/* Class = "UILabel"; text = "Is CTC a “free clinic”?"; ObjectID = "xDi-4P-zXr"; */
+"xDi-4P-zXr.text" = "Is CTC a “free clinic”?";
+
+/* Class = "UILabel"; text = "No Hours Found"; ObjectID = "xVl-T0-QfK"; */
+"xVl-T0-QfK.text" = "No Hours Found";
+
+/* Class = "UILabel"; text = "3522 N. 3rd Avenue\nPhoenix, AZ 85013\n\n602.776.7676"; ObjectID = "yYL-HD-BF5"; */
+"yYL-HD-BF5.text" = "3522 N. 3rd Avenue\nPhoenix, AZ 85013\n\n602.776.7676";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "zR8-6D-goO"; */
+"zR8-6D-goO.normalTitle" = "Button";
