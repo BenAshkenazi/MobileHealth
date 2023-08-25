@@ -20,23 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "ViewController") as! MainViewController
-        let bottomSheetContentViewController = storyboard.instantiateViewController(withIdentifier: "BottomSheetContentViewController") as! BottomSheetContentViewController
 
-        // Set the delegate
-        bottomSheetContentViewController.delegate = viewController
-        
         window = UIWindow()
-        window?.rootViewController = ContainerViewController(
-            contentViewController: viewController,
-            bottomSheetViewController: bottomSheetContentViewController,
-            bottomSheetConfiguration: .init(
-                height: UIScreen.main.bounds.height * 0.8,
-                initialOffset: 200 + window!.safeAreaInsets.bottom
-            )
-        )
+        window?.rootViewController = ContainerViewController()
         window?.makeKeyAndVisible()
         
         return true
