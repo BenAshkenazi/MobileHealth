@@ -16,7 +16,9 @@ class BottomSheetContentViewController: UIViewController {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var rangePicker: UIButton!
    // @IBOutlet var faqButton: UIButton!
+    @IBOutlet var ShowClosedButton: UIButton!
     
+    var showClosedToggle = true
     var chosenRange = 0.0
     
     weak var delegate: BottomSheetDelegate?
@@ -34,6 +36,10 @@ class BottomSheetContentViewController: UIViewController {
         self.view.layer.shadowOffset = .init(width: 0, height: -2)
         self.view.layer.shadowRadius = 20
         self.view.layer.shadowOpacity = 0.5
+       
+        ShowClosedButton.backgroundColor = .white
+        ShowClosedButton.layer.cornerRadius = 5.0
+        
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         //setupSearchButton()
         setupDatePicker()
@@ -41,6 +47,14 @@ class BottomSheetContentViewController: UIViewController {
         setupConstraints()
     }
 
+    @IBAction func showClosedUnitsTapped(_ sender: Any) {
+        print("Kar: Closed units button tapped:\(showClosedToggle)")
+        updateShowClosedText()
+        
+        delegate?.didTapSearchButton(date: selectedDateAndTime, range: chosenRange, showClosed: showClosedToggle)
+        showClosedToggle = !showClosedToggle
+    }
+    
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         // Check for values set within range picker and date picker
         let selectedDate = datePicker.date
@@ -48,11 +62,14 @@ class BottomSheetContentViewController: UIViewController {
         print("This range was chosen \(chosenRange)")
         print("Search button tapped. Selected date and time: \(selectedDate)")
         
+        showClosedToggle = false
+        updateShowClosedText()
         if let delegate = delegate {
-            delegate.didTapSearchButton(date: selectedDate, range: chosenRange)
+            delegate.didTapSearchButton(date: selectedDate, range: chosenRange, showClosed: showClosedToggle)
         } else {
             print("Delegate is nil")
         }
+        
         
         searchButton.isEnabled = false
         let timer = Timer.scheduledTimer(withTimeInterval: 1.25, repeats: false) { timer in
@@ -108,6 +125,19 @@ class BottomSheetContentViewController: UIViewController {
         rangePicker.showsMenuAsPrimaryAction = true
         rangePicker.changesSelectionAsPrimaryAction = true
 
+    }
+    
+    func updateShowClosedText(){
+        if ShowClosedButton.titleLabel?.text == "Hide Closed Units" {
+            showClosedToggle = false
+        }else{
+            showClosedToggle = true
+        }
+        if(showClosedToggle){
+            ShowClosedButton.setTitle("Hide Closed Units", for: .normal)
+        }else{
+            ShowClosedButton.setTitle("Show Closed Units", for: .normal)
+        }
     }
     
     func setupConstraints() {

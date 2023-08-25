@@ -13,7 +13,7 @@ import Network
 
 
 protocol BottomSheetDelegate: AnyObject {
-    func didTapSearchButton(date: Date, range: Double)
+    func didTapSearchButton(date: Date, range: Double, showClosed: Bool)
 }
 
 let defaultKey = "TestFirst"
@@ -126,7 +126,7 @@ class MainViewController: UIViewController {
     
     
 
-    func searchForOpenMobileUnits(on date: Date, range: Double) {
+    func searchForOpenMobileUnits(on date: Date, range: Double, showClosed: Bool) {
         
         //var openUnits = [HealthUnit]()
         
@@ -165,13 +165,13 @@ class MainViewController: UIViewController {
         }
 
         dispatchGroup.notify(queue: .main) {
-            self.processFoundUnits(openUnits: openUnits, date: date)
+            self.processFoundUnits(openUnits: openUnits, date: date, showClosed: showClosed)
         }
         
             
         }
     
-    func processFoundUnits(openUnits: [HealthUnit], date: Date) {
+    func processFoundUnits(openUnits: [HealthUnit], date: Date, showClosed: Bool) {
         var closedButRanged = [HealthUnit]()
         var currentlyOpenUnits = [HealthUnit]()
         mobileUnits = openUnits
@@ -221,12 +221,12 @@ class MainViewController: UIViewController {
        
         
         dispatchGroup.notify(queue: .main) {
-            self.displayFoundUnits(currentlyOpenUnits: currentlyOpenUnits, oldOpenPoints: openPoints, closedButRanged: closedButRanged, closedPoints: closedPoints, date: date)
+            self.displayFoundUnits(currentlyOpenUnits: currentlyOpenUnits, oldOpenPoints: openPoints, closedButRanged: closedButRanged, closedPoints: closedPoints, date: date, showClosed: showClosed)
         }
     }
     
     
-    func displayFoundUnits(currentlyOpenUnits: [HealthUnit], oldOpenPoints: [MKMapPoint], closedButRanged: [HealthUnit], closedPoints: [MKMapPoint], date: Date){
+    func displayFoundUnits(currentlyOpenUnits: [HealthUnit], oldOpenPoints: [MKMapPoint], closedButRanged: [HealthUnit], closedPoints: [MKMapPoint], date: Date, showClosed: Bool){
         
         var openPoints = oldOpenPoints
         
@@ -258,7 +258,7 @@ class MainViewController: UIViewController {
             }
             networkCheck.addObserver(observer: self)
             //}
-            if !firstPress {
+            if !firstPress && !showClosed {
                 let alert = UIAlertController(title: "No Units Available", message: userErrorMsg, preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alert.addAction(okAction)
@@ -288,7 +288,8 @@ class MainViewController: UIViewController {
         var yOffset: CLLocationDegrees = 0.0 // Offset for spacing out closed units
 
         //Displays closed pins only if the dates are the same as the current date
-        if Date().description.prefix(14) == date.description.prefix(14) {
+        //if Date().description.prefix(14) == date.description.prefix(14) {
+        if showClosed {
             // Add annotations for each closed but ranged unit
             for closedUnit in closedButRanged {
                 closedUnit.location { (coordinate) in
@@ -356,13 +357,14 @@ class MainViewController: UIViewController {
         return false
     }
     
-    func didTapSearchButton(date: Date, range: Double) {
+    func didTapSearchButton(date: Date, range: Double, showClosed: Bool) {
         print("Search button pressed for date: \(date)")
         if(mobileUnits.isEmpty){
             //Refreshes the database if the database is empty
             getDatabase(firstRun: false)
         }
-        searchForOpenMobileUnits(on: date, range: range)
+    
+        searchForOpenMobileUnits(on: date, range: range, showClosed: showClosed)
     }
     
     func getDatabase(firstRun: Bool){
@@ -404,7 +406,7 @@ class MainViewController: UIViewController {
                     mobileUnits = units
                     
                     if firstRun {
-                        searchForOpenMobileUnits(on: Date(), range: 0.0)
+                        searchForOpenMobileUnits(on: Date(), range: 0.0, showClosed: false)
                     }
                 }
         }

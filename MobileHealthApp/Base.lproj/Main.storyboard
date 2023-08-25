@@ -870,19 +870,19 @@ After hours 480.434.2690</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="5" translatesAutoresizingMaskIntoConstraints="NO" id="CGZ-vu-GFo">
-                                <rect key="frame" x="20" y="142" width="180" height="42"/>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="5" translatesAutoresizingMaskIntoConstraints="NO" id="CGZ-vu-GFo">
+                                <rect key="frame" x="20" y="142" width="179" height="42"/>
                                 <color key="tintColor" red="0.3921568627" green="0.1529411765" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="4ml-1Y-Xzs"/>
-                                    <constraint firstAttribute="width" constant="180" id="Oit-zP-EAt"/>
+                                    <constraint firstAttribute="width" constant="179" id="Oit-zP-EAt"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="text" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q3O-zv-5Dc">
-                                <rect key="frame" x="146.66666666666666" y="209" width="100" height="40"/>
+                                <rect key="frame" x="20" y="202" width="100" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="DXE-6l-uI7"/>
@@ -899,6 +899,20 @@ After hours 480.434.2690</string>
                                     <action selector="searchButtonTapped:" destination="Rcs-El-Nwh" eventType="touchUpInside" id="XIk-Kw-OrC"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eIt-fV-YYQ">
+                                <rect key="frame" x="235" y="202" width="142" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="YpG-kP-JJG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Show Closed Units">
+                                    <color key="titleColor" name="LogoColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="showClosedUnitsTapped:" destination="Rcs-El-Nwh" eventType="touchUpInside" id="fQZ-uB-n5G"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KYs-ha-tm0"/>
                         <color key="backgroundColor" red="0.3921568627" green="0.1529411765" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -908,17 +922,21 @@ After hours 480.434.2690</string>
                             <constraint firstItem="GCp-F8-3pb" firstAttribute="top" secondItem="bJm-E2-Aua" secondAttribute="bottom" constant="10" id="D7d-bG-ZGX"/>
                             <constraint firstItem="bJm-E2-Aua" firstAttribute="top" secondItem="KYs-ha-tm0" secondAttribute="top" constant="15" id="HXS-sG-QAi"/>
                             <constraint firstItem="bJm-E2-Aua" firstAttribute="leading" secondItem="KYs-ha-tm0" secondAttribute="leading" constant="20" id="Niv-UZ-bZu"/>
-                            <constraint firstItem="bnX-ud-5NB" firstAttribute="leading" secondItem="CGZ-vu-GFo" secondAttribute="trailing" constant="35" id="YH7-oe-jZB"/>
+                            <constraint firstItem="eIt-fV-YYQ" firstAttribute="trailing" secondItem="iPl-1M-XJe" secondAttribute="trailingMargin" id="Sy3-qL-cxI"/>
+                            <constraint firstItem="bnX-ud-5NB" firstAttribute="leading" secondItem="CGZ-vu-GFo" secondAttribute="trailing" constant="35.999999999999972" id="YH7-oe-jZB"/>
                             <constraint firstItem="KYs-ha-tm0" firstAttribute="trailing" secondItem="bJm-E2-Aua" secondAttribute="trailing" constant="18" id="ZOC-A8-OJS"/>
                             <constraint firstItem="CGZ-vu-GFo" firstAttribute="leading" secondItem="iPl-1M-XJe" secondAttribute="leading" constant="20" id="aWJ-WA-WTh"/>
-                            <constraint firstItem="Q3O-zv-5Dc" firstAttribute="centerX" secondItem="iPl-1M-XJe" secondAttribute="centerX" id="bL2-bl-V3u"/>
+                            <constraint firstItem="eIt-fV-YYQ" firstAttribute="leading" secondItem="bnX-ud-5NB" secondAttribute="leading" id="b2I-Io-ptg"/>
+                            <constraint firstItem="Q3O-zv-5Dc" firstAttribute="centerX" secondItem="iPl-1M-XJe" secondAttribute="centerX" constant="-126.5" id="bL2-bl-V3u"/>
                             <constraint firstItem="GCp-F8-3pb" firstAttribute="leading" secondItem="jbI-BA-mx1" secondAttribute="trailing" constant="174" id="gS5-xQ-hzm"/>
+                            <constraint firstItem="eIt-fV-YYQ" firstAttribute="bottom" secondItem="Q3O-zv-5Dc" secondAttribute="bottom" id="ocq-Ss-ebf"/>
                             <constraint firstItem="CGZ-vu-GFo" firstAttribute="top" secondItem="jbI-BA-mx1" secondAttribute="bottom" constant="5" id="rbp-Sj-5CC"/>
                             <constraint firstItem="bnX-ud-5NB" firstAttribute="top" secondItem="GCp-F8-3pb" secondAttribute="bottom" constant="9" id="uTU-T2-xlR"/>
-                            <constraint firstItem="Q3O-zv-5Dc" firstAttribute="top" secondItem="CGZ-vu-GFo" secondAttribute="bottom" constant="25" id="z9Q-Xe-44t"/>
+                            <constraint firstItem="Q3O-zv-5Dc" firstAttribute="top" secondItem="CGZ-vu-GFo" secondAttribute="bottom" constant="18" id="z9Q-Xe-44t"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="ShowClosedButton" destination="eIt-fV-YYQ" id="51v-Do-1MX"/>
                         <outlet property="avaTitle" destination="bJm-E2-Aua" id="lAc-OK-4jm"/>
                         <outlet property="datePicker" destination="CGZ-vu-GFo" id="H5h-pG-8FO"/>
                         <outlet property="rangePicker" destination="bnX-ud-5NB" id="wgZ-08-1aW"/>
@@ -928,7 +946,7 @@ After hours 480.434.2690</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xqw-6y-A1R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="39" y="728"/>
+            <point key="canvasLocation" x="38.931297709923662" y="727.46478873239437"/>
         </scene>
         <!--Tutorial View Controller-->
         <scene sceneID="nXl-3m-6VX">
