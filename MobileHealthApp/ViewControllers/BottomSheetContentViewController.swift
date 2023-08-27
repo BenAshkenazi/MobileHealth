@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseCore
 import CoreLocation
+import error
 
 class BottomSheetContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
