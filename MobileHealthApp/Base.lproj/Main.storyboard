@@ -910,9 +910,14 @@ After hours 480.434.2690</string>
                                     <color key="titleColor" name="LogoColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="showClosedUnitsTapped:" destination="Rcs-El-Nwh" eventType="touchUpInside" id="fQZ-uB-n5G"/>
+                                    <action selector="ShowClosedUnitsTapped:" destination="Rcs-El-Nwh" eventType="touchUpInside" id="zI3-lb-8i8"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="4EN-Qa-Anl">
+                                <rect key="frame" x="77" y="362" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KYs-ha-tm0"/>
                         <color key="backgroundColor" red="0.3921568627" green="0.1529411765" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -936,12 +941,13 @@ After hours 480.434.2690</string>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="ShowClosedButton" destination="eIt-fV-YYQ" id="51v-Do-1MX"/>
+                        <outlet property="ShowClosedButton" destination="eIt-fV-YYQ" id="rga-Vl-rde"/>
                         <outlet property="avaTitle" destination="bJm-E2-Aua" id="lAc-OK-4jm"/>
                         <outlet property="datePicker" destination="CGZ-vu-GFo" id="H5h-pG-8FO"/>
                         <outlet property="rangePicker" destination="bnX-ud-5NB" id="wgZ-08-1aW"/>
                         <outlet property="rangeTitle" destination="GCp-F8-3pb" id="UWa-QL-bM0"/>
                         <outlet property="searchButton" destination="Q3O-zv-5Dc" id="mq2-IF-5an"/>
+                        <outlet property="unitsListView" destination="4EN-Qa-Anl" id="Iwt-21-lbU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xqw-6y-A1R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
