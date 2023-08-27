@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 import CoreLocation
-import Firebase
+//import Firebase
 import Network
 
 
@@ -31,14 +31,17 @@ class MainViewController: UIViewController {
     
     var mobileUnits = [HealthUnit]()
     
+    var databaseService: DatabaseService?
+    
     //declares search button area controller
     var bottomSheetViewController: BottomSheetContentViewController?
     //internet monitor
     let monitor = NWPathMonitor()
     //default range
     var range = 0.0
+    #warning("Try to remove first run property")
     //zooms only on entrance to the app
-    var firstPress = true
+    var firstRun = true
     //gets screen bounds
     let screenSize: CGRect = UIScreen.main.bounds
     
@@ -47,7 +50,13 @@ class MainViewController: UIViewController {
         setupButtonAppearances()
         bottomSheetViewController = BottomSheetContentViewController()
         bottomSheetViewController?.delegate = self
-        getDatabase(firstRun: firstPress)
+        databaseService?.fetchHealthUnits(completion: { healthUnits in
+            self.mobileUnits = healthUnits
+        })
+        //mobileUnits = databaseService?.getUnfilteredList() ?? []
+        searchForOpenMobileUnits(on: Date(), range: 0.0, showClosed: true)
+        
+        
         //searchForOpenMobileUnits(on: Date(), range: 0.0)
     }
 
@@ -260,13 +269,13 @@ class MainViewController: UIViewController {
             }
             networkCheck.addObserver(observer: self)
             //}
-            if !firstPress && !showClosed {
+            if !firstRun && !showClosed {
                 let alert = UIAlertController(title: "No Units Available", message: userErrorMsg, preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alert.addAction(okAction)
                 self.present(alert, animated: true, completion: nil)
             }else{
-                firstPress = false
+                firstRun = false
             }
         }
         
@@ -362,81 +371,15 @@ class MainViewController: UIViewController {
     func didTapSearchButton(date: Date, range: Double, showClosed: Bool) {
         print("Search button pressed for date: \(date)")
         if(mobileUnits.isEmpty){
-            //Refreshes the database if the database is empty
-            getDatabase(firstRun: false)
+            databaseService?.fetchHealthUnits(completion: { healthUnits in
+                self.mobileUnits = healthUnits
+            })
+           // mobileUnits = databaseService?.getUnfilteredList() ?? []
         }
     
         searchForOpenMobileUnits(on: date, range: range, showClosed: showClosed)
     }
     
-    func getDatabase(firstRun: Bool){
-        let rootRef = Database.database().reference().child("1tccGgPzxsOegrepl329GJkQOYnGcWu2XhLYcgiB_iNE").child("Sheet1")
-                rootRef.observeSingleEvent(of: .value) { [weak self] snapshot, error in
-                    guard let self = self else {
-                        return
-                    }
-                    
-                    if let error = error {
-                        print("Error: \(error)")
-                        return
-                    }
-                    
-                    if !snapshot.exists() {
-                        print("No data found.")
-                        return
-                    }
-                    
-                    var units: [HealthUnit] = []
-                    //Gets data from Firebase and inits a mobile health unit class
-                    for child in snapshot.children {
-                        if let childSnapshot = child as? DataSnapshot,
-                           let dict = childSnapshot.value as? [String: Any] {
-                                let newUnit = HealthUnit(
-                                    rawId: dict["id"] as? String ?? "",
-                                    rawMY: dict["Month and Year"] as? String ?? "",
-                                    name: dict["MHU Name"] as? String ?? "",
-                                    rawnumber: dict["Phone Number"] as? String ?? "",
-                                    rawopen: dict["Opening"] as? String ?? "",
-                                    rawclose: dict["Closing"] as? String ?? "",
-                                    rawdays: dict["Days of the Month Open"] as? String ?? "",
-                                    rawaddr: dict["Address"] as? String ?? "",
-                                    comments: dict["Comments"] as? String ?? ""
-                                )
-                                units.append(newUnit)
-                        }
-                    }
-                    mobileUnits = units
-                    
-                    if firstRun {
-                        searchForOpenMobileUnits(on: Date(), range: 0.0, showClosed: false)
-                    }
-                }
-        }
-    
-    
-   
-    
-//    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
-//        let size = image.size
-//
-//        let widthRatio  = targetSize.width  / size.width
-//        let heightRatio = targetSize.height / size.height
-//
-//        let newSize: CGSize
-//        if widthRatio > heightRatio {
-//            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-//        } else {
-//            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
-//        }
-//
-//        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-//        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-//        image.draw(in: rect)
-//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//
-//        return newImage ?? UIImage()
-//    }
     
 }
 
@@ -466,9 +409,10 @@ extension MainViewController : CLLocationManagerDelegate {
         if let location = locations.first {
             let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            if(firstPress){
+            if(firstRun){
+                #warning("User center error")
                 mapView.setRegion(region, animated: true)
-                //firstPress = false
+                firstRun = false
             }
             
             DispatchQueue.main.async {
