@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		55490D7B2A985B2D003E0810 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55490D7D2A985B2D003E0810 /* Localizable.strings */; };
 		55490D7F2A985BC3003E0810 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D7E2A985BC3003E0810 /* String+Extension.swift */; };
+		55490D842A9BBFE1003E0810 /* UnitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D832A9BBFE1003E0810 /* UnitTableViewCell.swift */; };
+		55490D882A9BC0BC003E0810 /* BottomSheetContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D872A9BC0BC003E0810 /* BottomSheetContentViewController.swift */; };
+		55490D8A2A9BFF05003E0810 /* RestrictedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D892A9BFF05003E0810 /* RestrictedTableView.swift */; };
+		55490D8C2A9C0218003E0810 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D8B2A9C0218003E0810 /* DatabaseService.swift */; };
 		5563B6E82A7834E300943018 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5563B6E72A7834E300943018 /* ProgressViewController.swift */; };
 		5563B70C2A78682800943018 /* BottomDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5563B70B2A78682800943018 /* BottomDetailViewController.swift */; };
 		559847402A6F4AD200256C2A /* FAQsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598473F2A6F4AD200256C2A /* FAQsViewController.swift */; };
@@ -31,7 +35,6 @@
 		55F2620F2A68CA80008F8CD0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55F2620E2A68CA80008F8CD0 /* GoogleService-Info.plist */; };
 		64BEB7C72A626C9800191CD3 /* BottomSheetContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BEB7C62A626C9800191CD3 /* BottomSheetContainerViewController.swift */; };
 		64BEB7CB2A62840C00191CD3 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */; };
-		64BEB7CF2A628FAA00191CD3 /* BottomSheetContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */; };
 		64BEB7D12A62964E00191CD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BEB7D02A62964E00191CD3 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +46,10 @@
 		55490D802A985CEA003E0810 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		55490D812A985CEA003E0810 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		55490D822A985CEA003E0810 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		55490D832A9BBFE1003E0810 /* UnitTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitTableViewCell.swift; sourceTree = "<group>"; };
+		55490D872A9BC0BC003E0810 /* BottomSheetContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetContentViewController.swift; sourceTree = "<group>"; };
+		55490D892A9BFF05003E0810 /* RestrictedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictedTableView.swift; sourceTree = "<group>"; };
+		55490D8B2A9C0218003E0810 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		5563B6E72A7834E300943018 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
 		5563B70B2A78682800943018 /* BottomDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomDetailViewController.swift; sourceTree = "<group>"; };
 		5598473F2A6F4AD200256C2A /* FAQsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQsViewController.swift; sourceTree = "<group>"; };
@@ -62,7 +69,6 @@
 		55F2620E2A68CA80008F8CD0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		64BEB7C62A626C9800191CD3 /* BottomSheetContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetContainerViewController.swift; sourceTree = "<group>"; };
 		64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
-		64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetContentViewController.swift; sourceTree = "<group>"; };
 		64BEB7D02A62964E00191CD3 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,6 +86,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		55490D8D2A9C023E003E0810 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				55490D8B2A9C0218003E0810 /* DatabaseService.swift */,
+				559D9EDC2A89B86C00433942 /* NewAnnotation.swift */,
+				559847432A75E37500256C2A /* Network.swift */,
+				55F2620A2A68C701008F8CD0 /* HealthUnit.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		559D9EE52A93D72400433942 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -93,9 +110,9 @@
 			isa = PBXGroup;
 			children = (
 				55F1D9432A48B01800D58DF3 /* MainViewController.swift */,
-				64BEB7CE2A628FAA00191CD3 /* BottomSheetContentViewController.swift */,
 				64BEB7CA2A62840C00191CD3 /* ContainerViewController.swift */,
 				64BEB7C62A626C9800191CD3 /* BottomSheetContainerViewController.swift */,
+				55490D872A9BC0BC003E0810 /* BottomSheetContentViewController.swift */,
 				55F2620C2A68C716008F8CD0 /* DetailViewController.swift */,
 				5598473F2A6F4AD200256C2A /* FAQsViewController.swift */,
 				559D9EE02A92C50400433942 /* WelcomeViewController.swift */,
@@ -126,10 +143,9 @@
 			isa = PBXGroup;
 			children = (
 				55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */,
+				55490D8D2A9C023E003E0810 /* Services */,
 				559D9EE62A93D76000433942 /* ViewControllers */,
-				559D9EDC2A89B86C00433942 /* NewAnnotation.swift */,
-				559847432A75E37500256C2A /* Network.swift */,
-				55F2620A2A68C701008F8CD0 /* HealthUnit.swift */,
+				55490D832A9BBFE1003E0810 /* UnitTableViewCell.swift */,
 				64BEB7D02A62964E00191CD3 /* SceneDelegate.swift */,
 				55F1D9452A48B01900D58DF3 /* Main.storyboard */,
 				55F1D9482A48B01C00D58DF3 /* Assets.xcassets */,
@@ -139,6 +155,7 @@
 				55F1D94D2A48B01C00D58DF3 /* Info.plist */,
 				559D9EE52A93D72400433942 /* Extensions */,
 				55490D7D2A985B2D003E0810 /* Localizable.strings */,
+				55490D892A9BFF05003E0810 /* RestrictedTableView.swift */,
 			);
 			path = MobileHealthApp;
 			sourceTree = "<group>";
@@ -228,17 +245,20 @@
 			files = (
 				559847442A75E37500256C2A /* Network.swift in Sources */,
 				55F2620D2A68C716008F8CD0 /* DetailViewController.swift in Sources */,
+				55490D8A2A9BFF05003E0810 /* RestrictedTableView.swift in Sources */,
 				55F1D9442A48B01800D58DF3 /* MainViewController.swift in Sources */,
 				559D9EDD2A89B86C00433942 /* NewAnnotation.swift in Sources */,
 				5563B6E82A7834E300943018 /* ProgressViewController.swift in Sources */,
+				55490D8C2A9C0218003E0810 /* DatabaseService.swift in Sources */,
 				5563B70C2A78682800943018 /* BottomDetailViewController.swift in Sources */,
 				559D9EE12A92C50400433942 /* WelcomeViewController.swift in Sources */,
 				55F1D9402A48B01800D58DF3 /* AppDelegate.swift in Sources */,
 				55490D7F2A985BC3003E0810 /* String+Extension.swift in Sources */,
 				559D9EDB2A89966700433942 /* TutorialViewController.swift in Sources */,
-				64BEB7CF2A628FAA00191CD3 /* BottomSheetContentViewController.swift in Sources */,
+				55490D842A9BBFE1003E0810 /* UnitTableViewCell.swift in Sources */,
 				559847402A6F4AD200256C2A /* FAQsViewController.swift in Sources */,
 				559D9EE32A93D6C200433942 /* UIImage+Extension.swift in Sources */,
+				55490D882A9BC0BC003E0810 /* BottomSheetContentViewController.swift in Sources */,
 				64BEB7C72A626C9800191CD3 /* BottomSheetContainerViewController.swift in Sources */,
 				64BEB7CB2A62840C00191CD3 /* ContainerViewController.swift in Sources */,
 				64BEB7D12A62964E00191CD3 /* SceneDelegate.swift in Sources */,
@@ -402,7 +422,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8QM2CUZSC2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MobileHealthApp/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "MobileHealth needs to access your location even when you're not using the app, so we can notify you about mobile health units in your vicinity. Your location data is only used for this purpose.";
@@ -431,7 +451,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8QM2CUZSC2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MobileHealthApp/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "MobileHealth needs to access your location even when you're not using the app, so we can notify you about mobile health units in your vicinity. Your location data is only used for this purpose.";

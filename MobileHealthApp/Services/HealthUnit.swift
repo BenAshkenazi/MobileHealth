@@ -4,6 +4,18 @@
 //
 //  Created by Ben Ashkenazi on 7/8/23.
 //
+//
+//  HealthUnit.swift
+//  MobileHealthApp
+//
+//  Created by Ben Ashkenazi on 7/8/23.
+//
+//
+//  HealthUnit.swift
+//  MobileHealthApp
+//
+//  Created by Ben Ashkenazi on 7/8/23.
+//
 
 import Foundation
 import MapKit
@@ -34,6 +46,10 @@ class HealthUnit {
     var comments: String?
     //Default proximity, updated the first time it is checked for range
     var prox = -1.0
+    
+    var availableDay: Int?
+    //var distanceInMiles: Double
+    var distanceToUser: CLLocationDistance?
     
     init(rawId: String, rawMY: String, name: String, rawnumber: String, rawopen: String, rawclose: String, rawdays: String, rawaddr: String, comments: String?) {
         
@@ -98,27 +114,50 @@ class HealthUnit {
     }
     
     //This function is currently unused, may be needed for more thorough data checking, but i think thats unlikely
-    func isComplete()->Bool{
-        if(id==0){
+//    func isComplete()->Bool{
+//        if(id==0){
+//            return false
+//        }
+//        if(name == ""){
+//            return false
+//        }
+//        if(rawdays == ""){
+//            return false
+//        }
+//        if (rawopen == ""){
+//            return false
+//        }
+//        if(number == nil){
+//            return false
+//        }
+//        if(address == nil || address == ""){
+//            return false
+//        }
+//        return true
+//    }
+    
+    func isComplete() -> Bool {
+//        if id == nil || id == 0 {
+//            return false
+//        }
+        if name?.isEmpty ?? true { // If name is nil or empty, return false
             return false
         }
-        if(name == ""){
+        if rawdays?.isEmpty ?? true {
             return false
         }
-        if(rawdays == ""){
+        if rawopen?.isEmpty ?? true {
             return false
         }
-        if (rawopen == ""){
+        if number == nil {
             return false
         }
-        if(number == nil){
-            return false
-        }
-        if(address == nil || address == ""){
+        if address == nil || address!.isEmpty {
             return false
         }
         return true
     }
+    
     //returns location as a coordinate from a string
     func location(completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         let geocoder = CLGeocoder()
@@ -218,3 +257,177 @@ func distanceInMiles(from sourceCoordinate: CLLocationCoordinate2D, to destinati
     
     return distanceInMiles
 }
+
+extension HealthUnit {
+
+    var formattedHours: String {
+        guard let open = self.open else {
+            return "N/A"
+        }
+        
+        guard var close = self.close else {
+            return "\(open) AM"
+        }
+        
+        if var firstHour = Int(close.prefix(2)) {
+            if firstHour > 12 {
+                firstHour -= 12
+                close = "\(firstHour):\(close.suffix(2))"
+            }
+        }
+        return "\(open) AM - \(close) PM"
+    }
+
+    var formattedDays: String {
+        guard let monthYear = self.MonthYear else {
+            return "N/A"
+        }
+        let days = self.days
+
+        var daysTxt = ""
+        var monthString = monthYear.suffix(2)
+        let monthNum = Int(monthString) ?? -1
+        
+        if monthNum == -1 || monthNum < 10 {
+            monthString = monthYear.suffix(1)
+        }
+
+        let dayCount = days.count - 1
+        for (index, day) in days.enumerated() {
+            if index == dayCount {
+                daysTxt += "\(monthString)/\(day ?? 0)"
+            } else if(index % 4 == 0 && index != 0) {
+                daysTxt += "\(monthString)/\(day ?? 0),\n"
+            } else {
+                daysTxt += "\(monthString)/\(day ?? 0),  "
+            }
+        }
+        return daysTxt
+    }
+    
+    func getDayName(from dateString: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d/yyyy"
+        if let date = dateFormatter.date(from: dateString) {
+            let calendar = Calendar.current
+            let dayOfWeek = calendar.component(.weekday, from: date)
+            return dateFormatter.weekdaySymbols[dayOfWeek - 1]
+        }
+        return nil
+    }
+    
+    var formattedDaysName: String {
+        guard let monthYear = self.MonthYear else {
+            return "N/A"
+        }
+        let days = self.days
+
+        var daysTxt = ""
+        var monthString = monthYear.suffix(2)
+        let monthNum = Int(monthString) ?? -1
+        
+        if monthNum == -1 || monthNum < 10 {
+            monthString = monthYear.suffix(1)
+        }
+        
+        let calendar = Calendar.current
+
+        var uniqueDays = Set<String>() // To keep track of unique days
+        
+        for day in days {
+            if let dayInt = day {
+                let dateString = "\(monthNum)/\(dayInt)/\(calendar.component(.year, from: Date()))"
+                
+                if let dayName = getDayName(from: dateString), !uniqueDays.contains(dayName) {
+                    uniqueDays.insert(dayName)
+                    
+                    if !daysTxt.isEmpty {
+                        daysTxt += ", "
+                    }
+                    
+                    daysTxt += dayName
+                }
+            }
+        }
+        
+        return daysTxt
+    }
+
+    var daysAsIntegers: [Int] {
+        return self.days.compactMap { $0 }
+    }
+    
+//    func calculateDistanceFromUserLocation(userLoc: CLLocationCoordinate2D, completion: @escaping (Bool) -> Void) {
+//        guard !address!.isEmpty else {
+//            print("Address is empty.")
+//            self.distanceToUser = nil
+//            completion(false)
+//            return
+//        }
+//
+//        geocodeAddress(address: address!) { coordinate, error in
+//            if let coordinate = coordinate {
+//                let distance = distanceInMiles(from: userLoc, to: coordinate)
+//                self.distanceToUser = distance
+//                completion(true)
+//            } else {
+//                print("Failed to get location for address: \(self.address)")
+//                self.distanceToUser = nil
+//                completion(false)
+//            }
+//        }
+//    }
+
+    func calculateDistanceFromUserLocation(userLoc: CLLocationCoordinate2D, completion: @escaping (Bool) -> Void) {
+        guard !address!.isEmpty else {
+            print("Address is empty.")
+            self.prox = -1.0 // Set a default value to indicate failure
+            completion(false)
+            return
+        }
+        
+        geocodeAddress(address: address!) { coordinate, error in
+            if let coordinate = coordinate {
+                let distance = distanceInMiles(from: userLoc, to: coordinate)
+                self.prox = distance // Store the calculated distance in the prox variable
+                completion(true)
+            } else {
+                print("Failed to get location for address: \(self.address)")
+                self.prox = -1.0 // Set a default value to indicate failure
+                completion(false)
+            }
+        }
+    }
+
+
+    private func geocodeAddress(address: String, completion: @escaping (CLLocationCoordinate2D?, Error?) -> Void) {
+        let geocoder = CLGeocoder()
+
+        geocoder.geocodeAddressString(address) { placemarks, error in
+            if let error = error {
+                print("Geocoding error: \(error)")
+                completion(nil, error)
+                return
+            }
+
+            guard let coordinate = placemarks?.first?.location?.coordinate else {
+                print("Failed to get location for address: \(address)")
+                completion(nil, nil)
+                return
+            }
+
+            completion(coordinate, nil)
+        }
+    }
+}
+
+//extension HealthUnit {
+//    func distanceFromUserLocation(userLoc: CLLocationCoordinate2D) -> CLLocationDistance? {
+//        guard let coordinate = geocodeAddressSync(address: rawAddress)?.location?.coordinate else {
+//            print("Failed to get location for address: \(rawAddress)")
+//            return nil
+//        }
+//
+//        return distanceInMiles(from: userLoc, to: coordinate)
+//    }
+//}
