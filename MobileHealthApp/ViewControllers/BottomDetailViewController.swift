@@ -7,11 +7,13 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class BottomDetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
     var unit: HealthUnit?
-    
+    var userLocation: CLLocationCoordinate2D?
+
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var dismissButton: UIButton!
     @IBOutlet var mapsButton: UIButton!
@@ -28,6 +30,8 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
     @IBOutlet var Line1: UIImageView!
     @IBOutlet var Line2: UIImageView!
     @IBOutlet var Line3: UIImageView!
+    
+    
     
     weak var delegate: BottomSheetDelegate?
     

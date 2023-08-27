@@ -10,9 +10,8 @@ import UIKit
 import Firebase
 import FirebaseCore
 import CoreLocation
-import error
 
-class BottomSheetContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class BottomSheetContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
 
     @IBOutlet var avaTitle: UILabel!
     @IBOutlet var rangeTitle: UILabel!
@@ -20,25 +19,45 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var rangePicker: UIButton!
    // @IBOutlet var faqButton: UIButton!
+    @IBOutlet var listLabel: UILabel!
     
     @IBOutlet var ShowClosedButton: UIButton!
     @IBOutlet weak var unitsListView: UITableView!
     
-    var mobileUnits: [HealthUnit] = []
-    
-    var showClosedToggle = true
+    //var mobileUnits: [HealthUnit] = []
+    var mobileUnits: [HealthUnit] = [] {
+        didSet {
+            openUnitsNextWeek = mobileUnits.filter { isOpenWithinNextWeek(unit: $0) }.sortedByAvailableDay()
+            //sortUnitsByAvailableDay()
+            unitsListView.reloadData()
+        }
+    }
+
+    var openUnitsNextWeek: [HealthUnit] = []
     var chosenRange = 0.0
-    var cellColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
+    var showClosedToggle = true
     
     weak var delegate: BottomSheetDelegate?
-
+    
+    var currentDate = Date()
+    //let calendar = Calendar.current
+    let calendar = Calendar(identifier: .gregorian)
+    var oneWeekLater: Date?
+    
+    var cellColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
+    
     var selectedDateAndTime: Date {
         return datePicker.date
     }
+    
+    var userLocation: CLLocationCoordinate2D!
+    let locationManager = CLLocationManager()
+    
+    let geocoder = CLGeocoder()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.view.backgroundColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
+        
         self.view.layer.cornerRadius = 25
         self.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         self.view.layer.shadowColor = UIColor.black.cgColor
@@ -53,75 +72,99 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         
         unitsListView.dataSource = self
         unitsListView.delegate = self
-        unitsListView.backgroundColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
+        unitsListView.backgroundColor = cellColor
+        unitsListView.layer.cornerRadius = 20
+        unitsListView.layer.masksToBounds = true
+        unitsListView.separatorStyle = .singleLine
+        unitsListView.separatorColor = .black
         
+        view.addSubview(unitsListView)
         unitsListView.register(UnitTableViewCell.self, forCellReuseIdentifier: "UnitCell")
         getDatabase()
         
-        ShowClosedButton.backgroundColor = .white
-        ShowClosedButton.layer.cornerRadius = 5.0
-       
+        // Set the desired time zone to Phoenix, AZ
+        let phoenixTimeZone = TimeZone(identifier: "America/Phoenix")!
 
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        unitsListView.reloadData()
+        // Adjust the time zone of currentDate and oneWeekLater
+        currentDate = currentDate.inTimeZone(phoenixTimeZone)
+        //oneWeekLater = oneWeekLater?.inTimeZone(phoenixTimeZone)
         
-    }
-    
-    @IBAction func ShowClosedUnitsTapped(_ sender: Any) {
-         updateShowClosedText()
-        delegate?.didTapSearchButton(date: selectedDateAndTime, range: chosenRange, showClosed: showClosedToggle)
-        showClosedToggle = !showClosedToggle
+        //oneWeekLater = calendar.date(byAdding: .weekOfYear, value: 1, to: currentDate)
+        oneWeekLater = calendar.date(byAdding: .day, value: 6, to: currentDate)
+        //setupDates()
+        //print("Current Date: \(currentDate)")
+        //print("One Week Later: \(oneWeekLater)")
+        // Now you can use `oneWeekLater` elsewhere in your class
+        //print("Number of mobile units: \(mobileUnits.count)")
+        //openUnitsNextWeek = mobileUnits.filter { isOpenWithinNextWeek(unit: $0) }
+        //print("Number of units open next week: \(openUnitsNextWeek.count)")
+        print("Current Date: \(currentDate)")
+        //print("One Week Later: \(oneWeekLater)")
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mobileUnits.count
+        return openUnitsNextWeek.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UnitCell", for: indexPath)
-        let unit = mobileUnits[indexPath.row]
-        cell.textLabel?.text = unit.name
-        cell.backgroundColor = cellColor
 
-        // Set the selection style to none
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UnitCell", for: indexPath) as! UnitTableViewCell
+        let unit = openUnitsNextWeek[indexPath.row]
+        cell.configure(with: unit)
+        cell.backgroundColor = cellColor
         cell.selectionStyle = .none
-       
-        // You can customize the cell further as needed
         return cell
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            
-            // Highlight with the custom color
-            cell.contentView.backgroundColor = UIColor(named: "LogoColor") // FFD4EE
+        // Perform the segue and other necessary actions
+        performSegue(withIdentifier: "showDetail", sender: self)
 
-            // Perform the segue and other necessary actions
-            performSegue(withIdentifier: "showDetail", sender: self)
-
-            // Delay the deselection and color revert by 1 second
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                tableView.deselectRow(at: indexPath, animated: true)
-                cell.contentView.backgroundColor = self.cellColor// Original color
-            }
+        // Delay the deselection and color revert by 1 second
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 80
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail",
            let destinationVC = segue.destination as? BottomDetailViewController,
            let selectedIndexPath = unitsListView.indexPathForSelectedRow {
-            let selectedUnit = mobileUnits[selectedIndexPath.row] // Use mobileUnits instead of units
+            let selectedUnit = openUnitsNextWeek[selectedIndexPath.row] // Use mobileUnits instead of units
             destinationVC.unit = selectedUnit
+            destinationVC.userLocation = userLocation
         }
     }
+    
+    @IBAction func showClosedUnitsTapped(_ sender: Any) {
+       print("Kar: Closed units button tapped:\(showClosedToggle)")
+       updateShowClosedText()
+       
+       delegate?.didTapSearchButton(date: selectedDateAndTime, range: chosenRange, showClosed: showClosedToggle)
+       showClosedToggle = !showClosedToggle
+   }
+    
+    func updateShowClosedText(){
+       if ShowClosedButton.titleLabel?.text == "Hide Closed Units" {
+           showClosedToggle = false
+       }else{
+           showClosedToggle = true
+       }
+       if(showClosedToggle){
+           ShowClosedButton.setTitle("Hide Closed Units", for: .normal)
+       }else{
+           ShowClosedButton.setTitle("Show Closed Units", for: .normal)
+       }
+   }
     
     func getDatabase() {
         let rootRef = Database.database().reference().child("1tccGgPzxsOegrepl329GJkQOYnGcWu2XhLYcgiB_iNE").child("Sheet1")
@@ -157,50 +200,125 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
                         comments: dict["Comments"] as? String ?? ""
                     )
                     print("Unit: \(String(describing: newUnit.name)), Complete: \(newUnit.isComplete())") // Print each unit and whether it's complete
+                    if userLocation != nil{
+                        newUnit.calculateDistanceFromUserLocation(userLoc: userLocation) { success in
+                            if success {
+                                // Reload your table view data here
+                                DispatchQueue.main.async {
+                                    self.unitsListView.reloadData()
+                                }
+                            }
+                        }
+                    }
+                    
                     units.append(newUnit)
                 }
             }
-            
+
             let completeUnits = units.filter { $0.isComplete() }
             print("Complete units count: \(completeUnits.count)") // Print the count of complete units
+            // Sort the units by availableDay
+            let sortedUnits = completeUnits.sortedByAvailableDay()
             // Update mobile units and reload table view
-            self.mobileUnits = completeUnits
-            self.unitsListView.reloadData()
+            self.mobileUnits = sortedUnits
+            //self.unitsListView.reloadData()
+            print("Fetched mobile units count: \(mobileUnits.count)")
+            print("Open units next week count: \(openUnitsNextWeek.count)")
         }
+    }
+    
+    func isOpenWithinNextWeek(unit: HealthUnit) -> Bool {
+        print("Checking unit: \(String(describing: unit.name))") // Printing the unit being checked
+
+        guard let monthYearString = unit.MonthYear else {
+            print("MonthYear is nil for unit: \(unit)")
+            return false
+        }
+
+        let monthYearComponents = monthYearString.split(separator: "-")
+        guard monthYearComponents.count == 2,
+              let month = Int(monthYearComponents[1]),
+              let year = Int(monthYearComponents[0]) else {
+            print("Error parsing: \(monthYearString)")
+            return false
+        }
+        
+        print("Parsed month: \(month) and year: \(year)") // Printing parsed month and year
+
+        let days = unit.daysAsIntegers
+
+        print("Days for unit: \(days)") // Printing the list of days
+        
+        var availableDay: Int? = nil
+
+        for dayInt in days {
+            //let unitDate = DateComponents(calendar: calendar, year: year, month: month, day: dayInt).date
+            var components = DateComponents()
+            components.year = year
+            components.month = month
+            components.day = dayInt
+            let unitDate = calendar.date(from: components)
+            
+            if let unitDate = unitDate {
+                print("Constructed date: \(unitDate), currentDate: \(currentDate), oneWeekLater: \(oneWeekLater!)") // Printing the dates being compared
+                
+                if unitDate >= currentDate && unitDate <= oneWeekLater! {
+                    let weekday = calendar.component(.weekday, from: unitDate)
+                    //availableDay = calendar.component(.weekday, from: unitDate)
+                    let daysDifference = calendar.dateComponents([.day], from: currentDate, to: unitDate).day!
+                    availableDay = 2 + (daysDifference + calendar.component(.weekday, from: currentDate)) % 7
+                    if availableDay == 0 {
+                        availableDay = 7
+                    }
+                    unit.availableDay = availableDay
+                    print("Constructed date: \(unitDate), availableDay: \(availableDay!)")
+                    //return true
+                    break
+                }
+            } else {
+                print("Failed to construct date for day: \(dayInt)")
+            }
+        }
+        
+        // Save the available day if found
+        if let availableDay = availableDay {
+            // Here you can use the 'availableDay' integer as needed
+            print("Available day: \(availableDay)")
+        }
+
+        //return false
+        return availableDay != nil
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let userLocation = locations.last?.coordinate else {
+            return
+        }
+
+        // Update your userLocation property with the real-time location
+        self.userLocation = userLocation
+
+        // Perform any additional actions that require the updated user location
+        getDatabase()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Location manager error: \(error.localizedDescription)")
     }
 
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         // Check for values set within range picker and date picker
-          let selectedDate = datePicker.date
-          
-          print("This range was chosen \(chosenRange)")
-          print("Search button tapped. Selected date and time: \(selectedDate)")
-          
-          showClosedToggle = false
-          updateShowClosedText()
-          if let delegate = delegate {
-              delegate.didTapSearchButton(date: selectedDate, range: chosenRange, showClosed: showClosedToggle)
-          } else {
-              print("Delegate is nil")
-          }
-          
-          
-          searchButton.isEnabled = false
-          let timer = Timer.scheduledTimer(withTimeInterval: 1.25, repeats: false) { timer in
-              self.searchButton.isEnabled = true
-          }
-    }
-    
-    func updateShowClosedText(){
-        if ShowClosedButton.titleLabel?.text == "Hide Closed Units" {
-            showClosedToggle = false
-        }else{
-            showClosedToggle = true
-        }
-        if(showClosedToggle){
-            ShowClosedButton.setTitle("Hide Closed Units", for: .normal)
-        }else{
-            ShowClosedButton.setTitle("Show Closed Units", for: .normal)
+        let selectedDate = datePicker.date
+        
+        print("This range was chosen \(chosenRange)")
+        print("Search button tapped. Selected date and time: \(selectedDate)")
+        
+        showClosedToggle = false
+        if let delegate = delegate {
+            //this may cause some errors
+            delegate.didTapSearchButton(date: selectedDate, range: chosenRange, showClosed: showClosedToggle)
+        } else {
+            print("Delegate is nil")
         }
     }
     
@@ -211,20 +329,19 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     
     func setupDatePicker() {
         datePicker.alpha = 1
-       datePicker.layer.cornerRadius = 10
-       datePicker.clipsToBounds = true
+        datePicker.layer.cornerRadius = 10
+        datePicker.clipsToBounds = true
 
-       datePicker.setValue(UIColor(named: "LogoColor"), forKeyPath: "textColor")
-       datePicker.setValue(false, forKeyPath: "highlightsToday")
-       datePicker.setValue(UIColor.white, forKey: "backgroundColor")
-        
+        datePicker.setValue(UIColor(named: "LogoColor"), forKeyPath: "textColor")
+        datePicker.setValue(false, forKeyPath: "highlightsToday")
+        datePicker.setValue(UIColor.white, forKey: "backgroundColor")
     }
     
     func setupRangePicker(){
         //Sets chosen range equal to value within range picker
         let optionClosure = {(action: UIAction) in
             print(action.title)
-            if(action.title == "Anywhere".localized){
+            if(action.title == "Anywhere"){
                 self.chosenRange = 0.0
             }else if(action.title == "1 Mile"){
                 self.chosenRange = 1.0
@@ -241,7 +358,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         
         
         rangePicker.menu = UIMenu(children: [
-            UIAction(title: "Anywhere".localized, state: .on, handler: optionClosure),
+            UIAction(title: "Anywhere", state: .on, handler: optionClosure),
             UIAction(title: "1 Mile", state: .on, handler: optionClosure),
             UIAction(title: "5 Miles", handler: optionClosure),
             UIAction(title: "10 Miles", handler: optionClosure),
@@ -263,9 +380,25 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         let topViewHeight = self.view.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: topViewHeightMultiplier)
         topViewHeight.priority = .defaultHigh // Give priority to this constraint to prevent conflicts
         topViewHeight.isActive = true
+        
+
     }
+    
 
 }
 
+extension Array where Element == HealthUnit {
+    func sortedByAvailableDay() -> [HealthUnit] {
+        return self.sorted { (unit1, unit2) -> Bool in
+            return unit1.availableDay ?? 0 < unit2.availableDay ?? 0
+        }
+    }
+}
 
-
+extension Date {
+    func inTimeZone(_ timeZone: TimeZone) -> Date {
+        let calendar = Calendar.current
+        let currentComponents = calendar.dateComponents(in: timeZone, from: self)
+        return calendar.date(from: currentComponents) ?? self
+    }
+}
