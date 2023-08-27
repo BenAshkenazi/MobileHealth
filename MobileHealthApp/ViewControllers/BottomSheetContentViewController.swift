@@ -7,8 +7,6 @@
 
 import Foundation
 import UIKit
-import Firebase
-import FirebaseCore
 import CoreLocation
 
 class BottomSheetContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
@@ -24,16 +22,22 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     @IBOutlet var ShowClosedButton: UIButton!
     @IBOutlet weak var unitsListView: RestrictedUITableView!
     
-    //var mobileUnits: [HealthUnit] = []
+    var databaseService: DatabaseService?
     var mobileUnits: [HealthUnit] = [] {
         didSet {
+            print("This is the mobileunits.count \(mobileUnits.count)")
             openUnitsNextWeek = mobileUnits.filter { isOpenWithinNextWeek(unit: $0) }.sortedByAvailableDay()
             //sortUnitsByAvailableDay()
             unitsListView.reloadData()
         }
     }
 
-    var openUnitsNextWeek: [HealthUnit] = []
+    var openUnitsNextWeek: [HealthUnit] = [] {
+        didSet
+        {
+            unitsListView.reloadData()
+        }
+    }
     var chosenRange = 0.0
     var showClosedToggle = true
     
@@ -82,8 +86,12 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         
         view.addSubview(unitsListView)
         unitsListView.register(UnitTableViewCell.self, forCellReuseIdentifier: "UnitCell")
-        getDatabase()
         
+        //mobileUnits = databaseService?.getUnfilteredList() ?? []
+        databaseService?.fetchHealthUnits(completion: { healthUnits in
+            self.mobileUnits = healthUnits
+        })
+        filterByWeek()
         // Set the desired time zone to Phoenix, AZ
         let phoenixTimeZone = TimeZone(identifier: "America/Phoenix")!
 
@@ -175,65 +183,18 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
        }
    }
     
-    func getDatabase() {
-        let rootRef = Database.database().reference().child("1tccGgPzxsOegrepl329GJkQOYnGcWu2XhLYcgiB_iNE").child("Sheet1")
-        rootRef.observeSingleEvent(of: .value) { [weak self] snapshot, error in
-            guard let self = self else {
-                return
-            }
-
-            if let error = error {
-                print("Error: \(error)")
-                return
-            }
-
-            if !snapshot.exists() {
-                print("No data found.")
-                return
-            }
-
-            var units: [HealthUnit] = []
-            // Gets data from Firebase and inits a mobile health unit class
-            for child in snapshot.children {
-                if let childSnapshot = child as? DataSnapshot,
-                   let dict = childSnapshot.value as? [String: Any] {
-                    let newUnit = HealthUnit(
-                        rawId: dict["id"] as? String ?? "",
-                        rawMY: dict["Month and Year"] as? String ?? "",
-                        name: dict["MHU Name"] as? String ?? "",
-                        rawnumber: dict["Phone Number"] as? String ?? "",
-                        rawopen: dict["Opening"] as? String ?? "",
-                        rawclose: dict["Closing"] as? String ?? "",
-                        rawdays: dict["Days of the Month Open"] as? String ?? "",
-                        rawaddr: dict["Address"] as? String ?? "",
-                        comments: dict["Comments"] as? String ?? ""
-                    )
-                    print("Unit: \(String(describing: newUnit.name)), Complete: \(newUnit.isComplete())") // Print each unit and whether it's complete
-                    if userLocation != nil{
-                        newUnit.calculateDistanceFromUserLocation(userLoc: userLocation) { success in
-                            if success {
-                                // Reload your table view data here
-                                DispatchQueue.main.async {
-                                    self.unitsListView.reloadData()
-                                }
-                            }
-                        }
-                    }
-                    
-                    units.append(newUnit)
-                }
-            }
-
-            let completeUnits = units.filter { $0.isComplete() }
-            print("Complete units count: \(completeUnits.count)") // Print the count of complete units
-            // Sort the units by availableDay
-            let sortedUnits = completeUnits.sortedByAvailableDay()
-            // Update mobile units and reload table view
-            self.mobileUnits = sortedUnits
-            //self.unitsListView.reloadData()
-            print("Fetched mobile units count: \(mobileUnits.count)")
-            print("Open units next week count: \(openUnitsNextWeek.count)")
-        }
+    func filterByWeek() {
+   
+        let completeUnits = mobileUnits.filter { $0.isComplete() }
+        print("Complete units count: \(completeUnits.count)") // Print the count of complete units
+        // Sort the units by availableDay
+        let sortedUnits = completeUnits.sortedByAvailableDay()
+        // Update mobile units and reload table view
+        self.mobileUnits = sortedUnits
+        self.unitsListView.reloadData()
+        print("Fetched mobile units count: \(mobileUnits.count)")
+        print("Open units next week count: \(openUnitsNextWeek.count)")
+        
     }
     
     func isOpenWithinNextWeek(unit: HealthUnit) -> Bool {
@@ -299,6 +260,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         return availableDay != nil
     }
     
+    #warning("will refactor location manager")
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let userLocation = locations.last?.coordinate else {
             return
@@ -308,7 +270,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         self.userLocation = userLocation
 
         // Perform any additional actions that require the updated user location
-        getDatabase()
+        //getDatabase()
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
