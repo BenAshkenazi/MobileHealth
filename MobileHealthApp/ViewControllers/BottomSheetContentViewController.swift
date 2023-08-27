@@ -57,6 +57,8 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        ShowClosedButton.backgroundColor = .white
+        ShowClosedButton.layer.cornerRadius = 5.0
         
         self.view.layer.cornerRadius = 25
         self.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -378,7 +380,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         
         // Height Constraint to make sure views fit in the top 30%
         let topViewHeight = self.view.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: topViewHeightMultiplier)
-        topViewHeight.priority = .defaultHigh // Give priority to this constraint to prevent conflicts
+        topViewHeight.priority = .defaultLow // Give priority to this constraint to prevent conflicts
         topViewHeight.isActive = true
         
 
