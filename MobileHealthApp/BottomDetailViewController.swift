@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 protocol BottomDetailViewControllerDelegate: AnyObject {
    func didDismissDetailViewController()
@@ -15,6 +16,7 @@ protocol BottomDetailViewControllerDelegate: AnyObject {
 class BottomDetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
     var unit: HealthUnit?
+    var userLocation: CLLocationCoordinate2D?
     
     weak var delegate: BottomDetailViewControllerDelegate?
     

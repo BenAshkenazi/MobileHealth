@@ -135,7 +135,7 @@
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </datePicker>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="jCf-q8-ryn">
-                                <rect key="frame" x="0.0" y="279" width="393" height="366"/>
+                                <rect key="frame" x="0.0" y="279" width="393" height="353"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
@@ -153,6 +153,7 @@
                     <connections>
                         <outlet property="avaTitle" destination="IPk-oB-O2u" id="or9-HK-uqP"/>
                         <outlet property="datePicker" destination="whl-kg-CLE" id="YPO-r0-NtS"/>
+                        <outlet property="listLabel" destination="i0y-ak-LwS" id="O7d-nd-Tut"/>
                         <outlet property="rangePicker" destination="BVR-te-fH4" id="5Ll-xI-8G2"/>
                         <outlet property="rangeTitle" destination="lm1-Vj-KS6" id="8fI-7p-d3H"/>
                         <outlet property="searchButton" destination="ga8-IO-u3F" id="Z2k-wc-wVb"/>
