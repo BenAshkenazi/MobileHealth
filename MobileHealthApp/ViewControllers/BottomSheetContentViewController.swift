@@ -22,7 +22,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     @IBOutlet var listLabel: UILabel!
     
     @IBOutlet var ShowClosedButton: UIButton!
-    @IBOutlet weak var unitsListView: UITableView!
+    @IBOutlet weak var unitsListView: RestrictedUITableView!
     
     //var mobileUnits: [HealthUnit] = []
     var mobileUnits: [HealthUnit] = [] {
@@ -106,6 +106,9 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
+        unitsListView.delaysContentTouches = false
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -149,18 +152,22 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     
     @IBAction func showClosedUnitsTapped(_ sender: Any) {
        print("Kar: Closed units button tapped:\(showClosedToggle)")
-       updateShowClosedText()
+        updateShowClosedText(searching: false)
        
        delegate?.didTapSearchButton(date: selectedDateAndTime, range: chosenRange, showClosed: showClosedToggle)
        showClosedToggle = !showClosedToggle
    }
     
-    func updateShowClosedText(){
-       if ShowClosedButton.titleLabel?.text == "Hide Closed Units" {
-           showClosedToggle = false
-       }else{
-           showClosedToggle = true
-       }
+    func updateShowClosedText(searching: Bool){
+
+        if (!searching){
+            if ShowClosedButton.titleLabel?.text == "Hide Closed Units" {
+                showClosedToggle = false
+            }else{
+                showClosedToggle = true
+            }
+        }
+      
        if(showClosedToggle){
            ShowClosedButton.setTitle("Hide Closed Units", for: .normal)
        }else{
@@ -315,7 +322,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         print("This range was chosen \(chosenRange)")
         print("Search button tapped. Selected date and time: \(selectedDate)")
         
-        showClosedToggle = false
+        updateShowClosedText(searching: true)
         if let delegate = delegate {
             //this may cause some errors
             delegate.didTapSearchButton(date: selectedDate, range: chosenRange, showClosed: showClosedToggle)
@@ -380,7 +387,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         
         // Height Constraint to make sure views fit in the top 30%
         let topViewHeight = self.view.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: topViewHeightMultiplier)
-        topViewHeight.priority = .defaultLow // Give priority to this constraint to prevent conflicts
+        topViewHeight.priority = .defaultHigh // Give priority to this constraint to prevent conflicts
         topViewHeight.isActive = true
         
 
@@ -404,3 +411,4 @@ extension Date {
         return calendar.date(from: currentComponents) ?? self
     }
 }
+
