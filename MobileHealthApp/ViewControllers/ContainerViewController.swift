@@ -25,7 +25,7 @@ final class ContainerViewController: BottomSheetContainerViewController
         bottomSheetViewController: bottomSheetContentViewController,
         bottomSheetConfiguration: .init(
             height: UIScreen.main.bounds.height * 0.8,
-            initialOffset: 220 //+ window!.safeAreaInsets.bottom
+            initialOffset: 265 //+ window!.safeAreaInsets.bottom
         ))
         
     }

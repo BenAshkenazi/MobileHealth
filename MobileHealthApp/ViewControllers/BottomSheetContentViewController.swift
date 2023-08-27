@@ -27,6 +27,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     
     var showClosedToggle = true
     var chosenRange = 0.0
+    var cellColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
     
     weak var delegate: BottomSheetDelegate?
 
@@ -36,7 +37,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
+        //self.view.backgroundColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
         self.view.layer.cornerRadius = 25
         self.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         self.view.layer.shadowColor = UIColor.black.cgColor
@@ -62,8 +63,13 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        unitsListView.reloadData()
+        
+    }
+    
     @IBAction func ShowClosedUnitsTapped(_ sender: Any) {
-        print("Kar: Closed units button tapped:\(showClosedToggle)")
          updateShowClosedText()
         delegate?.didTapSearchButton(date: selectedDateAndTime, range: chosenRange, showClosed: showClosedToggle)
         showClosedToggle = !showClosedToggle
@@ -77,11 +83,11 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         let cell = tableView.dequeueReusableCell(withIdentifier: "UnitCell", for: indexPath)
         let unit = mobileUnits[indexPath.row]
         cell.textLabel?.text = unit.name
-        cell.backgroundColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
+        cell.backgroundColor = cellColor
 
         // Set the selection style to none
         cell.selectionStyle = .none
-
+       
         // You can customize the cell further as needed
         return cell
     }
@@ -90,7 +96,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         if let cell = tableView.cellForRow(at: indexPath) {
             
             // Highlight with the custom color
-            cell.contentView.backgroundColor = UIColor(red: 255 / 255.0, green: 212 / 255.0, blue: 238 / 255.0, alpha: 1.0) // FFD4EE
+            cell.contentView.backgroundColor = UIColor(named: "LogoColor") // FFD4EE
 
             // Perform the segue and other necessary actions
             performSegue(withIdentifier: "showDetail", sender: self)
@@ -98,7 +104,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
             // Delay the deselection and color revert by 1 second
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 tableView.deselectRow(at: indexPath, animated: true)
-                cell.contentView.backgroundColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0) // Original color
+                cell.contentView.backgroundColor = self.cellColor// Original color
             }
         }
     }
@@ -251,42 +257,6 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         let topViewHeightMultiplier: CGFloat = 0.3
         
         self.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Ava Title (Top Left)
-        avaTitle.translatesAutoresizingMaskIntoConstraints = false
-        avaTitle.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 16).isActive = true
-        avaTitle.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
-        
-        // Date Picker (Below Ava Title)
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        datePicker.topAnchor.constraint(equalTo: avaTitle.bottomAnchor, constant: 8).isActive = true
-        datePicker.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
-        //datePicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
-        
-        // Range Title (Top Right)
-        rangeTitle.translatesAutoresizingMaskIntoConstraints = false
-        rangeTitle.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 32).isActive = true
-        rangeTitle.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
-        
-        // Range Picker (Below Range Title)
-        rangePicker.translatesAutoresizingMaskIntoConstraints = false
-        rangePicker.topAnchor.constraint(equalTo: rangeTitle.bottomAnchor, constant: 8).isActive = true
-        rangePicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
-        
-        let screenWidth = UIScreen.main.bounds.width
-        
-        // Search Button (Centered)
-        searchButton.translatesAutoresizingMaskIntoConstraints = false
-        searchButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        searchButton.topAnchor.constraint(equalTo: rangePicker.bottomAnchor, constant: 32).isActive = true
-        //searchButton.widthAnchor.constraint(lessThanOrEqualToConstant: screenWidth*0.30).isActive = true
-        
-        /*faqButton.translatesAutoresizingMaskIntoConstraints = false
-        faqButton.topAnchor.constraint(equalTo: rangePicker.bottomAnchor, constant: 32).isActive = true
-        faqButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16).isActive = true
-        faqButton.trailingAnchor.constraint(equalTo: searchButton.leadingAnchor, constant: -10).isActive = true
-        let maxWidth = screenWidth * 0.25
-        faqButton.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true*/
         
         // Height Constraint to make sure views fit in the top 30%
         let topViewHeight = self.view.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: topViewHeightMultiplier)

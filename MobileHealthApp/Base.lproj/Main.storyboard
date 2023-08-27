@@ -842,6 +842,12 @@ After hours 480.434.2690</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Mobile Units" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pS1-12-rDV">
+                                <rect key="frame" x="20" y="273" width="219" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bnX-ud-5NB">
                                 <rect key="frame" x="234.99999999999997" y="146" width="99.666666666666657" height="34"/>
                                 <constraints>
@@ -913,33 +919,50 @@ After hours 480.434.2690</string>
                                     <action selector="ShowClosedUnitsTapped:" destination="Rcs-El-Nwh" eventType="touchUpInside" id="zI3-lb-8i8"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="4EN-Qa-Anl">
-                                <rect key="frame" x="77" y="362" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="4EN-Qa-Anl">
+                                <rect key="frame" x="1" y="357" width="393" height="423"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="chevron.compact.up" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="GXr-oQ-tk4">
+                                <rect key="frame" x="197" y="251" width="77" height="69"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KYs-ha-tm0"/>
                         <color key="backgroundColor" red="0.3921568627" green="0.1529411765" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="KYs-ha-tm0" firstAttribute="trailing" secondItem="pS1-12-rDV" secondAttribute="trailing" constant="154" id="32R-Vb-5Lx"/>
+                            <constraint firstItem="4EN-Qa-Anl" firstAttribute="leading" secondItem="KYs-ha-tm0" secondAttribute="leading" constant="1" id="3IP-S1-aqD"/>
                             <constraint firstItem="jbI-BA-mx1" firstAttribute="leading" secondItem="KYs-ha-tm0" secondAttribute="leading" constant="20" id="3t7-Gu-KfT"/>
                             <constraint firstItem="jbI-BA-mx1" firstAttribute="top" secondItem="bJm-E2-Aua" secondAttribute="bottom" constant="10" id="78p-ib-Vnx"/>
+                            <constraint firstItem="KYs-ha-tm0" firstAttribute="bottom" secondItem="4EN-Qa-Anl" secondAttribute="bottom" constant="38" id="7bU-Wb-jNF"/>
                             <constraint firstItem="GCp-F8-3pb" firstAttribute="top" secondItem="bJm-E2-Aua" secondAttribute="bottom" constant="10" id="D7d-bG-ZGX"/>
+                            <constraint firstItem="GXr-oQ-tk4" firstAttribute="top" secondItem="eIt-fV-YYQ" secondAttribute="bottom" constant="2" id="Gpl-xb-FUl"/>
                             <constraint firstItem="bJm-E2-Aua" firstAttribute="top" secondItem="KYs-ha-tm0" secondAttribute="top" constant="15" id="HXS-sG-QAi"/>
+                            <constraint firstItem="4EN-Qa-Anl" firstAttribute="centerX" secondItem="iPl-1M-XJe" secondAttribute="centerX" constant="1" id="Kx3-eU-7x4"/>
                             <constraint firstItem="bJm-E2-Aua" firstAttribute="leading" secondItem="KYs-ha-tm0" secondAttribute="leading" constant="20" id="Niv-UZ-bZu"/>
                             <constraint firstItem="eIt-fV-YYQ" firstAttribute="trailing" secondItem="iPl-1M-XJe" secondAttribute="trailingMargin" id="Sy3-qL-cxI"/>
                             <constraint firstItem="bnX-ud-5NB" firstAttribute="leading" secondItem="CGZ-vu-GFo" secondAttribute="trailing" constant="35.999999999999972" id="YH7-oe-jZB"/>
+                            <constraint firstItem="pS1-12-rDV" firstAttribute="top" secondItem="Q3O-zv-5Dc" secondAttribute="bottom" constant="31" id="Z33-98-sIY"/>
                             <constraint firstItem="KYs-ha-tm0" firstAttribute="trailing" secondItem="bJm-E2-Aua" secondAttribute="trailing" constant="18" id="ZOC-A8-OJS"/>
                             <constraint firstItem="CGZ-vu-GFo" firstAttribute="leading" secondItem="iPl-1M-XJe" secondAttribute="leading" constant="20" id="aWJ-WA-WTh"/>
+                            <constraint firstItem="pS1-12-rDV" firstAttribute="leading" secondItem="iPl-1M-XJe" secondAttribute="leadingMargin" constant="4" id="aZq-O1-fOp"/>
                             <constraint firstItem="eIt-fV-YYQ" firstAttribute="leading" secondItem="bnX-ud-5NB" secondAttribute="leading" id="b2I-Io-ptg"/>
                             <constraint firstItem="Q3O-zv-5Dc" firstAttribute="centerX" secondItem="iPl-1M-XJe" secondAttribute="centerX" constant="-126.5" id="bL2-bl-V3u"/>
                             <constraint firstItem="GCp-F8-3pb" firstAttribute="leading" secondItem="jbI-BA-mx1" secondAttribute="trailing" constant="174" id="gS5-xQ-hzm"/>
+                            <constraint firstItem="KYs-ha-tm0" firstAttribute="trailing" secondItem="GXr-oQ-tk4" secondAttribute="trailing" constant="119" id="oFG-NJ-hGd"/>
                             <constraint firstItem="eIt-fV-YYQ" firstAttribute="bottom" secondItem="Q3O-zv-5Dc" secondAttribute="bottom" id="ocq-Ss-ebf"/>
+                            <constraint firstItem="GXr-oQ-tk4" firstAttribute="leading" secondItem="KYs-ha-tm0" secondAttribute="leading" constant="197" id="qAx-rb-snD"/>
                             <constraint firstItem="CGZ-vu-GFo" firstAttribute="top" secondItem="jbI-BA-mx1" secondAttribute="bottom" constant="5" id="rbp-Sj-5CC"/>
+                            <constraint firstItem="4EN-Qa-Anl" firstAttribute="top" secondItem="pS1-12-rDV" secondAttribute="bottom" constant="60" id="teG-cX-wIg"/>
                             <constraint firstItem="bnX-ud-5NB" firstAttribute="top" secondItem="GCp-F8-3pb" secondAttribute="bottom" constant="9" id="uTU-T2-xlR"/>
+                            <constraint firstItem="GXr-oQ-tk4" firstAttribute="centerY" secondItem="pS1-12-rDV" secondAttribute="centerY" id="uiB-rP-EWf"/>
+                            <constraint firstItem="4EN-Qa-Anl" firstAttribute="top" secondItem="Q3O-zv-5Dc" secondAttribute="bottom" constant="115" id="x3M-H2-X2w"/>
                             <constraint firstItem="Q3O-zv-5Dc" firstAttribute="top" secondItem="CGZ-vu-GFo" secondAttribute="bottom" constant="18" id="z9Q-Xe-44t"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="z9L-rb-bvC"/>
                     <connections>
                         <outlet property="ShowClosedButton" destination="eIt-fV-YYQ" id="rga-Vl-rde"/>
                         <outlet property="avaTitle" destination="bJm-E2-Aua" id="lAc-OK-4jm"/>
@@ -948,6 +971,7 @@ After hours 480.434.2690</string>
                         <outlet property="rangeTitle" destination="GCp-F8-3pb" id="UWa-QL-bM0"/>
                         <outlet property="searchButton" destination="Q3O-zv-5Dc" id="mq2-IF-5an"/>
                         <outlet property="unitsListView" destination="4EN-Qa-Anl" id="Iwt-21-lbU"/>
+                        <segue destination="FJl-NO-7Ki" kind="showDetail" identifier="showDetail" id="ysi-Zv-C5z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xqw-6y-A1R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1046,7 +1070,7 @@ After hours 480.434.2690</string>
             <objects>
                 <viewController storyboardIdentifier="BottomDetailViewController" id="FJl-NO-7Ki" customClass="BottomDetailViewController" customModule="MobileHealthApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5eW-Re-zOm">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnc-Rb-5ox">
@@ -1180,7 +1204,7 @@ After hours 480.434.2690</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZKg-1Q-qe4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1618" y="410"/>
+            <point key="canvasLocation" x="39" y="1429"/>
         </scene>
     </scenes>
     <resources>
@@ -15539,6 +15563,7 @@ D4QADQ+GAA0PiAAND5EADQ+WAA0PnAAND6QADQ+mAA0PqAAND6oADQ+sAA0hTAANIVEADSFeAA0hYQAN
 IW4ADSFzAA0hewANIX4ADSGDAA0hiwAAAAAAAAQBAAAAAAAAAFYAAAAAAAAAAAAAAAAADSGOA
 </mutableData>
         </image>
+        <image name="chevron.compact.up" catalog="system" width="128" height="42"/>
         <image name="clipboard" catalog="system" width="103" height="128"/>
         <image name="ctc_logo" width="53" height="55"/>
         <image name="ctcvectorlogo" width="576" height="180"/>

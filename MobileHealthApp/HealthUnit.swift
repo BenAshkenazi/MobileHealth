@@ -4,6 +4,12 @@
 //
 //  Created by Ben Ashkenazi on 7/8/23.
 //
+//
+//  HealthUnit.swift
+//  MobileHealthApp
+//
+//  Created by Ben Ashkenazi on 7/8/23.
+//
 
 import Foundation
 import MapKit
@@ -98,27 +104,67 @@ class HealthUnit {
     }
     
     //This function is currently unused, may be needed for more thorough data checking, but i think thats unlikely
-    func isComplete()->Bool{
-        if(id==0){
+//    func isComplete()->Bool{
+//        if(id==0){
+//            return false
+//        }
+//        if(name == ""){
+//            return false
+//        }
+//        if(rawdays == ""){
+//            return false
+//        }
+//        if (rawopen == ""){
+//            return false
+//        }
+//        if(number == nil){
+//            return false
+//        }
+//        if(address == nil || address == ""){
+//            return false
+//        }
+//        return true
+//    }
+    
+    func isComplete() -> Bool {
+//        if id == nil || id == 0 {
+//            return false
+//        }
+        if name?.isEmpty ?? true { // If name is nil or empty, return false
             return false
         }
-        if(name == ""){
+        if rawdays?.isEmpty ?? true {
             return false
         }
-        if(rawdays == ""){
+        if rawopen?.isEmpty ?? true {
             return false
         }
-        if (rawopen == ""){
+        if number == nil {
             return false
         }
-        if(number == nil){
+        if address == nil || address!.isEmpty {
             return false
         }
-        if(address == nil || address == ""){
+        
+        if let monthYear = self.MonthYear {
+            let calendar = Calendar.current
+            let searchedMonth = calendar.component(.month, from: Date())
+            let searchedYear = calendar.component(.year, from: Date())
+            let unitMonth = Int(monthYear.suffix(2)) ?? -1
+            let unitYear = Int(monthYear.prefix(4)) ?? -1
+            if searchedMonth == unitMonth && searchedYear == unitYear {
+                return true
+                // print("Count of Mobile units during: \(openAndRanged.count)")
+            } else {
+               return false
+            }
+        } else {
             return false
         }
+        
         return true
     }
+    
     //returns location as a coordinate from a string
     func location(completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         let geocoder = CLGeocoder()
