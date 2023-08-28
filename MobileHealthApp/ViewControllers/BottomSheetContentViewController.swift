@@ -90,6 +90,13 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         //mobileUnits = databaseService?.getUnfilteredList() ?? []
         databaseService?.fetchHealthUnits(completion: { healthUnits in
             self.mobileUnits = healthUnits
+            
+            for unit in self.mobileUnits {
+                unit.isWithin(range: 0.0, userLoc: self.userLocation, address: unit.address ?? "Failed") { isWithinRange in
+                    print("For the next unit, prox is: \(unit.prox)")
+                }
+            }
+           
         })
         filterByWeek()
         // Set the desired time zone to Phoenix, AZ

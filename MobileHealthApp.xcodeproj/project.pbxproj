@@ -13,6 +13,7 @@
 		55490D882A9BC0BC003E0810 /* BottomSheetContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D872A9BC0BC003E0810 /* BottomSheetContentViewController.swift */; };
 		55490D8A2A9BFF05003E0810 /* RestrictedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D892A9BFF05003E0810 /* RestrictedTableView.swift */; };
 		55490D8C2A9C0218003E0810 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D8B2A9C0218003E0810 /* DatabaseService.swift */; };
+		55490D8F2A9D2BC3003E0810 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D8E2A9D2BC3003E0810 /* LocationService.swift */; };
 		5563B6E82A7834E300943018 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5563B6E72A7834E300943018 /* ProgressViewController.swift */; };
 		5563B70C2A78682800943018 /* BottomDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5563B70B2A78682800943018 /* BottomDetailViewController.swift */; };
 		559847402A6F4AD200256C2A /* FAQsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598473F2A6F4AD200256C2A /* FAQsViewController.swift */; };
@@ -50,6 +51,7 @@
 		55490D872A9BC0BC003E0810 /* BottomSheetContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetContentViewController.swift; sourceTree = "<group>"; };
 		55490D892A9BFF05003E0810 /* RestrictedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictedTableView.swift; sourceTree = "<group>"; };
 		55490D8B2A9C0218003E0810 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
+		55490D8E2A9D2BC3003E0810 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		5563B6E72A7834E300943018 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
 		5563B70B2A78682800943018 /* BottomDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomDetailViewController.swift; sourceTree = "<group>"; };
 		5598473F2A6F4AD200256C2A /* FAQsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQsViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				559D9EDC2A89B86C00433942 /* NewAnnotation.swift */,
 				559847432A75E37500256C2A /* Network.swift */,
 				55F2620A2A68C701008F8CD0 /* HealthUnit.swift */,
+				55490D8E2A9D2BC3003E0810 /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				559D9EDD2A89B86C00433942 /* NewAnnotation.swift in Sources */,
 				5563B6E82A7834E300943018 /* ProgressViewController.swift in Sources */,
 				55490D8C2A9C0218003E0810 /* DatabaseService.swift in Sources */,
+				55490D8F2A9D2BC3003E0810 /* LocationService.swift in Sources */,
 				5563B70C2A78682800943018 /* BottomDetailViewController.swift in Sources */,
 				559D9EE12A92C50400433942 /* WelcomeViewController.swift in Sources */,
 				55F1D9402A48B01800D58DF3 /* AppDelegate.swift in Sources */,
