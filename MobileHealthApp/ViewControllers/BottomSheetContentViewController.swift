@@ -90,13 +90,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         //mobileUnits = databaseService?.getUnfilteredList() ?? []
         databaseService?.fetchHealthUnits(completion: { healthUnits in
             self.mobileUnits = healthUnits
-            
-            for unit in self.mobileUnits {
-                unit.isWithin(range: 0.0, userLoc: self.userLocation, address: unit.address ?? "Failed") { isWithinRange in
-                    print("For the next unit, prox is: \(unit.prox)")
-                }
-            }
-           
+            self.setLocations()
         })
         filterByWeek()
         // Set the desired time zone to Phoenix, AZ
@@ -143,6 +137,8 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Perform the segue and other necessary actions
+        setLocations()
+        //unitsListView.reloadData()
         performSegue(withIdentifier: "showDetail", sender: self)
 
         // Delay the deselection and color revert by 1 second
@@ -155,6 +151,15 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         return 100
     }
     
+    func setLocations(){
+        if(self.userLocation != nil){
+            for unit in self.mobileUnits {
+                unit.isWithin(range: 0.0, userLoc: self.userLocation, address: unit.address ?? "Failed") { isWithinRange in
+                    print("For the next unit, prox is: \(unit.prox)")
+                }
+            }
+        }
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail",
            let destinationVC = segue.destination as? BottomDetailViewController,
