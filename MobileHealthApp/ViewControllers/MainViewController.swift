@@ -39,9 +39,13 @@ class MainViewController: UIViewController {
     let monitor = NWPathMonitor()
     //default range
     var range = 0.0
-    #warning("Try to remove first run property")
-    //zooms only on entrance to the app
+   
+    //prevent error message on first entrance to the app
     var firstRun = true
+    
+    //center on user on first entrance
+    var firstCenter = true
+    
     //gets screen bounds
     let screenSize: CGRect = UIScreen.main.bounds
     
@@ -52,9 +56,11 @@ class MainViewController: UIViewController {
         bottomSheetViewController?.delegate = self
         databaseService?.fetchHealthUnits(completion: { healthUnits in
             self.mobileUnits = healthUnits
+            self.searchForOpenMobileUnits(on: Date(), range: 0.0, showClosed: true)
+
         })
         //mobileUnits = databaseService?.getUnfilteredList() ?? []
-        searchForOpenMobileUnits(on: Date(), range: 0.0, showClosed: true)
+        //print("This line was reached. mo")
         
         
         //searchForOpenMobileUnits(on: Date(), range: 0.0)
@@ -409,10 +415,11 @@ extension MainViewController : CLLocationManagerDelegate {
         if let location = locations.first {
             let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            if(firstRun){
+            if(firstCenter){
                 #warning("User center error")
+                print("The mapview was set to the user")
                 mapView.setRegion(region, animated: true)
-                firstRun = false
+                firstCenter = false
             }
             
             DispatchQueue.main.async {
