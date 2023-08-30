@@ -7,7 +7,7 @@
 
 import UIKit
 import MapKit
-import CoreLocation
+//import CoreLocation
 //import Firebase
 import Network
 
@@ -27,11 +27,12 @@ class MainViewController: UIViewController {
     @IBOutlet var locationButton: UIButton!
     @IBOutlet var tutorialButton: UIButton!
     
-    var locationManager: CLLocationManager?
+    
     
     var mobileUnits = [HealthUnit]()
     
     var databaseService: DatabaseService?
+    var locationService: LocationService?
     
     //declares search button area controller
     var bottomSheetViewController: BottomSheetContentViewController?
@@ -70,7 +71,7 @@ class MainViewController: UIViewController {
         super.viewDidAppear(animated)
         let tutorialWasViewed = UserDefaults.standard.bool(forKey: defaultKey)
         print("Value in tutorial was viewed: \(tutorialWasViewed)")
-        tutorialWasViewed ? askUserForLocation() : performSegue(withIdentifier: "showTutorialSegue", sender: self)
+        tutorialWasViewed ? didFinishUnwindSegue() : performSegue(withIdentifier: "showTutorialSegue", sender: self)
     }
     
     
@@ -83,7 +84,7 @@ class MainViewController: UIViewController {
     
     
     @IBAction func centerMapOnUserButtonTapped(_ sender: Any) {
-        if let userLocation = locationManager?.location?.coordinate {
+        if let userLocation = locationService?.locationManager?.location?.coordinate {
             let region = MKCoordinateRegion(center: userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
             mapView.setRegion(region, animated: true)
         }
@@ -97,7 +98,7 @@ class MainViewController: UIViewController {
     
     func updateLocationButtonIcon() {
         let centerCoordinate = mapView.centerCoordinate
-        let userCoordinate = locationManager?.location?.coordinate
+        let userCoordinate = locationService?.getUserLocation()
 
         if let userCoordinate = userCoordinate {
             let distance = abs(centerCoordinate.latitude - userCoordinate.latitude)
@@ -131,7 +132,7 @@ class MainViewController: UIViewController {
         tutorialButton.layer.bounds.size.height = 40
         
         faqButton.layer.cornerRadius = faqButton.bounds.height / 4
-        faqButton.layer.opacity = 0.7
+        faqButton.layer.opacity = 0.85
         faqButton.layer.masksToBounds = true
         faqButton.layer.shadowColor = UIColor.black.cgColor
         faqButton.layer.shadowOffset = CGSize(width: 0, height: 1)
@@ -147,7 +148,7 @@ class MainViewController: UIViewController {
         
         //var openUnits = [HealthUnit]()
         
-        let userLocation = locationManager?.location?.coordinate ??  CLLocationCoordinate2D(latitude: 33.4255, longitude: -111.9400)
+        let userLocation = locationService?.getUserLocation() ?? CLLocationCoordinate2D(latitude: 33.4255, longitude: -111.9400);
         var openUnits: [HealthUnit] = []
         let dispatchGroup = DispatchGroup()
 
@@ -252,7 +253,7 @@ class MainViewController: UIViewController {
         self.mapView.removeAnnotations(self.mapView.annotations)
         //!currentlyOpenUnits.isEmpty  ||
         if !currentlyOpenUnits.isEmpty {
-            if let userLocation = self.locationManager?.location?.coordinate {
+            if let userLocation = self.locationService?.getUserLocation() {
                 let userPoint = MKMapPoint(userLocation)
                 openPoints.append(userPoint)
             }
@@ -268,7 +269,7 @@ class MainViewController: UIViewController {
                 userErrorMsg = "Internet Connection Error. Please check your connection and try again."
             }else{
                 print("Adding user location...")
-                if let userLocation = self.locationManager?.location?.coordinate {
+                if let userLocation = self.locationService?.getUserLocation() {
                     let userPoint = MKMapPoint(userLocation)
                     openPoints.append(userPoint)
                 }
@@ -338,7 +339,7 @@ class MainViewController: UIViewController {
             
             if(closedPoints.isEmpty){
                 print("Rect 1")
-                if let userLocation = self.locationManager?.location?.coordinate {
+                if let userLocation = self.locationService?.getUserLocation() {
                     let userPoint = MKMapPoint(userLocation)
                     openPoints.append(userPoint)
                 }else if(openPoints.isEmpty){
@@ -391,21 +392,11 @@ class MainViewController: UIViewController {
 
 extension MainViewController : TutorialDelegate {
     func didFinishUnwindSegue() {
-       askUserForLocation()
+        locationService?.askUserForLocation()
+        mapView.showsUserLocation = true
+        mapView.delegate = self
+        locationButton.setImage(UIImage(systemName: "location"), for: .normal)
     }
-    
-    func askUserForLocation(){
-        print("Unwinding value was called")
-         locationManager = CLLocationManager()
-         locationManager?.delegate = self
-         locationManager?.requestWhenInUseAuthorization()
-         mapView.showsUserLocation = true
-         
-         mapView.delegate = self
-         locationManager?.startUpdatingLocation()
-         locationButton.setImage(UIImage(systemName: "location"), for: .normal)
-    }
-    
 }
 
 

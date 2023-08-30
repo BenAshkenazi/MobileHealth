@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import CoreLocation
 
-class BottomSheetContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
+class BottomSheetContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     @IBOutlet var avaTitle: UILabel!
     @IBOutlet var rangeTitle: UILabel!
@@ -23,6 +23,8 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     @IBOutlet weak var unitsListView: RestrictedUITableView!
     
     var databaseService: DatabaseService?
+    var locationService: LocationService?
+    
     var mobileUnits: [HealthUnit] = [] {
         didSet {
             print("This is the mobileunits.count \(mobileUnits.count)")
@@ -54,10 +56,10 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         return datePicker.date
     }
     
-    var userLocation: CLLocationCoordinate2D!
-    let locationManager = CLLocationManager()
+    var userLocation: CLLocationCoordinate2D?
+    //let locationManager = CLLocationManager()
     
-    let geocoder = CLGeocoder()
+    //let geocoder = CLGeocoder()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,9 +114,11 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         print("Current Date: \(currentDate)")
         //print("One Week Later: \(oneWeekLater)")
         
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        locationService?.askUserForLocation()
+        userLocation = locationService?.getUserLocation()
+//        locationManager.delegate = self
+//        locationManager.requestWhenInUseAuthorization()
+//        locationManager.startUpdatingLocation()
         
         unitsListView.delaysContentTouches = false
 
@@ -152,9 +156,9 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     }
     
     func setLocations(){
-        if(self.userLocation != nil){
+        if let userLocation  = self.userLocation {
             for unit in self.mobileUnits {
-                unit.isWithin(range: 0.0, userLoc: self.userLocation, address: unit.address ?? "Failed") { isWithinRange in
+                unit.isWithin(range: 0.0, userLoc: userLocation, address: unit.address ?? "Failed") { isWithinRange in
                     print("For the next unit, prox is: \(unit.prox)")
                 }
             }
@@ -271,34 +275,18 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         //return false
         return availableDay != nil
     }
-    
-    #warning("will refactor location manager")
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let userLocation = locations.last?.coordinate else {
-            return
-        }
-
-        // Update your userLocation property with the real-time location
-        self.userLocation = userLocation
-
-        // Perform any additional actions that require the updated user location
-        //getDatabase()
-    }
-
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Location manager error: \(error.localizedDescription)")
-    }
 
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         // Check for values set within range picker and date picker
         let selectedDate = datePicker.date
-        
+        userLocation = locationService?.getUserLocation()
         print("This range was chosen \(chosenRange)")
         print("Search button tapped. Selected date and time: \(selectedDate)")
         
         updateShowClosedText(searching: true)
         if let delegate = delegate {
             //this may cause some errors
+            
             delegate.didTapSearchButton(date: selectedDate, range: chosenRange, showClosed: showClosedToggle)
         } else {
             print("Delegate is nil")

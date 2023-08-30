@@ -261,7 +261,9 @@ func distanceInMiles(from sourceCoordinate: CLLocationCoordinate2D, to destinati
 extension HealthUnit {
 
     var formattedHours: String {
-        guard let open = self.open else {
+        var openTag = "AM"
+        var endTag = "AM"
+        guard var open = self.open else {
             return "N/A"
         }
         
@@ -269,13 +271,24 @@ extension HealthUnit {
             return "\(open) AM"
         }
         
-        if var firstHour = Int(close.prefix(2)) {
-            if firstHour > 12 {
-                firstHour -= 12
-                close = "\(firstHour):\(close.suffix(2))"
+        if var closedHour = Int(close.prefix(2)) {
+            if closedHour > 12 {
+                closedHour -= 12
+                close = "\(closedHour):\(close.suffix(2))"
+                endTag = "PM"
             }
         }
-        return "\(open) AM - \(close) PM"
+        
+        if var firstHour = Int(open.prefix(2)) {
+            if firstHour > 12 {
+                firstHour -= 12
+                print("First hour was called \(firstHour)")
+                open = "\(firstHour):\(open.suffix(2))"
+                openTag = "PM"
+            }
+        }
+        
+        return "\(open) \(openTag) - \(close) \(endTag)"
     }
 
     var formattedDays: String {

@@ -12,6 +12,17 @@ class LocationService {
     var locationManager: CLLocationManager?
     
     init(){
-        
+        locationManager = CLLocationManager()
     }
+    
+    func askUserForLocation(){
+         print("Unwinding value was called")
+         locationManager?.requestWhenInUseAuthorization()
+         locationManager?.startUpdatingLocation()
+    }
+    
+    func getUserLocation() -> CLLocationCoordinate2D?{
+        return locationManager?.location?.coordinate
+    }
+    
 }
