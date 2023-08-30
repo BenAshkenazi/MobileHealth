@@ -14,14 +14,16 @@ final class ContainerViewController: BottomSheetContainerViewController
     public init?(){
         //super.init(coder: NSCoder())
         let databaseService = DatabaseService()
+        let locationService = LocationService()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let contentViewController = storyboard.instantiateViewController(withIdentifier: "ViewController") as! MainViewController
         contentViewController.databaseService = databaseService
+        contentViewController.locationService = locationService
         
         let bottomSheetViewController = storyboard.instantiateViewController(withIdentifier: "BottomSheetContentViewController") as! BottomSheetContentViewController
         bottomSheetViewController.databaseService = databaseService
-        // Set the delegate
+        bottomSheetViewController.locationService = locationService
         bottomSheetViewController.delegate = contentViewController
         
         super.init(

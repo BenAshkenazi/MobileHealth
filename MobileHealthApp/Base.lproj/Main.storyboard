@@ -1101,10 +1101,10 @@ After hours 480.434.2690</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIc-Sf-aHP">
-                                <rect key="frame" x="140" y="106" width="105" height="58"/>
+                                <rect key="frame" x="138" y="106" width="110" height="58"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="phone" catalog="system" title="Conact">
+                                <buttonConfiguration key="configuration" style="filled" image="phone" catalog="system" title="Contact">
                                     <color key="baseForegroundColor" name="LogoColor"/>
                                     <color key="baseBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>

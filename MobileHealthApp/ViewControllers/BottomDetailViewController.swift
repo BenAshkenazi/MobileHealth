@@ -78,7 +78,7 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
                     }
                 }
                 hoursTitle.text = "Walk-In Hours:"
-                hoursLabel.text = "\(open) AM - \(close) PM"
+                hoursLabel.text = unit?.formattedHours
             }
         }
     }
