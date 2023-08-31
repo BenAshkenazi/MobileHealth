@@ -11,7 +11,12 @@ import Firebase
 import FirebaseCore
 import CoreLocation
 
-class BottomSheetContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
+protocol TableViewControllerDelegate: AnyObject {
+    func tableViewDidBeginScrolling()
+    func tableViewDidEndScrolling()
+}
+
+class BottomSheetContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UIScrollViewDelegate {
 
     @IBOutlet var avaTitle: UILabel!
     @IBOutlet var rangeTitle: UILabel!
@@ -50,6 +55,8 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     let locationManager = CLLocationManager()
     
     let geocoder = CLGeocoder()
+    
+    weak var tableDelegate: TableViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -305,6 +312,16 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location manager error: \(error.localizedDescription)")
+    }
+    
+    // Inside your scrollViewWillBeginDragging method
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        tableDelegate?.tableViewDidBeginScrolling()
+    }
+    
+    // Inside your scrollViewDidEndDragging method
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        tableDelegate?.tableViewDidEndScrolling()
     }
 
     @IBAction func searchButtonTapped(_ sender: UIButton) {
