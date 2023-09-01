@@ -17,7 +17,6 @@
 //  Created by Ben Ashkenazi on 7/8/23.
 //
 
-import Foundation
 import MapKit
 import CoreLocation
 
@@ -58,53 +57,35 @@ class HealthUnit {
         
         //sets id, 0 if there was an error
         self.id = Int(rawId) ?? 0
-        
-        //sets month/year
         self.rawMY = rawMY
         self.MonthYear = String(rawMY.prefix(7))
-        
-        //sets name
         self.name = name
-        
-
-        //sets phone number
-        //var num = rawnumber.replacingOccurrences(of: ")(- ", with: "", options: NSString.CompareOptions.literal, range: nil)
         self.number = URL(string: "tel://" + String(rawnumber)) ?? URL(string: "tel://" + "0000000000")
-                
-        
         //gets opening hours
         self.rawopen = convertToArizonaTime(from: rawopen)
         self.rawclose = convertToArizonaTime(from: rawclose)
-        
         //Strips just the hours from the entire iso8601 date string
-        if(self.rawopen != nil && self.rawclose != nil){
+        if self.rawopen != nil && self.rawclose != nil {
             self.open = String(String(String(self.rawopen!).prefix(16)).suffix(5))
             self.close = String(String(String(self.rawclose!).prefix(16)).suffix(5))
-        }else{
+        } else {
             self.open = ""
             self.close = ""
         }
-       
-        
-        
         //gets days
-
-        if(rawdays.count<3){
+        if rawdays.count<3 {
             let dayArray = [Int(rawdays)]
             //If rawdays is 2 or fewer chars, it goes through this code
             self.rawdays = rawdays
             self.days = dayArray
-        }else{
+        } else {
             let nospace = rawdays.replacingOccurrences(of: " ", with: "", options: NSString.CompareOptions.literal, range: nil)
             let dayArray = nospace.split(separator: ",")
             self.rawdays = rawdays
             self.days = convertStringsToInts(array: dayArray)
         }
-        
-        
         //gets address
         self.address = rawaddr
-        
         self.comments = comments ?? "None"
     }
     
