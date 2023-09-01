@@ -3,7 +3,7 @@ import Network
 protocol NetworkCheckObserver: AnyObject {
     func statusDidChange(status: NWPath.Status)
 }
-//This class is entirely used to check the wifi
+// This class is entirely used to check the wifi
 class NetworkCheck {
 
     struct NetworkChangeObservation {
@@ -27,7 +27,7 @@ class NetworkCheck {
         monitor.pathUpdateHandler = { [unowned self] path in
             for (id, observations) in self.observations {
 
-                //If any observer is nil, remove it from the list of observers
+                // If any observer is nil, remove it from the list of observers
                 guard let observer = observations.observer else {
                     self.observations.removeValue(forKey: id)
                     continue

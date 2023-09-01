@@ -8,11 +8,10 @@
 import Foundation
 import UIKit
 
-
-//MARK: THIS CODE IS DEPRECATED, it is kept in for ease of potential code re-use
+// MARK: THIS CODE IS DEPRECATED, it is kept in for ease of potential code re-use
 class DetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
     var unit: HealthUnit?
-    
+
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var hoursLabel: UILabel!
     @IBOutlet var centralImageView: UIImageView!
@@ -23,97 +22,93 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
     @IBOutlet var callButton: UIButton!
     @IBOutlet var sButton: UIButton!
     @IBOutlet var backButton: UIButton!
-    
-    override func viewDidLoad(){
+
+    override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Set label of MHU
+
+        // Set label of MHU
         nameLabel.text = unit?.name
-        
+
         centralImageView.layer.cornerRadius = centralImageView.bounds.width / 8.0
         // Adjust the value to control the roundness
         centralImageView.clipsToBounds = true
         centralImageView.layer.borderWidth = 3.0 // Adjust the border width as needed
         centralImageView.layer.borderColor = UIColor.black.cgColor
-        
-        //Displays hours
-        if let open = unit?.open{
-            if let close = unit?.close{
-                
+
+        // Displays hours
+        if let open = unit?.open {
+            if let close = unit?.close {
+
                 hoursLabel.text = "Opening Hours: \(open)-\(close)"
             }
         }
-        
-        //displays days open
+
+        // displays days open
         var daysTxt = ""
-        
+
         if let days = unit?.days, let monthYear = unit?.MonthYear {
             print("This is the first letter of the month \(monthYear.suffix(1))")
             var monthString = monthYear.suffix(2)
             let monthNum = Int(monthString) ?? -1
-            //Cleans up day of the month so that it displays as 8 instead of 08
+            // Cleans up day of the month so that it displays as 8 instead of 08
             if monthNum == -1 || monthNum < 10 {
                 monthString = monthYear.suffix(1)
             }
-            //Prints each day and the month it is open
+            // Prints each day and the month it is open
             let dayCount = days.count-1
             for (index, day) in days.enumerated() {
                 if index == dayCount {
                     daysTxt += "\(monthString)/\(day ?? 0)"
-                }else if(index % 4 == 0 && index != 0){
+                } else if index % 4 == 0 && index != 0 {
                     daysTxt += "\(monthString)/\(day ?? 0),\n"
-                }else {
+                } else {
                     daysTxt += "\(monthString)/\(day ?? 0),  "
                 }
             }
         }
         daysLabel.text = "Days available this month:\n"+daysTxt
-        
-        //Displays address
-        if let addr = unit?.address{
+
+        // Displays address
+        if let addr = unit?.address {
             addressLabel.text = "Address:\n" + addr.replacingOccurrences(of: ", ", with: ",\n")
         }
-        
+
         setupConstraints()
 
         updateButtonSizeAndFont()
         setUpMapsButton()
-        
-       
+
     }
-    
-   
-    
-    @IBAction func showFAQPage(_ sender: Any){
+
+    @IBAction func showFAQPage(_ sender: Any) {
         print("FAQ button tapped")
         let fAQsViewController = storyboard!.instantiateViewController(withIdentifier: "FAQsViewController") as? FAQsViewController
         fAQsViewController!.modalPresentationStyle = .custom
         fAQsViewController!.transitioningDelegate = self
         present(fAQsViewController!, animated: true, completion: nil)
-            
-        
+
     }
-    
+
     @objc func sendEmail() {
         let phoneNumber = unit?.number
         if let phoneURL = phoneNumber, UIApplication.shared.canOpenURL(phoneURL) {
             UIApplication.shared.open(phoneURL, options: [:], completionHandler: nil)
         }
     }
-    
+
     @IBAction func openSurveyForm(_ sender: Any) {
         let surveyURLString = "https://forms.gle/QYRetAh1XRHutMqp9"
         guard let surveyURL = URL(string: surveyURLString) else { return }
-        
+
         // Open the Apple Maps URL
         UIApplication.shared.open(surveyURL)
     }
-    
+
     // Method to dismiss the presented view when the button is tapped
-    @IBAction func dismissButtonTapped(_ sender: Any){
+    @IBAction func dismissButtonTapped(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    
+
     @objc func labelTapped(_ gesture: UITapGestureRecognizer) {
            guard let label = gesture.view as? UILabel else {
                return
@@ -122,7 +117,7 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
            // Copy the label's text to the clipboard
            UIPasteboard.general.string = label.text
        }
-    
+
     func setupConstraints() {
             // Disable autoresizing mask for all views
             nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -145,15 +140,14 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
             let aspectRatioConstraint = centralImageView.widthAnchor.constraint(equalTo: centralImageView.heightAnchor, multiplier: 4032.0/3024.0)
             aspectRatioConstraint.priority = .required // Set required priority to avoid conflicts
             aspectRatioConstraint.isActive = true
-        
-        
+
         // Create the constraints
                 NSLayoutConstraint.activate([
-                    
+
                     // Back Button (top-left corner)
                     backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
                     backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                    
+
                     // Name Label (center-top)
                     nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                     nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -166,12 +160,10 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
                     // Days Label (centered below hours label)
                     daysLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                     daysLabel.topAnchor.constraint(equalTo: centralImageView.bottomAnchor, constant: 10),
-                    
+
                     // Hours Label (centered below image view)
                     hoursLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                     hoursLabel.topAnchor.constraint(equalTo: daysLabel.bottomAnchor, constant: 10),
-
-                    
 
                     // Address Label (centered below FAQ button)
                     addressLabel.topAnchor.constraint(equalTo: hoursLabel.bottomAnchor, constant: 30),
@@ -180,23 +172,22 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
                     // Maps Button (left-aligned with Address Label)
                     mapsButton.topAnchor.constraint(equalTo: hoursLabel.bottomAnchor, constant: 30),
                     mapsButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -5),
-                    
+
                     // FAQ Button (centered below hours label)
                     faqButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                     faqButton.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 30),
-                    
+
                     // Call Button (bottom-left corner)
                     callButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                     callButton.topAnchor.constraint(equalTo: faqButton.bottomAnchor, constant: 20),
 
                     // S Button (bottom-right corner)
                     sButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                    sButton.topAnchor.constraint(equalTo: callButton.bottomAnchor, constant: 20),
+                    sButton.topAnchor.constraint(equalTo: callButton.bottomAnchor, constant: 20)
 
-                    
                 ])
             }
-    
+
         func fontSizeForButton() -> CGFloat {
             // Calculate the font size based on the screen's width and height
             let screenWidth = UIScreen.main.bounds.width
@@ -211,21 +202,20 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
 
         func updateButtonSizeAndFont() {
             let fontSize = fontSizeForButton()
-           
+
             backButton.titleLabel?.font = UIFont.systemFont(ofSize: fontSize/1.75)
-            
+
             let buttons = [faqButton, callButton, sButton]
-            for button in buttons{
-                if let b = button{
+            for button in buttons {
+                if let b = button {
                     // Set button rounded shape
                     b.layer.cornerRadius = 8.0
                     b.layer.borderWidth = 1.5
                     b.layer.masksToBounds = true
                     b.layer.borderColor = UIColor.black.cgColor
                     b.layer.opacity = 0.95
-                    
+
                     // Calculate the font size based on the screen's width and height
-                    
 
                     // Update the font size of the button title
                     b.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
@@ -236,11 +226,11 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
                     b.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
                     b.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
                 }
-                
+
             }
-            
+
         }
-        func setUpMapsButton(){
+        func setUpMapsButton() {
             mapsButton.setImage(UIImage(named: "appmaps"), for: .normal)
             mapsButton.imageView?.contentMode = .scaleAspectFit
 
@@ -251,9 +241,6 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
             mapsButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
         }
    }
-
-
-
 
 /*
  func calculateDayOfWeek(year: Int, month: Int, day: Int) -> String? {

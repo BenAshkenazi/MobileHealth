@@ -11,7 +11,7 @@ class WelcomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if true{
+        if true {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             if let tutorialVC = storyboard.instantiateViewController(withIdentifier: "TutorialViewController") as? TutorialViewController {
                 present(tutorialVC, animated: true, completion: nil)
@@ -19,7 +19,6 @@ class WelcomeViewController: UIViewController {
         }
         // Do any additional setup after loading the view.
     }
-    
 
     /*
     // MARK: - Navigation

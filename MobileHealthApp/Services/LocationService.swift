@@ -8,17 +8,17 @@
 import CoreLocation
 
 class LocationService {
-    
+
     var locationManager: CLLocationManager?
 
-    func askUserForLocation(){
+    func askUserForLocation() {
         locationManager = CLLocationManager()
          locationManager?.requestWhenInUseAuthorization()
          locationManager?.startUpdatingLocation()
     }
-    
-    func getUserLocation() -> CLLocationCoordinate2D?{
+
+    func getUserLocation() -> CLLocationCoordinate2D? {
         locationManager?.location?.coordinate
     }
-    
+
 }

@@ -9,32 +9,32 @@ import Firebase
 
 class DatabaseService {
     var healthUnits: [HealthUnit]?
-    
-    init(){
+
+    init() {
         fetchDatabase { _ in
            // self.healthUnits = healthUnits
         }
     }
-    
-    private func fetchDatabase(completion: @escaping ([HealthUnit])->Void){
+
+    private func fetchDatabase(completion: @escaping ([HealthUnit]) -> Void) {
         let rootRef = Database.database().reference().child("1tccGgPzxsOegrepl329GJkQOYnGcWu2XhLYcgiB_iNE").child("Sheet1")
         rootRef.observeSingleEvent(of: .value) { [weak self] snapshot, error in
             guard let self = self else {
                 return
             }
-            
+
             if let error = error {
                 print("Error: \(error)")
                 return
             }
-            
+
             if !snapshot.exists() {
                 print("No data found.")
                 return
             }
-            
+
             var units: [HealthUnit] = []
-            //Gets data from Firebase and inits a mobile health unit class
+            // Gets data from Firebase and inits a mobile health unit class
             for child in snapshot.children {
                 if let childSnapshot = child as? DataSnapshot,
                    let dict = childSnapshot.value as? [String: Any] {
@@ -56,21 +56,20 @@ class DatabaseService {
             completion(units)
         }
     }
-    
+
 //    func getUnfilteredList()->[HealthUnit]{
 //        print("healthunit.count \(healthUnits.count)")
 //        return healthUnits
 //    }
-    
-    func fetchHealthUnits(completion: @escaping ([HealthUnit])->Void){
+
+    func fetchHealthUnits(completion: @escaping ([HealthUnit]) -> Void) {
         if let healthUnits = healthUnits {
             completion(healthUnits)
-        }else{
+        } else {
             fetchDatabase { healthUnits in
                 completion(healthUnits)
             }
         }
      }
-    
-    
+
 }

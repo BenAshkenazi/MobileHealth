@@ -6,5 +6,4 @@
 //
 
 import Foundation
-//TBA: Spinner after launch screen while database is accessed
-
+// TBA: Spinner after launch screen while database is accessed

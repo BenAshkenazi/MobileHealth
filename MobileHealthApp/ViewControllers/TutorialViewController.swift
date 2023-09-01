@@ -13,17 +13,17 @@ protocol TutorialDelegate: AnyObject {
 }
 
 class TutorialViewController: UIViewController {
-   
+
     @IBOutlet var PageTitle: UILabel!
     @IBOutlet var CentralImage: UIImageView!
     @IBOutlet var LeftButton: UIButton!
     @IBOutlet var PageText: UILabel!
     @IBOutlet var RightButton: UIButton!
-    
-    weak var delegate : TutorialDelegate?
-    
+
+    weak var delegate: TutorialDelegate?
+
     var pageNumber = 0
-    let titleArray = ["What is a Mobile Health Unit?","Searching for a Unit", "Once You've Found a Unit"]
+    let titleArray = ["What is a Mobile Health Unit?", "Searching for a Unit", "Once You've Found a Unit"]
     let imageArray = ["mobileunit", "SearchScreen", "UnitScreen"]
     let pageTextArray = [
         "Health Units are mobile clinics that provide a variety of primary, preventive and behavioral medical services. They operate on a walk-in basis, so no appointment is needed. However, reading the FAQ or calling ahead to check services provided, wait times, and potential cost is advised. To find the number of a mobile health unit, click on its pin on the map. ",
@@ -34,15 +34,15 @@ class TutorialViewController: UIViewController {
         PageTitle.text = titleArray[pageNumber]
         CentralImage.image = UIImage(named: "mobileunit")
         PageText.text = pageTextArray[pageNumber]
-        
+
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UserDefaults.standard.set(true, forKey: defaultKey)
 
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         delegate?.didFinishUnwindSegue()
@@ -50,40 +50,40 @@ class TutorialViewController: UIViewController {
     @IBAction func pressedLeft(_ sender: Any) {
         setNewPage(left: true)
     }
-    
+
     @IBAction func pressedRight(_ sender: Any) {
         setNewPage(left: false)
     }
-    
-    func setNewPage(left: Bool){
-        if(left && pageNumber <= 0){
+
+    func setNewPage(left: Bool) {
+        if left && pageNumber <= 0 {
             return
-        }else if(!left && pageNumber >= 2){
+        } else if !left && pageNumber >= 2 {
             return
-        }else{
-            
-            if(left){
+        } else {
+
+            if left {
                 pageNumber -= 1
-            }else{
+            } else {
                 pageNumber += 1
             }
-           
-            if(pageNumber == 0){
+
+            if pageNumber == 0 {
                 LeftButton.setImage(UIImage(systemName: "arrowshape.left"), for: .normal)
                 RightButton.setImage(UIImage(systemName: "arrowshape.right.fill"), for: .normal)
-            }else if(pageNumber == 1){
+            } else if pageNumber == 1 {
                 LeftButton.setImage(UIImage(systemName: "arrowshape.left.fill"), for: .normal)
                 RightButton.setImage(UIImage(systemName: "arrowshape.right.fill"), for: .normal)
-            }else{
+            } else {
                 LeftButton.setImage(UIImage(systemName: "arrowshape.left.fill"), for: .normal)
                 RightButton.setImage(UIImage(systemName: "arrowshape.right"), for: .normal)
             }
-            
+
             PageTitle.text = titleArray[pageNumber]
             CentralImage.image = UIImage(named: imageArray[pageNumber])
             PageText.text = pageTextArray[pageNumber]
-            
+
         }
     }
-    
+
 }

@@ -5,26 +5,25 @@
 //  Created by Ben Ashkenazi on 6/25/23.
 //
 
-
 import UIKit
 import Firebase
 import FirebaseCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+
     var window: UIWindow?
-    
-    override init(){
+
+    override init() {
         FirebaseApp.configure()
     }
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         window = UIWindow()
         window?.rootViewController = ContainerViewController()
         window?.makeKeyAndVisible()
-        
+
         print("tutorial1".localized)
         return true
     }
