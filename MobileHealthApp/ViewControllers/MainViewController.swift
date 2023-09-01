@@ -292,9 +292,10 @@ class MainViewController: UIViewController {
                 if let coordinate = coordinate {
                     let marker = MyAnnotation(title: openUnit.name ?? "title", subtitle: "Open", coordinate: coordinate, prio: true)
                     
-                    print("OPEN PLACED")
+                    
                     if let image = UIImage(named: "greenLocationPin") {
                         //let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                        print("Changing image for open pins")
                         let resizedImage = image.resizeImage(targetSize: CGSize(width: 40, height: 40))
                         marker.image = resizedImage
                         self.mapView.addAnnotation(marker)
@@ -324,6 +325,7 @@ class MainViewController: UIViewController {
                         print("CLOSED PLACED")
                         if let image = UIImage(named: "closedPin") {
                             //let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
+                            print("Changing image for open pins")
                             let resizedImage = image.resizeImage(targetSize: CGSize(width: 35, height: 35))
                             marker.image = resizedImage
                             self.mapView.addAnnotation(marker)
@@ -396,6 +398,7 @@ extension MainViewController : TutorialDelegate {
         mapView.showsUserLocation = true
         mapView.delegate = self
         locationButton.setImage(UIImage(systemName: "location"), for: .normal)
+        searchForOpenMobileUnits(on: Date(), range: 0.0, showClosed: true)
     }
 }
 

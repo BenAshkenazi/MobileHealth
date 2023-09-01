@@ -5,11 +5,10 @@
 //  Created by Fawwaz Firdaus on 7/15/23.
 //
 
-import Foundation
 import UIKit
 import CoreLocation
 
-class BottomSheetContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class BottomSheetContentViewController: UIViewController {
 
     @IBOutlet var avaTitle: UILabel!
     @IBOutlet var rangeTitle: UILabel!
@@ -53,10 +52,12 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     var cellColor = UIColor(red: 164 / 255.0, green: 118 / 255.0, blue: 162 / 255.0, alpha: 1.0)
     
     var selectedDateAndTime: Date {
-        return datePicker.date
+        datePicker.date
     }
     
-    var userLocation: CLLocationCoordinate2D?
+    var userLocation: CLLocationCoordinate2D? {
+        locationService?.getUserLocation()
+    }
     //let locationManager = CLLocationManager()
     
     //let geocoder = CLGeocoder()
@@ -114,8 +115,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         print("Current Date: \(currentDate)")
         //print("One Week Later: \(oneWeekLater)")
         
-        locationService?.askUserForLocation()
-        userLocation = locationService?.getUserLocation()
+        //locationService?.askUserForLocation()
 //        locationManager.delegate = self
 //        locationManager.requestWhenInUseAuthorization()
 //        locationManager.startUpdatingLocation()
@@ -123,40 +123,11 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
         unitsListView.delaysContentTouches = false
 
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return openUnitsNextWeek.count
-    }
 
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UnitCell", for: indexPath) as! UnitTableViewCell
-        let unit = openUnitsNextWeek[indexPath.row]
-        cell.configure(with: unit)
-        cell.backgroundColor = cellColor
-        cell.selectionStyle = .none
-        return cell
-    }
-    
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Perform the segue and other necessary actions
-        setLocations()
-        //unitsListView.reloadData()
-        performSegue(withIdentifier: "showDetail", sender: self)
-
-        // Delay the deselection and color revert by 1 second
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
     
     func setLocations(){
-        if let userLocation  = self.userLocation {
+        //userLocation = locationService?.getUserLocation()
+        if let userLocation  = userLocation {
             for unit in self.mobileUnits {
                 unit.isWithin(range: 0.0, userLoc: userLocation, address: unit.address ?? "Failed") { isWithinRange in
                     print("For the next unit, prox is: \(unit.prox)")
@@ -279,7 +250,7 @@ class BottomSheetContentViewController: UIViewController, UITableViewDelegate, U
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         // Check for values set within range picker and date picker
         let selectedDate = datePicker.date
-        userLocation = locationService?.getUserLocation()
+        //userLocation = locationService?.getUserLocation()
         print("This range was chosen \(chosenRange)")
         print("Search button tapped. Selected date and time: \(selectedDate)")
         
@@ -374,3 +345,38 @@ extension Date {
     }
 }
 
+extension BottomSheetContentViewController: UITableViewDataSource{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return openUnitsNextWeek.count
+    }
+
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UnitCell", for: indexPath) as! UnitTableViewCell
+        let unit = openUnitsNextWeek[indexPath.row]
+        cell.configure(with: unit)
+        cell.backgroundColor = cellColor
+        cell.selectionStyle = .none
+        return cell
+    }
+}
+
+extension BottomSheetContentViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Perform the segue and other necessary actions
+        setLocations()
+        //unitsListView.reloadData()
+        performSegue(withIdentifier: "showDetail", sender: self)
+
+        // Delay the deselection and color revert by 1 second
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+}
