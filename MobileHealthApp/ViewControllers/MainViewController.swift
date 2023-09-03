@@ -276,7 +276,7 @@ class MainViewController: UIViewController {
                 if let coordinate = coordinate {
                     let marker = MyAnnotation(title: openUnit.name ?? "title", subtitle: "Open", coordinate: coordinate, prio: true)
 
-                    if let image = UIImage(named: "greenLocationPin") {
+                    if let image = UIImage(named: "openPin") {
                         // let resizedImage = self.resizeImage(image: image, targetSize: CGSize(width: 35, height: 35))
                         print("Changing image for open pins")
                         let resizedImage = image.resizeImage(targetSize: CGSize(width: 40, height: 40))
