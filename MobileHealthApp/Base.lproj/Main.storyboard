@@ -39,7 +39,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zR8-6D-goO">
-                                <rect key="frame" x="264" y="127" width="40" height="40"/>
+                                <rect key="frame" x="264" y="119" width="40" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="5dz-GF-ACP"/>
@@ -69,7 +69,22 @@
                                     </backgroundConfiguration>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="dET-I7-kc1" kind="show" id="R95-6v-KL9"/>
+                                    <segue destination="q8v-YO-Kza" kind="presentation" modalPresentationStyle="overFullScreen" id="iUq-w8-KoW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQN-8U-l7V">
+                                <rect key="frame" x="264" y="175" width="40" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="6qY-DA-Sug"/>
+                                    <constraint firstAttribute="height" constant="40" id="JdM-mW-cg5"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <backgroundConfiguration key="background" image="faq"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="dET-I7-kc1" kind="show" id="lAv-Uw-HIR"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -77,7 +92,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="XTx-aU-9Yw" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="5sA-xe-WYw"/>
-                            <constraint firstItem="zR8-6D-goO" firstAttribute="top" secondItem="XTx-aU-9Yw" secondAttribute="bottom" constant="26" id="6Fz-yV-Zmi"/>
+                            <constraint firstItem="zR8-6D-goO" firstAttribute="top" secondItem="XTx-aU-9Yw" secondAttribute="bottom" constant="18" id="6Fz-yV-Zmi"/>
                             <constraint firstItem="XTx-aU-9Yw" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="41" id="BtF-Yf-Mnn"/>
                             <constraint firstItem="Xn9-6h-HbL" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Doc-N7-j7i"/>
                             <constraint firstItem="Xn9-6h-HbL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-59" id="IpD-jl-efO"/>
@@ -85,20 +100,23 @@
                             <constraint firstItem="zR8-6D-goO" firstAttribute="leading" secondItem="XTx-aU-9Yw" secondAttribute="leading" id="Tuf-ba-7rQ"/>
                             <constraint firstItem="Xn9-6h-HbL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ztn-BH-sKT"/>
                             <constraint firstItem="Xn9-6h-HbL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jcs-iy-spo"/>
+                            <constraint firstItem="eQN-8U-l7V" firstAttribute="top" secondItem="zR8-6D-goO" secondAttribute="bottom" constant="16" id="lhh-QQ-5pS"/>
+                            <constraint firstItem="eQN-8U-l7V" firstAttribute="leading" secondItem="zR8-6D-goO" secondAttribute="leading" id="sXr-f1-ejE"/>
                             <constraint firstItem="cNM-KE-1sB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="skS-H8-aGJ"/>
                             <constraint firstItem="cNM-KE-1sB" firstAttribute="top" secondItem="XTx-aU-9Yw" secondAttribute="top" constant="-5" id="wde-9X-Wmq"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="faqButton" destination="cNM-KE-1sB" id="baw-cV-Ud9"/>
+                        <outlet property="faqButton" destination="eQN-8U-l7V" id="9ju-GO-O8V"/>
                         <outlet property="locationButton" destination="XTx-aU-9Yw" id="FcI-XT-580"/>
                         <outlet property="mapView" destination="Xn9-6h-HbL" id="Dbd-2H-pGi"/>
+                        <outlet property="resourceButton" destination="cNM-KE-1sB" id="aw8-4D-L4g"/>
                         <outlet property="tutorialButton" destination="zR8-6D-goO" id="etD-6y-zne"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="112.21374045801527" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="110.625" y="-2.112676056338028"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="0q3-13-Y9K">
@@ -218,7 +236,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uGW-Zd-o7s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3152" y="582"/>
+            <point key="canvasLocation" x="2284" y="-88"/>
         </scene>
         <!--Qs View Controller-->
         <scene sceneID="iZS-ML-BGl">
@@ -499,7 +517,7 @@ insurances for services provided. Many individuals facing homelessness are insur
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B4o-f2-hpJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="813" y="697"/>
+            <point key="canvasLocation" x="1028" y="380"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Vu8-dN-uwH">
@@ -977,7 +995,7 @@ After hours 480.434.2690</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xqw-6y-A1R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="38.931297709923662" y="727.46478873239437"/>
+            <point key="canvasLocation" x="111" y="705"/>
         </scene>
         <!--Tutorial View Controller-->
         <scene sceneID="nXl-3m-6VX">
@@ -1041,7 +1059,7 @@ After hours 480.434.2690</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gb6-Hk-Amg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="995.625" y="-339.08450704225351"/>
+            <point key="canvasLocation" x="1029" y="-569"/>
         </scene>
         <!--Bottom Detail View Controller-->
         <scene sceneID="CnK-7X-cKg">
@@ -1182,7 +1200,37 @@ After hours 480.434.2690</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZKg-1Q-qe4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="39" y="1429"/>
+            <point key="canvasLocation" x="111" y="1427"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="OqQ-tn-69m">
+            <objects>
+                <viewController id="q8v-YO-Kza" customClass="PDFViewController" customModule="MobileHealthApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="K83-Y4-tSl" customClass="PDFView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPu-hC-1Up">
+                                <rect key="frame" x="0.0" y="0.0" width="73" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="&lt; Dismiss"/>
+                                <connections>
+                                    <action selector="closeButtonTapped:" destination="q8v-YO-Kza" eventType="touchUpInside" id="Gi5-4k-gHX"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="aTa-2B-Whi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5RA-fu-Tud"/>
+                    <connections>
+                        <outlet property="closeButton" destination="cPu-hC-1Up" id="3Wr-gU-8ad"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iyn-o5-34p" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-860.625" y="-2.112676056338028"/>
         </scene>
     </scenes>
     <resources>
@@ -15545,6 +15593,7 @@ IW4ADSFzAA0hewANIX4ADSGDAA0hiwAAAAAAAAQBAAAAAAAAAFYAAAAAAAAAAAAAAAAADSGOA
         <image name="clipboard" catalog="system" width="103" height="128"/>
         <image name="ctc_logo" width="53" height="55"/>
         <image name="ctcvectorlogo" width="576" height="180"/>
+        <image name="faq" width="1241" height="1239"/>
         <image name="line" width="1400" height="400"/>
         <image name="location" catalog="system" width="128" height="121"/>
         <image name="map" catalog="system" width="128" height="112"/>
