@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class ContainerViewController: BottomSheetContainerViewController
-<MainViewController, BottomSheetContentViewController> {
+<MainViewController, BottomContentViewController> {
 
     public init?() {
         // super.init(coder: NSCoder())
@@ -21,7 +21,7 @@ final class ContainerViewController: BottomSheetContainerViewController
         contentViewController.databaseService = databaseService
         contentViewController.locationService = locationService
 
-        let bottomSheetViewController = storyboard.instantiateViewController(withIdentifier: "BottomSheetContentViewController") as! BottomSheetContentViewController
+        let bottomSheetViewController = storyboard.instantiateViewController(withIdentifier: "BottomSheetContentViewController") as! BottomContentViewController
         bottomSheetViewController.databaseService = databaseService
         bottomSheetViewController.locationService = locationService
         bottomSheetViewController.delegate = contentViewController

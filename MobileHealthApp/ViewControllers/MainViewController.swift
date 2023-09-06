@@ -12,7 +12,7 @@ import MapKit
 import Network
 
 protocol BottomSheetDelegate: AnyObject {
-    func didTapSearchButton(date: Date, range: Double, showClosed: Bool)
+    func didTapSearchButton(date: Date, range: Double, showClosed: Bool, centerOnUser: Bool)
 }
 
 let defaultKey = "TestFirst"
@@ -31,7 +31,7 @@ class MainViewController: UIViewController {
     var locationService: LocationService?
 
     // declares search button area controller
-    var bottomSheetViewController: BottomSheetContentViewController?
+    var bottomSheetViewController: BottomContentViewController?
     // internet monitor
     let monitor = NWPathMonitor()
     // default range
@@ -49,11 +49,11 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupButtonAppearances()
-        bottomSheetViewController = BottomSheetContentViewController()
+        bottomSheetViewController = BottomContentViewController()
         bottomSheetViewController?.delegate = self
         databaseService?.fetchHealthUnits(completion: { healthUnits in
             self.mobileUnits = healthUnits
-            self.searchForOpenMobileUnits(on: Date(), range: 0.0, showClosed: true)
+            self.searchForOpenMobileUnits(on: Date(), range: 0.0, showClosed: true, centerOnUser: true)
 
         })
         // mobileUnits = databaseService?.getUnfilteredList() ?? []
@@ -146,7 +146,7 @@ class MainViewController: UIViewController {
 
     }
 
-    func searchForOpenMobileUnits(on date: Date, range: Double, showClosed: Bool) {
+    func searchForOpenMobileUnits(on date: Date, range: Double, showClosed: Bool, centerOnUser: Bool) {
 
         // var openUnits = [HealthUnit]()
 
@@ -185,12 +185,12 @@ class MainViewController: UIViewController {
         }
 
         dispatchGroup.notify(queue: .main) {
-            self.processFoundUnits(openUnits: openUnits, date: date, showClosed: showClosed)
+            self.processFoundUnits(openUnits: openUnits, date: date, showClosed: showClosed, centerOnUser: centerOnUser)
         }
 
         }
 
-    func processFoundUnits(openUnits: [HealthUnit], date: Date, showClosed: Bool) {
+    func processFoundUnits(openUnits: [HealthUnit], date: Date, showClosed: Bool, centerOnUser: Bool) {
         var closedButRanged = [HealthUnit]()
         var currentlyOpenUnits = [HealthUnit]()
         mobileUnits = openUnits
@@ -238,11 +238,11 @@ class MainViewController: UIViewController {
         // }
 
         dispatchGroup.notify(queue: .main) {
-            self.displayFoundUnits(currentlyOpenUnits: currentlyOpenUnits, oldOpenPoints: openPoints, closedButRanged: closedButRanged, closedPoints: closedPoints, date: date, showClosed: showClosed)
+            self.displayFoundUnits(currentlyOpenUnits: currentlyOpenUnits, oldOpenPoints: openPoints, closedButRanged: closedButRanged, closedPoints: closedPoints, date: date, showClosed: showClosed, centerOnUser: centerOnUser)
         }
     }
 
-    func displayFoundUnits(currentlyOpenUnits: [HealthUnit], oldOpenPoints: [MKMapPoint], closedButRanged: [HealthUnit], closedPoints: [MKMapPoint], date: Date, showClosed: Bool) {
+    func displayFoundUnits(currentlyOpenUnits: [HealthUnit], oldOpenPoints: [MKMapPoint], closedButRanged: [HealthUnit], closedPoints: [MKMapPoint], date: Date, showClosed: Bool, centerOnUser: Bool) {
 
         var openPoints = oldOpenPoints
 
@@ -348,7 +348,12 @@ class MainViewController: UIViewController {
                 }
             } else {
                 print("Rect 2")
-                rect = closedPoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
+                var redonePoints = closedPoints
+                if let userLocation = self.locationService?.getUserLocation() {
+                    let userPoint = MKMapPoint(userLocation)
+                    redonePoints.append(userPoint)
+                }
+                rect = redonePoints.reduce(MKMapRect.null) { (rect, point) -> MKMapRect in
                     return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
                 }
             }
@@ -359,7 +364,10 @@ class MainViewController: UIViewController {
                 return rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
             }
         }
-        self.mapView.setVisibleMapRect(rect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
+        
+        if centerOnUser {
+            self.mapView.setVisibleMapRect(rect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
+        }
     }
 
     func isAnnotationAtCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
@@ -371,7 +379,7 @@ class MainViewController: UIViewController {
         return false
     }
 
-    func didTapSearchButton(date: Date, range: Double, showClosed: Bool) {
+    func didTapSearchButton(date: Date, range: Double, showClosed: Bool, centerOnUser: Bool) {
         print("Search button pressed for date: \(date)")
         if mobileUnits.isEmpty {
             databaseService?.fetchHealthUnits(completion: { healthUnits in
@@ -380,7 +388,7 @@ class MainViewController: UIViewController {
            // mobileUnits = databaseService?.getUnfilteredList() ?? []
         }
 
-        searchForOpenMobileUnits(on: date, range: range, showClosed: showClosed)
+        searchForOpenMobileUnits(on: date, range: range, showClosed: showClosed, centerOnUser: centerOnUser)
     }
 
 }
@@ -391,7 +399,7 @@ extension MainViewController: TutorialDelegate {
         mapView.showsUserLocation = true
         mapView.delegate = self
         locationButton.setImage(UIImage(systemName: "location"), for: .normal)
-        searchForOpenMobileUnits(on: Date(), range: 0.0, showClosed: true)
+        searchForOpenMobileUnits(on: Date(), range: 0.0, showClosed: true, centerOnUser: false)
     }
 }
 
@@ -402,7 +410,6 @@ extension MainViewController: CLLocationManagerDelegate {
             let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
             if firstCenter {
-                #warning("User center error")
                 print("The mapview was set to the user")
                 mapView.setRegion(region, animated: true)
                 firstCenter = false
@@ -469,8 +476,8 @@ extension MainViewController: MKMapViewDelegate {
     }
 }
 
-extension MainViewController: BottomSheetDelegate {
-
+extension MainViewController: BottomSheetDelegate{
+    
 }
 
 extension MainViewController: NetworkCheckObserver {
