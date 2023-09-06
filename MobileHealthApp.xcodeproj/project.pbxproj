@@ -14,6 +14,8 @@
 		55490D8A2A9BFF05003E0810 /* RestrictedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D892A9BFF05003E0810 /* RestrictedTableView.swift */; };
 		55490D8C2A9C0218003E0810 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D8B2A9C0218003E0810 /* DatabaseService.swift */; };
 		55490D8F2A9D2BC3003E0810 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D8E2A9D2BC3003E0810 /* LocationService.swift */; };
+		55490D912AA8F5DD003E0810 /* CTCResourceGuide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 55490D902AA8F5DD003E0810 /* CTCResourceGuide.pdf */; };
+		55490D932AA8F61B003E0810 /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55490D922AA8F61B003E0810 /* PDFViewController.swift */; };
 		5563B6E82A7834E300943018 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5563B6E72A7834E300943018 /* ProgressViewController.swift */; };
 		5563B70C2A78682800943018 /* BottomDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5563B70B2A78682800943018 /* BottomDetailViewController.swift */; };
 		559847402A6F4AD200256C2A /* FAQsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598473F2A6F4AD200256C2A /* FAQsViewController.swift */; };
@@ -52,6 +54,8 @@
 		55490D892A9BFF05003E0810 /* RestrictedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictedTableView.swift; sourceTree = "<group>"; };
 		55490D8B2A9C0218003E0810 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		55490D8E2A9D2BC3003E0810 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		55490D902AA8F5DD003E0810 /* CTCResourceGuide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CTCResourceGuide.pdf; sourceTree = "<group>"; };
+		55490D922AA8F61B003E0810 /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		5563B6E72A7834E300943018 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
 		5563B70B2A78682800943018 /* BottomDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomDetailViewController.swift; sourceTree = "<group>"; };
 		5598473F2A6F4AD200256C2A /* FAQsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQsViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 				5563B6E72A7834E300943018 /* ProgressViewController.swift */,
 				5563B70B2A78682800943018 /* BottomDetailViewController.swift */,
 				559D9EDA2A89966700433942 /* TutorialViewController.swift */,
+				55490D922AA8F61B003E0810 /* PDFViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -152,6 +157,7 @@
 				64BEB7D02A62964E00191CD3 /* SceneDelegate.swift */,
 				55F1D9452A48B01900D58DF3 /* Main.storyboard */,
 				55F1D9482A48B01C00D58DF3 /* Assets.xcassets */,
+				55490D902AA8F5DD003E0810 /* CTCResourceGuide.pdf */,
 				55F1D94A2A48B01C00D58DF3 /* LaunchScreen.storyboard */,
 				559847412A6F717600256C2A /* font */,
 				55F2620E2A68CA80008F8CD0 /* GoogleService-Info.plist */,
@@ -233,6 +239,7 @@
 				55F1D94C2A48B01C00D58DF3 /* LaunchScreen.storyboard in Resources */,
 				55490D7B2A985B2D003E0810 /* Localizable.strings in Resources */,
 				55F2620F2A68CA80008F8CD0 /* GoogleService-Info.plist in Resources */,
+				55490D912AA8F5DD003E0810 /* CTCResourceGuide.pdf in Resources */,
 				559847422A6F717600256C2A /* font in Resources */,
 				55F1D9492A48B01C00D58DF3 /* Assets.xcassets in Resources */,
 				55F1D9472A48B01900D58DF3 /* Main.storyboard in Resources */,
@@ -247,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				559847442A75E37500256C2A /* Network.swift in Sources */,
+				55490D932AA8F61B003E0810 /* PDFViewController.swift in Sources */,
 				55F2620D2A68C716008F8CD0 /* DetailViewController.swift in Sources */,
 				55490D8A2A9BFF05003E0810 /* RestrictedTableView.swift in Sources */,
 				55F1D9442A48B01800D58DF3 /* MainViewController.swift in Sources */,

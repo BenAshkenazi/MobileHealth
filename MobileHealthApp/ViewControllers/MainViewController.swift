@@ -19,11 +19,12 @@ let defaultKey = "TestFirst"
 
 class MainViewController: UIViewController {
 
-    @IBOutlet var faqButton: UIButton!
+    @IBOutlet var resourceButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet var locationButton: UIButton!
     @IBOutlet var tutorialButton: UIButton!
-
+    @IBOutlet var faqButton: UIButton!
+    
     var mobileUnits = [HealthUnit]()
 
     var databaseService: DatabaseService?
@@ -121,15 +122,27 @@ class MainViewController: UIViewController {
         tutorialButton.layer.masksToBounds = false
         tutorialButton.layer.bounds.size.width = 40
         tutorialButton.layer.bounds.size.height = 40
-
-        faqButton.layer.cornerRadius = faqButton.bounds.height / 4
-        faqButton.layer.opacity = 0.85
+        
+        faqButton.layer.cornerRadius = tutorialButton.bounds.height / 4
         faqButton.layer.masksToBounds = true
         faqButton.layer.shadowColor = UIColor.black.cgColor
         faqButton.layer.shadowOffset = CGSize(width: 0, height: 1)
-        faqButton.layer.shadowRadius = 15
+        faqButton.layer.shadowRadius = 7
         faqButton.layer.shadowOpacity = 0.3
         faqButton.layer.masksToBounds = false
+        faqButton.layer.bounds.size.width = 40
+        faqButton.layer.bounds.size.height = 40
+        faqButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        faqButton.titleLabel?.minimumScaleFactor = 0.5
+        
+        resourceButton.layer.cornerRadius = resourceButton.bounds.height / 4
+        resourceButton.layer.opacity = 0.85
+        resourceButton.layer.masksToBounds = true
+        resourceButton.layer.shadowColor = UIColor.black.cgColor
+        resourceButton.layer.shadowOffset = CGSize(width: 0, height: 1)
+        resourceButton.layer.shadowRadius = 15
+        resourceButton.layer.shadowOpacity = 0.3
+        resourceButton.layer.masksToBounds = false
 
     }
 
