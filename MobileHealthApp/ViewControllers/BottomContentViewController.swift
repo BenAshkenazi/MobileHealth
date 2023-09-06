@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 
-class BottomSheetContentViewController: UIViewController {
+class BottomContentViewController: UIViewController {
 
     @IBOutlet var avaTitle: UILabel!
     @IBOutlet var rangeTitle: UILabel!
@@ -145,27 +145,38 @@ class BottomSheetContentViewController: UIViewController {
 
     @IBAction func showClosedUnitsTapped(_ sender: Any) {
        print("Kar: Closed units button tapped:\(showClosedToggle)")
-        updateShowClosedText(searching: false)
+       updateShowClosedText(searching: false)
 
-       delegate?.didTapSearchButton(date: selectedDateAndTime, range: chosenRange, showClosed: showClosedToggle)
+       delegate?.didTapSearchButton(date: selectedDateAndTime, range: chosenRange, showClosed: showClosedToggle, centerOnUser: false)
        showClosedToggle = !showClosedToggle
    }
 
     func updateShowClosedText(searching: Bool) {
-
-        if !searching {
+        if searching {
+            ShowClosedButton.setTitle("Show Closed Units", for: .normal)
+            showClosedToggle = false
+        }else{
             if ShowClosedButton.titleLabel?.text == "Hide Closed Units" {
+                ShowClosedButton.setTitle("Show Closed Units", for: .normal)
                 showClosedToggle = false
             } else {
+                ShowClosedButton.setTitle("Hide Closed Units", for: .normal)
                 showClosedToggle = true
             }
         }
-
-       if showClosedToggle {
-           ShowClosedButton.setTitle("Hide Closed Units", for: .normal)
-       } else {
-           ShowClosedButton.setTitle("Show Closed Units", for: .normal)
-       }
+//        if !searching {
+//            if ShowClosedButton.titleLabel?.text == "Hide Closed Units" {
+//                showClosedToggle = false
+//            } else {
+//                showClosedToggle = true
+//            }
+//        }
+//
+//       if showClosedToggle {
+//           ShowClosedButton.setTitle("Hide Closed Units", for: .normal)
+//       } else {
+//           ShowClosedButton.setTitle("Show Closed Units", for: .normal)
+//       }
    }
 
     func filterByWeek() {
@@ -254,9 +265,7 @@ class BottomSheetContentViewController: UIViewController {
 
         updateShowClosedText(searching: true)
         if let delegate = delegate {
-            // this may cause some errors
-
-            delegate.didTapSearchButton(date: selectedDate, range: chosenRange, showClosed: showClosedToggle)
+            delegate.didTapSearchButton(date: selectedDate, range: chosenRange, showClosed: false, centerOnUser: true)
         } else {
             print("Delegate is nil")
         }
@@ -340,7 +349,7 @@ extension Date {
     }
 }
 
-extension BottomSheetContentViewController: UITableViewDataSource {
+extension BottomContentViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return openUnitsNextWeek.count
@@ -356,7 +365,7 @@ extension BottomSheetContentViewController: UITableViewDataSource {
     }
 }
 
-extension BottomSheetContentViewController: UITableViewDelegate {
+extension BottomContentViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Perform the segue and other necessary actions

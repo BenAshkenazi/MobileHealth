@@ -846,10 +846,10 @@ After hours 480.434.2690</string>
             </objects>
             <point key="canvasLocation" x="2285" y="774"/>
         </scene>
-        <!--Bottom Sheet Content View Controller-->
+        <!--Bottom Content View Controller-->
         <scene sceneID="wW7-42-KTv">
             <objects>
-                <viewController storyboardIdentifier="BottomSheetContentViewController" id="Rcs-El-Nwh" customClass="BottomSheetContentViewController" customModule="MobileHealthApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BottomSheetContentViewController" id="Rcs-El-Nwh" customClass="BottomContentViewController" customModule="MobileHealthApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iPl-1M-XJe">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -930,7 +930,7 @@ After hours 480.434.2690</string>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Show Closed Units">
+                                <state key="normal" title="Hide Closed Units">
                                     <color key="titleColor" name="LogoColor"/>
                                 </state>
                                 <connections>
