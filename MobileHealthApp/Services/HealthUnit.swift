@@ -62,8 +62,8 @@ class HealthUnit {
         self.name = name
         self.number = URL(string: "tel://" + String(rawnumber)) ?? URL(string: "tel://" + "0000000000")
         // gets opening hours
-        self.rawopen = convertToArizonaTime(from: rawopen)
-        self.rawclose = convertToArizonaTime(from: rawclose)
+        self.rawopen = rawopen.convertToArizonaTime()
+        self.rawclose = rawclose.convertToArizonaTime()
         // Strips just the hours from the entire iso8601 date string
         if self.rawopen != nil && self.rawclose != nil {
             self.open = String(String(String(self.rawopen!).prefix(16)).suffix(5))
@@ -95,49 +95,49 @@ class HealthUnit {
     }
 
     // This function is currently unused, may be needed for more thorough data checking, but i think thats unlikely
-//    func isComplete()->Bool{
-//        if(id==0){
-//            return false
-//        }
-//        if(name == ""){
-//            return false
-//        }
-//        if(rawdays == ""){
-//            return false
-//        }
-//        if (rawopen == ""){
-//            return false
-//        }
-//        if(number == nil){
-//            return false
-//        }
-//        if(address == nil || address == ""){
-//            return false
-//        }
-//        return true
-//    }
-
-    func isComplete() -> Bool {
-//        if id == nil || id == 0 {
-//            return false
-//        }
-        if name?.isEmpty ?? true { // If name is nil or empty, return false
+    var isComplete: Bool{
+        if(id==0){
             return false
         }
-        if rawdays?.isEmpty ?? true {
+        if(name == ""){
             return false
         }
-        if rawopen?.isEmpty ?? true {
+        if(rawdays == ""){
             return false
         }
-        if number == nil {
+        if (rawopen == ""){
             return false
         }
-        if address == nil || address!.isEmpty {
+        if(number == nil){
+            return false
+        }
+        if(address == nil || address == ""){
             return false
         }
         return true
     }
+
+//    func isComplete() -> Bool {
+////        if id == nil || id == 0 {
+////            return false
+////        }
+//        if name?.isEmpty ?? true { // If name is nil or empty, return false
+//            return false
+//        }
+//        if rawdays?.isEmpty ?? true {
+//            return false
+//        }
+//        if rawopen?.isEmpty ?? true {
+//            return false
+//        }
+//        if number == nil {
+//            return false
+//        }
+//        if address == nil || address!.isEmpty {
+//            return false
+//        }
+//        return true
+//    }
 
     // returns location as a coordinate from a string
     func location(completion: @escaping (CLLocationCoordinate2D?) -> Void) {
@@ -208,21 +208,21 @@ func convertStringsToInts(array: [String.SubSequence]) -> [Int?] {
     return convertedArray
 }
 
-func convertToArizonaTime(from iso8601String: String) -> String? {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-
-    guard let date = dateFormatter.date(from: iso8601String) else {
-        return nil
-    }
-
-    let arizonaTimeZone = TimeZone(identifier: "America/Phoenix")
-    dateFormatter.timeZone = arizonaTimeZone
-
-    let arizonaDate = dateFormatter.string(from: date)
-
-    return arizonaDate
-}
+//func convertToArizonaTime(from iso8601String: String) -> String? {
+//    let dateFormatter = DateFormatter()
+//    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+//
+//    guard let date = dateFormatter.date(from: iso8601String) else {
+//        return nil
+//    }
+//
+//    let arizonaTimeZone = TimeZone(identifier: "America/Phoenix")
+//    dateFormatter.timeZone = arizonaTimeZone
+//
+//    let arizonaDate = dateFormatter.string(from: date)
+//
+//    return arizonaDate
+//}
 
 func distanceInMiles(from sourceCoordinate: CLLocationCoordinate2D, to destinationCoordinate: CLLocationCoordinate2D) -> CLLocationDistance {
     let sourceLocation = CLLocation(latitude: sourceCoordinate.latitude, longitude: sourceCoordinate.longitude)

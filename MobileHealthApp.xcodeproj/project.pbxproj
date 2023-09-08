@@ -25,6 +25,9 @@
 		559D9EDD2A89B86C00433942 /* NewAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559D9EDC2A89B86C00433942 /* NewAnnotation.swift */; };
 		559D9EE12A92C50400433942 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559D9EE02A92C50400433942 /* WelcomeViewController.swift */; };
 		559D9EE32A93D6C200433942 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559D9EE22A93D6C200433942 /* UIImage+Extension.swift */; };
+		55BD580C2AAAB346004A9858 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BD580B2AAAB346004A9858 /* MainModel.swift */; };
+		55BD580E2AAAB489004A9858 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BD580D2AAAB489004A9858 /* UIButton+Extension.swift */; };
+		55BD58102AAABAE6004A9858 /* NewHealthUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BD580F2AAABAE6004A9858 /* NewHealthUnit.swift */; };
 		55F1D9402A48B01800D58DF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */; };
 		55F1D9442A48B01800D58DF3 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F1D9432A48B01800D58DF3 /* MainViewController.swift */; };
 		55F1D9472A48B01900D58DF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F1D9452A48B01900D58DF3 /* Main.storyboard */; };
@@ -65,6 +68,9 @@
 		559D9EDC2A89B86C00433942 /* NewAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAnnotation.swift; sourceTree = "<group>"; };
 		559D9EE02A92C50400433942 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		559D9EE22A93D6C200433942 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		55BD580B2AAAB346004A9858 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
+		55BD580D2AAAB489004A9858 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		55BD580F2AAABAE6004A9858 /* NewHealthUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHealthUnit.swift; sourceTree = "<group>"; };
 		55F1D93C2A48B01800D58DF3 /* MobileHealthApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileHealthApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55F1D9432A48B01800D58DF3 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -99,7 +105,9 @@
 				559D9EDC2A89B86C00433942 /* NewAnnotation.swift */,
 				559847432A75E37500256C2A /* Network.swift */,
 				55F2620A2A68C701008F8CD0 /* HealthUnit.swift */,
+				55BD580F2AAABAE6004A9858 /* NewHealthUnit.swift */,
 				55490D8E2A9D2BC3003E0810 /* LocationService.swift */,
+				55BD580B2AAAB346004A9858 /* MainModel.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -109,6 +117,7 @@
 			children = (
 				559D9EE22A93D6C200433942 /* UIImage+Extension.swift */,
 				55490D7E2A985BC3003E0810 /* String+Extension.swift */,
+				55BD580D2AAAB489004A9858 /* UIButton+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -151,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */,
+				559D9EE52A93D72400433942 /* Extensions */,
 				55490D8D2A9C023E003E0810 /* Services */,
 				559D9EE62A93D76000433942 /* ViewControllers */,
 				55490D832A9BBFE1003E0810 /* UnitTableViewCell.swift */,
@@ -162,7 +172,6 @@
 				559847412A6F717600256C2A /* font */,
 				55F2620E2A68CA80008F8CD0 /* GoogleService-Info.plist */,
 				55F1D94D2A48B01C00D58DF3 /* Info.plist */,
-				559D9EE52A93D72400433942 /* Extensions */,
 				55490D7D2A985B2D003E0810 /* Localizable.strings */,
 				55490D892A9BFF05003E0810 /* RestrictedTableView.swift */,
 			);
@@ -258,6 +267,7 @@
 				55F2620D2A68C716008F8CD0 /* DetailViewController.swift in Sources */,
 				55490D8A2A9BFF05003E0810 /* RestrictedTableView.swift in Sources */,
 				55F1D9442A48B01800D58DF3 /* MainViewController.swift in Sources */,
+				55BD580E2AAAB489004A9858 /* UIButton+Extension.swift in Sources */,
 				559D9EDD2A89B86C00433942 /* NewAnnotation.swift in Sources */,
 				5563B6E82A7834E300943018 /* ProgressViewController.swift in Sources */,
 				55490D8C2A9C0218003E0810 /* DatabaseService.swift in Sources */,
@@ -266,6 +276,8 @@
 				559D9EE12A92C50400433942 /* WelcomeViewController.swift in Sources */,
 				55F1D9402A48B01800D58DF3 /* AppDelegate.swift in Sources */,
 				55490D7F2A985BC3003E0810 /* String+Extension.swift in Sources */,
+				55BD58102AAABAE6004A9858 /* NewHealthUnit.swift in Sources */,
+				55BD580C2AAAB346004A9858 /* MainModel.swift in Sources */,
 				559D9EDB2A89966700433942 /* TutorialViewController.swift in Sources */,
 				55490D842A9BBFE1003E0810 /* UnitTableViewCell.swift in Sources */,
 				559847402A6F4AD200256C2A /* FAQsViewController.swift in Sources */,

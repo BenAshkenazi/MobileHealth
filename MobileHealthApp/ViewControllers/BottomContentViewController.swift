@@ -181,7 +181,7 @@ class BottomContentViewController: UIViewController {
 
     func filterByWeek() {
 
-        let completeUnits = mobileUnits.filter { $0.isComplete() }
+        let completeUnits = mobileUnits.filter { $0.isComplete }
         print("Complete units count: \(completeUnits.count)") // Print the count of complete units
         // Sort the units by availableDay
         let sortedUnits = completeUnits.sortedByAvailableDay()
@@ -229,7 +229,7 @@ class BottomContentViewController: UIViewController {
                 print("Constructed date: \(unitDate), currentDate: \(currentDate), oneWeekLater: \(oneWeekLater!)") // Printing the dates being compared
 
                 if unitDate >= currentDate && unitDate <= oneWeekLater! {
-                    let weekday = calendar.component(.weekday, from: unitDate)
+                    //let weekday = calendar.component(.weekday, from: unitDate)
                     // availableDay = calendar.component(.weekday, from: unitDate)
                     let daysDifference = calendar.dateComponents([.day], from: currentDate, to: unitDate).day!
                     availableDay = 2 + (daysDifference + calendar.component(.weekday, from: currentDate)) % 7
