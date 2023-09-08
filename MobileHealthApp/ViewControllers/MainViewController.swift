@@ -46,6 +46,8 @@ class MainViewController: UIViewController {
     // gets screen bounds
     let screenSize: CGRect = UIScreen.main.bounds
 
+    var model = MainModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupButtonAppearances()
@@ -103,46 +105,13 @@ class MainViewController: UIViewController {
     }
 
     func setupButtonAppearances() {
-        locationButton.layer.cornerRadius = locationButton.bounds.height / 4
-        locationButton.layer.masksToBounds = true
-        locationButton.layer.shadowColor = UIColor.black.cgColor
-        locationButton.layer.shadowOffset = CGSize(width: 0, height: 1)
-        locationButton.layer.shadowRadius = 7
-        locationButton.layer.shadowOpacity = 0.3
-        locationButton.layer.masksToBounds = false
-        locationButton.layer.bounds.size.width = 40
-        locationButton.layer.bounds.size.height = 40
+        
+        locationButton.setCustomButtonSize()
+        faqButton.setCustomButtonSize()
+        tutorialButton.setCustomButtonSize()
 
-        tutorialButton.layer.cornerRadius = tutorialButton.bounds.height / 4
-        tutorialButton.layer.masksToBounds = true
-        tutorialButton.layer.shadowColor = UIColor.black.cgColor
-        tutorialButton.layer.shadowOffset = CGSize(width: 0, height: 1)
-        tutorialButton.layer.shadowRadius = 7
-        tutorialButton.layer.shadowOpacity = 0.3
-        tutorialButton.layer.masksToBounds = false
-        tutorialButton.layer.bounds.size.width = 40
-        tutorialButton.layer.bounds.size.height = 40
-        
-        faqButton.layer.cornerRadius = tutorialButton.bounds.height / 4
-        faqButton.layer.masksToBounds = true
-        faqButton.layer.shadowColor = UIColor.black.cgColor
-        faqButton.layer.shadowOffset = CGSize(width: 0, height: 1)
-        faqButton.layer.shadowRadius = 7
-        faqButton.layer.shadowOpacity = 0.3
-        faqButton.layer.masksToBounds = false
-        faqButton.layer.bounds.size.width = 40
-        faqButton.layer.bounds.size.height = 40
-        faqButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        faqButton.titleLabel?.minimumScaleFactor = 0.5
-        
-        resourceButton.layer.cornerRadius = resourceButton.bounds.height / 4
+        resourceButton.customizeButton()
         resourceButton.layer.opacity = 0.85
-        resourceButton.layer.masksToBounds = true
-        resourceButton.layer.shadowColor = UIColor.black.cgColor
-        resourceButton.layer.shadowOffset = CGSize(width: 0, height: 1)
-        resourceButton.layer.shadowRadius = 15
-        resourceButton.layer.shadowOpacity = 0.3
-        resourceButton.layer.masksToBounds = false
 
     }
 
@@ -242,6 +211,7 @@ class MainViewController: UIViewController {
         }
     }
 
+    //func
     func displayFoundUnits(currentlyOpenUnits: [HealthUnit], oldOpenPoints: [MKMapPoint], closedButRanged: [HealthUnit], closedPoints: [MKMapPoint], date: Date, showClosed: Bool, centerOnUser: Bool) {
 
         var openPoints = oldOpenPoints
@@ -485,3 +455,4 @@ extension MainViewController: NetworkCheckObserver {
         print("_Internet Status Change_")
     }
 }
+
