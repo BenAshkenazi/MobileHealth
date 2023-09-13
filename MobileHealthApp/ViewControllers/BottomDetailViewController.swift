@@ -23,8 +23,6 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
     @IBOutlet var proxLabel: UILabel!
     @IBOutlet var surveyButton: UIButton!
     @IBOutlet var hoursLabel: UILabel!
-    @IBOutlet var daysLabel: UILabel!
-
     @IBOutlet var hoursTitle: UILabel!
 
     @IBOutlet var daysTitle: UILabel!
@@ -41,7 +39,8 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
         setUpTitle()
         setUpProximity()
         setUpHours()
-        setUpDays()
+        daysTitle.text = "Days available this month:"
+        //setUpDays()
         setUpConstraints()
         
         // Initialize your collection view
@@ -104,32 +103,32 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
         }
     }
 
-    func setUpDays() {
-        var daysTxt = ""
-        // Changes month from 08/  to 8/ for formatting reasons
-        if let days = unit?.days, let monthYear = unit?.MonthYear {
-            print("This is the first letter of the month \(monthYear.suffix(1))")
-            var monthString = monthYear.suffix(2)
-            let monthNum = Int(monthString) ?? -1
-
-            if monthNum == -1 || monthNum < 10 {
-                monthString = monthYear.suffix(1)
-            }
-            // iterates through days, adding each one to the top
-            let dayCount = days.count-1
-            for (index, day) in days.enumerated() {
-                if index == dayCount {
-                    daysTxt += "\(monthString)/\(day ?? 0)"
-                } else if index % 4 == 0 && index != 0 {
-                    daysTxt += "\(monthString)/\(day ?? 0),\n"
-                } else {
-                    daysTxt += "\(monthString)/\(day ?? 0),  "
-                }
-            }
-        }
-        daysTitle.text = "Days available this month:"
-        daysLabel.text = daysTxt
-    }
+//    func setUpDays() {
+//        var daysTxt = ""
+//        // Changes month from 08/  to 8/ for formatting reasons
+//        if let days = unit?.days, let monthYear = unit?.MonthYear {
+//            print("This is the first letter of the month \(monthYear.suffix(1))")
+//            var monthString = monthYear.suffix(2)
+//            let monthNum = Int(monthString) ?? -1
+//
+//            if monthNum == -1 || monthNum < 10 {
+//                monthString = monthYear.suffix(1)
+//            }
+//            // iterates through days, adding each one to the top
+//            let dayCount = days.count-1
+//            for (index, day) in days.enumerated() {
+//                if index == dayCount {
+//                    daysTxt += "\(monthString)/\(day ?? 0)"
+//                } else if index % 4 == 0 && index != 0 {
+//                    daysTxt += "\(monthString)/\(day ?? 0),\n"
+//                } else {
+//                    daysTxt += "\(monthString)/\(day ?? 0),  "
+//                }
+//            }
+//        }
+//        daysTitle.text = "Days available this month:"
+//        daysLabel.text = daysTxt
+//    }
     
     // New function to update the formattedDays array
     func updateFormattedDays() {
@@ -225,15 +224,23 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
         let cellCount = max(1, formattedDays.count)
         let cellWidth = CGFloat(100)
         let totalCellWidth = cellWidth * CGFloat(cellCount)
-        let totalSpacingWidth = CGFloat(cellCount - 1) * 10.0
-        
-        if cellCount < 3 {
-            let leftInset = (daysCollectionView.frame.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2 - 9.0
-            let rightInset = leftInset + 9.0
-            daysCollectionView.contentInset = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+        let totalSpacingWidth = CGFloat(cellCount - 1) * 10.0 // replace 10 with your minimum spacing
+
+        var leftInset: CGFloat = 0.0
+        var rightInset: CGFloat = 0.0
+
+        if cellCount == 1 || cellCount == 2 {
+            leftInset = (daysCollectionView.frame.width - totalCellWidth) / 2 - 9.0
+            rightInset = leftInset + 9.0
+        } else if cellCount == 3 {
+            leftInset = (daysCollectionView.frame.width - totalCellWidth - totalSpacingWidth) / 2 - 4.0
+            rightInset = leftInset + 4.0
         } else {
-            daysCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            leftInset = 0.0
+            rightInset = 0.0
         }
+        
+        daysCollectionView.contentInset = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
     }
 
     func setUpConstraints() {
@@ -245,7 +252,7 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
         proxLabel.translatesAutoresizingMaskIntoConstraints = false
         surveyButton.translatesAutoresizingMaskIntoConstraints = false
         hoursLabel.translatesAutoresizingMaskIntoConstraints = false
-        daysLabel.translatesAutoresizingMaskIntoConstraints = false
+        daysCollectionView.translatesAutoresizingMaskIntoConstraints = false
         Line1.translatesAutoresizingMaskIntoConstraints = false
         Line2.translatesAutoresizingMaskIntoConstraints = false
         Line3.translatesAutoresizingMaskIntoConstraints = false
@@ -304,11 +311,11 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
             daysTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             // Constraints for daysLabel
-            daysLabel.topAnchor.constraint(equalTo: daysTitle.bottomAnchor, constant: 10),
-            daysLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),  // middle of screen
-            // daysLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            daysCollectionView.topAnchor.constraint(equalTo: daysTitle.bottomAnchor, constant: 10),
+            //daysCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),  // middle of screen
+            //daysCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
 
-            surveyButton.topAnchor.constraint(equalTo: daysLabel.bottomAnchor, constant: 18),
+            surveyButton.topAnchor.constraint(equalTo: daysCollectionView.bottomAnchor, constant: 18),
             surveyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),  // middle of screen
             surveyButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             surveyButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8)

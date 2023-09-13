@@ -1119,13 +1119,6 @@ After hours 480.434.2690</string>
                                     <action selector="dismissButtonTapped:" destination="FJl-NO-7Ki" eventType="touchUpInside" id="QiW-g6-R14"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No Days Open" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaU-QB-0Ea">
-                                <rect key="frame" x="14" y="351" width="355" height="99"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Miles Away" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CGn-aY-ySf">
                                 <rect key="frame" x="16" y="204" width="349" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1167,7 +1160,7 @@ After hours 480.434.2690</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Rh-bY-7QL">
-                                <rect key="frame" x="37" y="458" width="328" height="57"/>
+                                <rect key="frame" x="37" y="520" width="328" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" image="clipboard" catalog="system" title="Leave us Feedback">
@@ -1178,10 +1171,13 @@ After hours 480.434.2690</string>
                                     <action selector="openSurveyForm:" destination="FJl-NO-7Ki" eventType="touchUpInside" id="cj9-tH-HUA"/>
                                 </connections>
                             </button>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CKs-2Y-RyP">
-                                <rect key="frame" x="31" y="546" width="340" height="91"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CKs-2Y-RyP">
+                                <rect key="frame" x="27" y="398" width="340" height="91"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="340" id="55R-vG-i4p"/>
+                                    <constraint firstAttribute="height" constant="91" id="aOk-7U-knA"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5Gb-ti-PbQ">
                                     <size key="itemSize" width="170" height="91.666666666666671"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -1203,6 +1199,10 @@ After hours 480.434.2690</string>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cEI-Rw-ub0"/>
                         <color key="backgroundColor" red="0.3921568627" green="0.1529411765" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="cEI-Rw-ub0" firstAttribute="trailing" secondItem="CKs-2Y-RyP" secondAttribute="trailing" constant="26" id="FA4-pb-v3s"/>
+                            <constraint firstItem="CKs-2Y-RyP" firstAttribute="leading" secondItem="cEI-Rw-ub0" secondAttribute="leading" constant="27" id="Fnd-7L-CUk"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="Line1" destination="I8v-Vq-Zj8" id="eNN-61-axW"/>
@@ -1210,7 +1210,6 @@ After hours 480.434.2690</string>
                         <outlet property="Line3" destination="LJU-yx-yDo" id="W0d-EC-xmb"/>
                         <outlet property="callButton" destination="RIc-Sf-aHP" id="uDY-zR-JUm"/>
                         <outlet property="daysCollectionView" destination="CKs-2Y-RyP" id="Bd5-SG-fEA"/>
-                        <outlet property="daysLabel" destination="SaU-QB-0Ea" id="I66-HX-n3o"/>
                         <outlet property="daysTitle" destination="nmf-bU-MxN" id="xJq-kK-cUw"/>
                         <outlet property="dismissButton" destination="hn4-yO-ts7" id="5jW-4Z-AzR"/>
                         <outlet property="hoursLabel" destination="WUc-kh-N3H" id="1IC-DB-JpW"/>
