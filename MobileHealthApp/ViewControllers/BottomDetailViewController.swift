@@ -9,10 +9,11 @@ import Foundation
 import UIKit
 import CoreLocation
 
-class BottomDetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
+class BottomDetailViewController: UIViewController, UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
 
     var unit: HealthUnit?
     var userLocation: CLLocationCoordinate2D?
+    var formattedDays: [String] = []
 
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var dismissButton: UIButton!
@@ -30,7 +31,9 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
     @IBOutlet var Line1: UIImageView!
     @IBOutlet var Line2: UIImageView!
     @IBOutlet var Line3: UIImageView!
-
+    
+    @IBOutlet var daysCollectionView: UICollectionView!
+    
     weak var delegate: BottomSheetDelegate?
 
     override func viewDidLoad() {
@@ -40,8 +43,30 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
         setUpHours()
         setUpDays()
         setUpConstraints()
-
+        
+        // Initialize your collection view
+        daysCollectionView.dataSource = self
+        daysCollectionView.delegate = self
+        // You can register a nib or use a default cell
+        daysCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "dayCell")
+        updateFormattedDays()
+        
+        daysCollectionView.backgroundColor = UIColor(red: 100 / 255.0, green: 39 / 255.0, blue: 81 / 255.0, alpha: 1.0)
+        
+        let layout = CenterAlignedCollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 100, height: 80)
+        layout.scrollDirection = .horizontal
+        daysCollectionView.collectionViewLayout = layout
+        
+        updateFormattedDays()
+        centerCollectionItems()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        daysCollectionView.collectionViewLayout.invalidateLayout()
+    }
+
     // unwraps name safely
     func setUpTitle() {
         if let name = unit?.name {
@@ -104,6 +129,111 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
         }
         daysTitle.text = "Days available this month:"
         daysLabel.text = daysTxt
+    }
+    
+    // New function to update the formattedDays array
+    func updateFormattedDays() {
+        formattedDays = []  // Clear existing items
+        if let days = unit?.days, let monthYear = unit?.MonthYear {
+            print("Days Array: \(days)") // Debug: Print out the days array
+            print("Month Year: \(monthYear)") // Debug: Print out the month and year
+
+            for day in days {
+                if let day = day {
+                    let dateStr = "\(monthYear)-\(day)"
+                    
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM/dd" 
+                    
+                    if let date = dateFormatter.date(from: dateStr) {
+                        dateFormatter.dateFormat = "MMMM d"
+                        let formattedDateStr = dateFormatter.string(from: date)
+                        formattedDays.append(formattedDateStr)
+                    } else {
+                        print("Date formatting failed for \(dateStr)") // Debug: Print if date formatting fails
+                    }
+                }
+            }
+            
+            print("Formatted Days: \(formattedDays)")  // Debug: Print out the formatted days
+        } else {
+            print("Either days or monthYear is nil")  // Debug: Print this if either of them is nil
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("Number of Items: \(formattedDays.count)") // Debug: Print the number of items
+        //return formattedDays.count
+        return formattedDays.isEmpty ? 1 : formattedDays.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dayCell", for: indexPath)
+        
+        //cell.layoutIfNeeded()
+        
+        // Set background color and border for cell
+        cell.contentView.backgroundColor = UIColor(red: 255 / 255.0, green: 212 / 255.0, blue: 238 / 255.0, alpha: 1.0) // Or any other color
+        cell.contentView.layer.borderWidth = 1.0
+        //cell.contentView.layer.borderColor = UIColor.black.cgColor // Or any other color
+        cell.contentView.layer.cornerRadius = 10.0
+        cell.contentView.clipsToBounds = true
+        
+//        cell.setNeedsLayout()
+//        cell.layoutIfNeeded()
+        
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: cell.bounds.width, height: cell.bounds.height))
+        
+        label.numberOfLines = 2 // Allow multiple lines
+        label.textAlignment = .center
+        
+        if formattedDays.isEmpty {
+            label.text = "No available days"
+        } else {
+            let textArray = formattedDays[indexPath.row].split(separator: " ")
+            if textArray.count == 2 {
+                let month = String(textArray[0])
+                let day = String(textArray[1])
+                
+                let monthAttributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.systemFont(ofSize: 16)
+                ]
+                let dayAttributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.systemFont(ofSize: 24)
+                ]
+                
+                let attributedText = NSMutableAttributedString(string: month, attributes: monthAttributes)
+                attributedText.append(NSAttributedString(string: "\n"))
+                attributedText.append(NSAttributedString(string: day, attributes: dayAttributes))
+                
+                label.attributedText = attributedText
+            } else {
+                label.text = formattedDays[indexPath.row]
+            }
+        }
+        
+        for subview in cell.contentView.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        cell.contentView.addSubview(label)
+        
+        return cell
+    }
+    
+    func centerCollectionItems() {
+        let cellCount = max(1, formattedDays.count)
+        let cellWidth = CGFloat(100)
+        let totalCellWidth = cellWidth * CGFloat(cellCount)
+        let totalSpacingWidth = CGFloat(cellCount - 1) * 10.0
+        
+        if cellCount < 3 {
+            let leftInset = (daysCollectionView.frame.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2 - 9.0
+            let rightInset = leftInset + 9.0
+            daysCollectionView.contentInset = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+        } else {
+            daysCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
     }
 
     func setUpConstraints() {
