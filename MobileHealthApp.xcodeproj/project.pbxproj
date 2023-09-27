@@ -72,7 +72,7 @@
 		55BD580B2AAAB346004A9858 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		55BD580D2AAAB489004A9858 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		55BD580F2AAABAE6004A9858 /* NewHealthUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHealthUnit.swift; sourceTree = "<group>"; };
-		55F1D93C2A48B01800D58DF3 /* MobileHealthApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileHealthApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		55F1D93C2A48B01800D58DF3 /* MobileHealthConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileHealthConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F1D93F2A48B01800D58DF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55F1D9432A48B01800D58DF3 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		55F1D9482A48B01C00D58DF3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 		55F1D93D2A48B01800D58DF3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				55F1D93C2A48B01800D58DF3 /* MobileHealthApp.app */,
+				55F1D93C2A48B01800D58DF3 /* MobileHealthConnect.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -184,9 +184,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		55F1D93B2A48B01800D58DF3 /* MobileHealthApp */ = {
+		55F1D93B2A48B01800D58DF3 /* MobileHealthConnect */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 55F1D9502A48B01C00D58DF3 /* Build configuration list for PBXNativeTarget "MobileHealthApp" */;
+			buildConfigurationList = 55F1D9502A48B01C00D58DF3 /* Build configuration list for PBXNativeTarget "MobileHealthConnect" */;
 			buildPhases = (
 				55F1D9382A48B01800D58DF3 /* Sources */,
 				55F1D9392A48B01800D58DF3 /* Frameworks */,
@@ -196,14 +196,14 @@
 			);
 			dependencies = (
 			);
-			name = MobileHealthApp;
+			name = MobileHealthConnect;
 			packageProductDependencies = (
 				55F261FE2A68AC70008F8CD0 /* FirebaseAuth */,
 				55F262002A68AC70008F8CD0 /* FirebaseDatabase */,
 				55F262022A68AC70008F8CD0 /* FirebaseDatabaseSwift */,
 			);
 			productName = MobileHealthApp;
-			productReference = 55F1D93C2A48B01800D58DF3 /* MobileHealthApp.app */;
+			productReference = 55F1D93C2A48B01800D58DF3 /* MobileHealthConnect.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -238,7 +238,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				55F1D93B2A48B01800D58DF3 /* MobileHealthApp */,
+				55F1D93B2A48B01800D58DF3 /* MobileHealthConnect */,
 			);
 		};
 /* End PBXProject section */
@@ -513,7 +513,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		55F1D9502A48B01C00D58DF3 /* Build configuration list for PBXNativeTarget "MobileHealthApp" */ = {
+		55F1D9502A48B01C00D58DF3 /* Build configuration list for PBXNativeTarget "MobileHealthConnect" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				55F1D9512A48B01C00D58DF3 /* Debug */,
