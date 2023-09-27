@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CoreLocation
+import SafariServices
 
 class BottomDetailViewController: UIViewController, UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
 
@@ -330,7 +331,22 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
             guard let mapURL = URL(string: mapURLString) else { return }
 
             // Open the Apple Maps URL
-            UIApplication.shared.open(mapURL)
+            //UIApplication.shared.open(mapURL)
+            if mapURL != nil {
+               let config = SFSafariViewController.Configuration()
+               config.entersReaderIfAvailable = true
+
+               let svc = SFSafariViewController(url: mapURL, configuration: config)
+                self.present(svc, animated: true) {
+
+                    var frame = svc.view.frame
+                    let OffsetY: CGFloat = 42
+
+                    frame.origin = CGPoint(x: frame.origin.x, y: frame.origin.y + OffsetY)
+                    frame.size = CGSize(width: frame.size.width, height: frame.size.height + OffsetY)
+                    svc.view.frame = frame
+                }
+           }
         } else {
             print("Map Fetch Failed")
             return
@@ -346,11 +362,27 @@ class BottomDetailViewController: UIViewController, UIViewControllerTransitionin
     }
 
     @IBAction func openSurveyForm(_ sender: Any) {
-        let surveyURLString = "https://forms.gle/QYRetAh1XRHutMqp9"
+        
+        if let url = URL(string: "https://forms.gle/QYRetAh1XRHutMqp9") {
+           let config = SFSafariViewController.Configuration()
+           config.entersReaderIfAvailable = true
+
+           let svc = SFSafariViewController(url: url, configuration: config)
+            self.present(svc, animated: true) {
+
+                var frame = svc.view.frame
+                let OffsetY: CGFloat = 42
+
+                frame.origin = CGPoint(x: frame.origin.x, y: frame.origin.y + OffsetY)
+                frame.size = CGSize(width: frame.size.width, height: frame.size.height + OffsetY)
+                svc.view.frame = frame
+            }
+       }
+        /*let surveyURLString = "https://forms.gle/QYRetAh1XRHutMqp9"
         guard let surveyURL = URL(string: surveyURLString) else { return }
 
         // Open the Apple Maps URL
-        UIApplication.shared.open(surveyURL)
+        UIApplication.shared.open(surveyURL)*/
     }
 
     // Method to dismiss the presented view when the button is tapped
