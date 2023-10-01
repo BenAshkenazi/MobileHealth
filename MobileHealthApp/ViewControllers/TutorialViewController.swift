@@ -60,6 +60,9 @@ class TutorialViewController: UIViewController {
     }
     
     @IBAction func pressedRight(_ sender: Any) {
+        if(pageNumber == 7){
+            self.dismiss(animated: true, completion: nil)
+        }
         setNewPage(direction: .right)
     }
     
@@ -70,6 +73,7 @@ class TutorialViewController: UIViewController {
             guard pageNumber > 0 else { return }
             pageNumber -= 1
         case .right:
+            
             guard pageNumber < (imageArray.count - 1) else { return }
             pageNumber += 1
         }
@@ -93,6 +97,7 @@ class TutorialViewController: UIViewController {
             LeftButton.setImage(UIImage(systemName: "arrowshape.left.fill"), for: .normal)
             RightButton.setImage(UIImage(systemName: "arrowshape.right.fill"), for: .normal)
         }
+        
         
         //PageTitle.text = titleArray[pageNumber]
         TutorialImage.image = UIImage(named: imageArray[pageNumber])
